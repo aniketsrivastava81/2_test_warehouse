@@ -20,8 +20,8 @@ export default function Header() {
         <div className="header-topbar tiny muted">
           <span>{SITE.brokerage}</span>
           <div className="header-topbar-links">
-            <a href={SITE.primaryPhoneHref}>Call Megha</a>
-            <a href={SITE.primaryEmailHref}>Email Megha</a>
+            <a href={SITE.primaryPhoneHref} aria-label={`Call Megha at ${SITE.primaryPhone}`}>Call Megha</a>
+            <a href={SITE.primaryEmailHref} aria-label={`Email Megha at ${SITE.primaryEmail}`}>Email Megha</a>
             <NavLink to="/contact" className="header-consult-link">Book consult</NavLink>
           </div>
         </div>
@@ -41,7 +41,7 @@ export default function Header() {
                 {item.label}
               </NavLink>
             ))}
-            <NavLink to="/warehouse" className="nav-secondary-link">Warehouse Demo</NavLink>
+            <NavLink to="/warehouse" className="nav-secondary-link">Interactive Demo</NavLink>
             <NavLink className="btn btn-secondary btn-sm header-contact-btn" to="/contact">Book consult</NavLink>
             <button className="btn btn-primary btn-sm" type="button" onClick={openLeadMagnet}>
               Get the Checklist
@@ -50,7 +50,7 @@ export default function Header() {
 
           <button
             className="nav-toggle"
-            aria-label="Open menu"
+            aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open ? "true" : "false"}
             onClick={() => setOpen((s) => !s)}
           >
@@ -76,7 +76,7 @@ export default function Header() {
                   {item.label}
                 </NavLink>
               ))}
-              <NavLink to="/warehouse" className={linkClass} onClick={closeDrawer}>Warehouse Demo</NavLink>
+              <NavLink to="/warehouse" className={linkClass} onClick={closeDrawer}>Interactive Demo</NavLink>
 
               <div className="card soft" style={{ padding: "14px", marginTop: "4px" }}>
                 <div className="tiny muted header-drawer-contact" style={{ display: "grid", gap: "6px", marginBottom: "12px" }}>

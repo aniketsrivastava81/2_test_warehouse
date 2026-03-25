@@ -6,31 +6,39 @@ import ListingCard from "../components/ListingCard";
 import { useLeadMagnet } from "../context/LeadMagnetContext";
 import { LISTINGS, BLOG_POSTS } from "../data/siteData";
 import { SITE } from "../config/site";
+import { trackEvent } from "../utils/tracking";
 
 const AUDIENCES = [
   {
     title: "Tenants",
-    body: "For businesses leasing their first serious space or comparing the next one with less guesswork and stronger timing.",
+    body: "Leasing support for businesses opening, relocating, renewing, or expanding into better-fit commercial space.",
   },
   {
     title: "Owner-users",
-    body: "For companies deciding whether leasing still serves them or whether buying creates more long-term control.",
+    body: "Guidance for business owners comparing the flexibility of leasing against the control and equity of buying.",
   },
   {
     title: "Investors",
-    body: "For buyers evaluating industrial, office, and retail opportunities through use, income, and flexibility.",
+    body: "Investment-minded analysis for commercial opportunities where income, downside protection, and location logic matter.",
   },
   {
     title: "Developers",
-    body: "For land or repositioning opportunities where location logic, timing, and neighbourhood understanding matter early.",
+    body: "Early-stage support on land and repositioning opportunities where timing, context, and corridor selection matter.",
   },
 ];
 
+const ASSET_CONTENT = [
+  ["Industrial Condos", "For owner-users and operators who want control, loading utility, and a right-sized footprint."],
+  ["Warehouses", "For distribution, light manufacturing, logistics, and service businesses that need scale and function."],
+  ["Retail Plazas", "For businesses that depend on visibility, parking, customer flow, and the right neighbouring mix."],
+  ["Development Land", "For buyers looking at future use, site context, and long-term value across growth corridors."],
+];
+
 const PROCESS = [
-  ["1. Clarify the brief", "Needs, use, size, budget, timing, and what would make the move genuinely successful."],
-  ["2. Build the shortlist", "A focused set of 3–5 stronger-fit options instead of endless browsing and dead-end tours."],
-  ["3. Compare strategically", "Costs, access, team convenience, image, flexibility, and long-term operational fit."],
-  ["4. Negotiate from options", "Use alternatives, timing, and market context to protect flexibility and reduce avoidable risk."],
+  ["1. Clarify the brief", "Define use, size, budget, timing, and the non-negotiables before the search starts."],
+  ["2. Build the shortlist", "Narrow the market to the options worth serious attention instead of wasting tours on weak fits."],
+  ["3. Compare strategically", "Review cost, access, team convenience, image, flexibility, and operating fit side by side."],
+  ["4. Negotiate with leverage", "Move into tours and negotiations with real alternatives and a clearer decision path."],
 ];
 
 export default function HomePage() {
@@ -53,14 +61,35 @@ export default function HomePage() {
               <div className="kicker">Commercial space, chosen with more clarity</div>
               <h1>Industrial condos, warehouse space, retail opportunities, and growth-focused leasing support across the GTA.</h1>
               <p className="muted hero-lead">
-                Megha helps tenants, owner-users, investors, and developers find better-fit commercial opportunities with a clear process, practical tools, and stronger shortlist quality.
+                Megha helps clients compare locations, shortlist stronger spaces, and move into leasing or ownership decisions with a finance-aware process.
               </p>
             </div>
 
             <div className="hero-actions">
-              <Link className="btn btn-primary" to="/contact">Book a 15-minute strategy call</Link>
-              <Link className="btn btn-secondary" to="/listings">Browse opportunities</Link>
-              <button className="btn btn-ghost" type="button" onClick={openLeadMagnet}>Get the checklist</button>
+              <Link
+                className="btn btn-primary"
+                to="/contact"
+                onClick={() => trackEvent("hero_cta_click", { cta: "book_strategy_call", page: "home" })}
+              >
+                Book a 15-minute strategy call
+              </Link>
+              <Link
+                className="btn btn-secondary"
+                to="/listings"
+                onClick={() => trackEvent("hero_cta_click", { cta: "browse_opportunities", page: "home" })}
+              >
+                Browse opportunities
+              </Link>
+              <button
+                className="btn btn-ghost"
+                type="button"
+                onClick={() => {
+                  trackEvent("checklist_open", { page: "home", placement: "hero" });
+                  openLeadMagnet();
+                }}
+              >
+                Get the checklist
+              </button>
             </div>
 
             <div className="hero-highlights home-proof-grid">
@@ -74,7 +103,7 @@ export default function HomePage() {
             <div className="hero-form-wrap">
               <LeadForm
                 title="Request a tailored shortlist of 3–5 spaces"
-                intro="Share the broad requirement and stage so Megha can start with a cleaner brief and a stronger shortlist."
+                intro="Share the requirement and Megha can begin with a tighter brief and a more useful first shortlist."
                 storageKey="MM_leads"
                 source="hero-shortlist"
                 context="Homepage shortlist request"
@@ -92,25 +121,34 @@ export default function HomePage() {
                 includePhone={false}
                 includeMessage={false}
                 variant="compact"
-                note="We respond with practical next steps, not spam."
+                note="Expect a practical response focused on fit, timing, and next steps."
+                onSuccess={() => trackEvent("shortlist_request_submit", { page: "home", source: "hero-shortlist" })}
               />
 
               <div className="card soft hero-side-card">
                 <div>
-                  <div className="kicker">Trust strip</div>
-                  <h3 style={{ marginTop: "8px" }}>What this site is built to prove</h3>
+                  <div className="kicker">Why clients start here</div>
+                  <h3 style={{ marginTop: "8px" }}>Clear brief. Better shortlist. Stronger next move.</h3>
                   <div className="mini-proof-list">
-                    <div><strong>Brokerage:</strong> KOLT Realty Inc., Brokerage</div>
-                    <div><strong>Focus:</strong> leasing, industrial space, office, retail, land</div>
+                    <div><strong>Brokerage:</strong> {SITE.brokerage}</div>
                     <div><strong>Coverage:</strong> {SITE.serviceAreas.join(", ")}</div>
-                    <div><strong>Angle:</strong> finance-aware, fit-focused, shortlist-first guidance</div>
+                    <div><strong>Focus:</strong> industrial, office, retail, and development opportunities</div>
+                    <div><strong>Approach:</strong> finance-aware, fit-focused, shortlist-first guidance</div>
                   </div>
                 </div>
 
                 <div>
-                  <div className="kicker">Secondary feature</div>
-                  <p className="muted" style={{ marginTop: "8px" }}>Explore the warehouse walkthrough as a secondary showcase while the main site stays focused on listings, tools, and client conversion.</p>
-                  <Link className="btn btn-ghost" to="/warehouse">Open warehouse walkthrough</Link>
+                  <div className="kicker">Interactive showcase</div>
+                  <p className="muted" style={{ marginTop: "8px" }}>
+                    Explore the warehouse walkthrough after the core pages if you want to see the interactive demo without leaving the main sales flow.
+                  </p>
+                  <Link
+                    className="btn btn-ghost"
+                    to="/warehouse"
+                    onClick={() => trackEvent("warehouse_route_open", { page: "home", placement: "hero-side" })}
+                  >
+                    Open warehouse walkthrough
+                  </Link>
                 </div>
               </div>
             </div>
@@ -118,28 +156,33 @@ export default function HomePage() {
 
           <aside className="hero-stage willEnter" aria-label="Commercial real estate image collage">
             <div className="hero-image-main" data-depth="0.06">
-              <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80" alt="Modern office and commercial building exterior in a premium business district" />
+              <img
+                src="/images/hero-office.svg"
+                alt="Premium GTA office and commercial environment"
+                fetchPriority="high"
+                decoding="async"
+              />
             </div>
             <div className="hero-image-mini one" data-depth="0.11">
-              <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=80" alt="Bright retail storefront with modern pedestrian-friendly frontage" />
+              <img src="/images/hero-retail.svg" alt="Retail frontage with visibility and walk-in access" loading="eager" decoding="async" />
             </div>
             <div className="hero-image-mini two" data-depth="0.09">
-              <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=80" alt="Warehouse and logistics exterior with loading access" />
+              <img src="/images/hero-warehouse.svg" alt="Warehouse access and distribution-ready exterior" loading="eager" decoding="async" />
             </div>
             <div className="float-card a">
               <div className="fc-kicker">Service areas</div>
               <strong>{SITE.serviceAreas[0]} to {SITE.serviceAreas[3]}</strong>
-              <p>Built for GTA business movement, not generic national copy.</p>
+              <p>Coverage across the key GTA corridors where fit, timing, and access matter most.</p>
             </div>
             <div className="float-card b">
               <div className="fc-kicker">Asset classes</div>
               <strong>Industrial, office, retail, land</strong>
-              <p>Enough range to feel credible, narrow enough to stay useful.</p>
+              <p>Commercial property types approached through use, location logic, and decision quality.</p>
             </div>
             <div className="float-card c">
               <div className="fc-kicker">Decision style</div>
               <strong>Shortlist first.</strong>
-              <p>3–5 better-fit options beat 50 weak ones every time.</p>
+              <p>Three strong options usually create better outcomes than fifty weak ones.</p>
             </div>
           </aside>
         </div>
@@ -150,9 +193,9 @@ export default function HomePage() {
           <div className="section-header section-accent">
             <div>
               <div className="kicker">Who I help</div>
-              <h2>Different client types. One calm, strategic decision flow.</h2>
+              <h2>Advice tailored to the kind of move you are actually making.</h2>
             </div>
-            <p>The page is designed so visitors can recognize themselves quickly and move toward the right next step without sorting through irrelevant messaging.</p>
+            <p>Whether the priority is a first lease, a renewal decision, a better owner-user path, or a location-driven investment move, the process begins with fit.</p>
           </div>
           <div className="grid grid-4">
             {AUDIENCES.map((item) => (
@@ -173,14 +216,14 @@ export default function HomePage() {
               <div className="kicker">Asset classes</div>
               <h2>Commercial property types Megha helps clients source and evaluate.</h2>
             </div>
-            <p>Each card is intentionally simple so the homepage stays premium and digestible while still feeling specialized.</p>
+            <p>Every space is screened for how it works in practice: layout, access, visibility, occupancy cost, and the role it needs to play for the business.</p>
           </div>
           <div className="grid grid-4">
-            {SITE.assetClasses.map((item) => (
-              <div className="card glow reveal compact-card" key={item}>
+            {ASSET_CONTENT.map(([title, body]) => (
+              <div className="card glow reveal compact-card" key={title}>
                 <div className="kicker">Asset class</div>
-                <h3 style={{ marginTop: "8px" }}>{item}</h3>
-                <p className="muted">Presented with fit, location, practicality, and next-step clarity instead of generic brochure copy.</p>
+                <h3 style={{ marginTop: "8px" }}>{title}</h3>
+                <p className="muted">{body}</p>
               </div>
             ))}
           </div>
@@ -192,9 +235,9 @@ export default function HomePage() {
           <div className="section-header section-accent">
             <div>
               <div className="kicker">Service areas</div>
-              <h2>Built for a Toronto-area market where local clarity matters.</h2>
+              <h2>Coverage across the GTA corridors where access and context shape better decisions.</h2>
             </div>
-            <p>This section makes the site feel grounded in real geography, which is critical in a competitive GTA market.</p>
+            <p>Toronto, Vaughan, Mississauga, Brampton, Markham, North York, and Richmond Hill all ask different questions. The search should reflect that.</p>
           </div>
           <div className="badges area-chip-grid">
             {SITE.serviceAreas.map((area) => (
@@ -209,9 +252,9 @@ export default function HomePage() {
           <div className="section-header section-accent">
             <div>
               <div className="kicker">How I help</div>
-              <h2>A process that makes the move feel more controlled and less reactive.</h2>
+              <h2>A process built to keep commercial moves more controlled and less reactive.</h2>
             </div>
-            <p>The purpose of the process section is to make the site read like a real advisor platform, not just a set of pretty pages.</p>
+            <p>Good representation narrows the market, tests the fit, and helps you move into tours and negotiations with better information.</p>
           </div>
           <div className="grid grid-2">
             {PROCESS.map(([title, body]) => (
@@ -229,15 +272,21 @@ export default function HomePage() {
           <div className="section-header section-accent">
             <div>
               <div className="kicker">Featured opportunities</div>
-              <h2>Examples that preview the listings flow right from the homepage.</h2>
+              <h2>A few examples to start the shortlist conversation.</h2>
             </div>
-            <p>These cards make the homepage feel useful immediately and create a direct path into the listing-detail experience.</p>
+            <p>Use these as the first comparison points, then move into the full listings page if the location or property type is close to the brief.</p>
           </div>
           <div className="grid">
             {featuredListings.map((listing) => <ListingCard key={listing.id} listing={listing} />)}
           </div>
           <div style={{ marginTop: "16px" }}>
-            <Link className="btn btn-secondary" to="/listings">View all listings</Link>
+            <Link
+              className="btn btn-secondary"
+              to="/listings"
+              onClick={() => trackEvent("hero_cta_click", { cta: "view_all_listings", page: "home" })}
+            >
+              View all listings
+            </Link>
           </div>
         </div>
       </section>
@@ -247,9 +296,9 @@ export default function HomePage() {
           <div className="section-header section-accent">
             <div>
               <div className="kicker">Guides</div>
-              <h2>Support content that helps this site feel authoritative, not empty.</h2>
+              <h2>Practical reading for the questions that usually come before the tour.</h2>
             </div>
-            <p>Practical guides help clients make better decisions before they tour, negotiate, or commit.</p>
+            <p>Start with the guide that matches the decision in front of you, then move into the tools or listings once the shortlist starts to tighten.</p>
           </div>
           <div className="grid grid-3">
             {featuredGuides.map((post) => (
@@ -260,7 +309,13 @@ export default function HomePage() {
                 </div>
                 <h3>{post.title}</h3>
                 <p className="muted">{post.excerpt}</p>
-                <Link className="btn btn-ghost btn-sm" to={`/guides/${post.slug}`}>Read guide</Link>
+                <Link
+                  className="btn btn-ghost btn-sm"
+                  to={`/guides/${post.slug}`}
+                  onClick={() => trackEvent("guide_open", { slug: post.slug, source: "home" })}
+                >
+                  Read guide
+                </Link>
               </article>
             ))}
           </div>

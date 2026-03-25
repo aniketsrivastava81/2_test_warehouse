@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { SITE } from "../config/site";
 import { useLeadMagnet } from "../context/LeadMagnetContext";
 import { appendLead } from "../utils/leadStorage";
+import { trackEvent } from "../utils/tracking";
 
 const initialForm = {
   name: "",
@@ -15,6 +16,20 @@ export default function LeadMagnetModal() {
   const { isOpen, closeLeadMagnet } = useLeadMagnet();
   const [form, setForm] = useState(initialForm);
   const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") closeLeadMagnet();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [closeLeadMagnet, isOpen]);
 
   const checkedMap = useMemo(
     () => ({
@@ -41,7 +56,12 @@ export default function LeadMagnetModal() {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    appendLead("MM_leads", { ...form, source: "checklist-modal", context: SITE.leadMagnetTitle });
+    const payload = { ...form, source: "checklist-modal", context: SITE.leadMagnetTitle };
+    appendLead("MM_leads", payload);
+    trackEvent("lead_magnet_submit", {
+      stage: form.stage || "unspecified",
+      spaces: form.space.join(",") || "unspecified",
+    });
     setSaved(true);
     setForm(initialForm);
     window.setTimeout(() => setSaved(false), 6500);
@@ -66,8 +86,7 @@ export default function LeadMagnetModal() {
 
           <h2>{SITE.leadMagnetTitle}</h2>
           <p className="muted">
-            A calm, practical checklist designed to help GTA business owners compare options,
-            reduce uncertainty, and move forward with more confidence before signing a commercial lease.
+            A calm, practical checklist to help GTA business owners compare options, reduce uncertainty, and move forward with more confidence before signing a commercial lease.
           </p>
         </div>
 
@@ -115,8 +134,8 @@ export default function LeadMagnetModal() {
             </select>
           </div>
 
-          <div className="field">
-            <label>What type of space are you considering?</label>
+          <fieldset className="field checkbox-fieldset">
+            <legend>What type of space are you considering?</legend>
             <div className="checks">
               <label className="check">
                 <input type="checkbox" checked={checkedMap.office} onChange={() => toggleSpace("office")} />
@@ -131,7 +150,7 @@ export default function LeadMagnetModal() {
                 <span>Warehouse / Industrial</span>
               </label>
             </div>
-          </div>
+          </fieldset>
 
           <div className="field">
             <label htmlFor="lm_note">Anything helpful to know? (optional)</label>
@@ -154,7 +173,7 @@ export default function LeadMagnetModal() {
           </p>
 
           {!saved ? null : (
-            <div className="toast">
+            <div className="toast" aria-live="polite">
               <strong>Done.</strong> Your request has been received.
               <div className="tiny muted" style={{ marginTop: "6px" }}>
                 You can also use the tools page to compare lease-vs-buy scenarios, footfall patterns, and occupancy costs.

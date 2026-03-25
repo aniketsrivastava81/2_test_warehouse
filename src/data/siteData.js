@@ -26,11 +26,11 @@ export const LISTINGS = [
     zoning: "Industrial-commercial flex use — verify permitted uses",
     power: "Standard service — verify exact amperage",
     highlights: ["Steeles frontage", "Showroom + warehouse layout", "High-traffic exposure"],
-    img: "https://images.unsplash.com/photo-1556155092-490a1ba16284?auto=format&fit=crop&w=1400&q=80",
+    img: "/images/listing-industrial-brampton.svg",
     gallery: [
-      "https://images.unsplash.com/photo-1556155092-490a1ba16284?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1517502884422-41eaead166d4?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1400&q=80"
+      "/images/listing-industrial-brampton.svg",
+      "/images/listing-warehouse-richmondhill.svg",
+      "/images/listing-office-toronto.svg"
     ],
     specs: [
       ["Asset class", "Industrial / Flex"],
@@ -84,11 +84,11 @@ export const LISTINGS = [
     zoning: "Employment / industrial-commercial use — verify exact permitted uses",
     power: "Verify amperage and HVAC mix",
     highlights: ["Owner-user opportunity", "Airport access", "Mississauga industrial node"],
-    img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1400&q=80",
+    img: "/images/listing-industrial-mississauga.svg",
     gallery: [
-      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1400&q=80"
+      "/images/listing-industrial-mississauga.svg",
+      "/images/listing-warehouse-richmondhill.svg",
+      "/images/listing-showroom-vaughan.svg"
     ],
     specs: [
       ["Asset class", "Industrial Condo"],
@@ -142,11 +142,11 @@ export const LISTINGS = [
     zoning: "Commercial / mixed use — verify exact permitted uses",
     power: "Verify service capacity for light production/showroom needs",
     highlights: ["Steeles exposure", "Concord location", "Showroom-ready feel"],
-    img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80",
+    img: "/images/listing-showroom-vaughan.svg",
     gallery: [
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1497366412874-3415097a27e7?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1400&q=80"
+      "/images/listing-showroom-vaughan.svg",
+      "/images/listing-office-toronto.svg",
+      "/images/listing-showroom-vaughan.svg"
     ],
     specs: [
       ["Asset class", "Showroom / Flex Commercial"],
@@ -200,11 +200,11 @@ export const LISTINGS = [
     zoning: "Commercial office use",
     power: "Standard office utility mix",
     highlights: ["Natural light", "Creative-office feel", "Transit + client appeal"],
-    img: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1400&q=80",
+    img: "/images/listing-office-toronto.svg",
     gallery: [
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80"
+      "/images/listing-office-toronto.svg",
+      "/images/listing-office-richmondhill.svg",
+      "/images/listing-office-richmondhill.svg"
     ],
     specs: [
       ["Asset class", "Creative Office"],
@@ -258,11 +258,11 @@ export const LISTINGS = [
     zoning: "Office / employment use",
     power: "Standard office service",
     highlights: ["Beaver Creek address", "Client-ready image", "Parking convenience"],
-    img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80",
+    img: "/images/listing-office-richmondhill.svg",
     gallery: [
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80"
+      "/images/listing-office-richmondhill.svg",
+      "/images/listing-office-richmondhill.svg",
+      "/images/listing-office-richmondhill.svg"
     ],
     specs: [
       ["Asset class", "Professional Office"],
@@ -316,11 +316,11 @@ export const LISTINGS = [
     zoning: "Industrial employment use — verify exact permissions",
     power: "Verify electrical service and power mix",
     highlights: ["Large-bay scale", "North-GTA access", "Operational fit"],
-    img: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1400&q=80",
+    img: "/images/listing-warehouse-richmondhill.svg",
     gallery: [
-      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1400&q=80",
-      "https://images.unsplash.com/photo-1517502884422-41eaead166d4?auto=format&fit=crop&w=1400&q=80"
+      "/images/listing-warehouse-richmondhill.svg",
+      "/images/listing-industrial-mississauga.svg",
+      "/images/listing-warehouse-richmondhill.svg"
     ],
     specs: [
       ["Asset class", "Industrial / Warehouse"],

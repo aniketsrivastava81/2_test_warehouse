@@ -6,12 +6,11 @@ export default function WarehousePage() {
       <div className="container">
         <div className="section-header">
           <div>
-            <div className="kicker">Warehouse Experience</div>
-            <h1 style={{ marginTop: "8px" }}>3D Warehouse + Pallet Stack Game</h1>
+            <div className="kicker">Warehouse demo</div>
+            <h1 style={{ marginTop: "8px" }}>Interactive warehouse walkthrough</h1>
           </div>
           <p>
-            This route preserves the approved one-file Three.js warehouse scene and the integrated
-            pallet game inside the React project.
+            Explore the warehouse scene and pallet-stack challenge as a supporting showcase while the core website stays focused on listings, tools, and lead generation.
           </p>
         </div>
 
@@ -23,22 +22,22 @@ export default function WarehousePage() {
             </div>
             <div className="row">
               <b>Game mode</b>
-              <span>Enter the pallet stack challenge directly from the toolbar</span>
+              <span>Launch the pallet-stack challenge directly from the toolbar</span>
             </div>
             <div className="row">
-              <b>Why iframe here</b>
-              <span>It keeps the approved camera, toolbar, and gameplay logic intact while routing through React</span>
+              <b>Purpose on the site</b>
+              <span>A secondary interactive showcase that stays separate from the main commercial search and contact flow</span>
             </div>
           </div>
         </div>
 
         <div className="warehouse-page-shell">
-            <iframe
-              className="warehouse-embed"
-              src="/warehouse.html"
-              title="3D warehouse experience"
-              loading="lazy"
-            ></iframe>
+          <iframe
+            className="warehouse-embed"
+            src="/warehouse.html"
+            title="3D warehouse experience"
+            loading="lazy"
+          ></iframe>
         </div>
       </div>
     </section>

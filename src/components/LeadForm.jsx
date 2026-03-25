@@ -38,6 +38,7 @@ export default function LeadForm({
   includeMessage = true,
   variant = "full",
   defaultValues = {},
+  onSuccess,
 }) {
   const [form, setForm] = useState(() => buildInitialState(defaultValues));
   const [saved, setSaved] = useState(false);
@@ -51,9 +52,11 @@ export default function LeadForm({
 
   const onSubmit = (event) => {
     event.preventDefault();
-    appendLead(storageKey, { ...form, source, context });
+    const payload = { ...form, source, context };
+    appendLead(storageKey, payload);
     setSaved(true);
     setForm(buildInitialState(defaultValues));
+    onSuccess?.(payload);
     window.setTimeout(() => setSaved(false), successTimeout);
   };
 
@@ -71,6 +74,7 @@ export default function LeadForm({
           <input
             id={`${idBase}-name`}
             name="name"
+            autoComplete="name"
             value={form.name}
             onChange={onChange}
             required
@@ -83,6 +87,7 @@ export default function LeadForm({
             id={`${idBase}-email`}
             name="email"
             type="email"
+            autoComplete="email"
             value={form.email}
             onChange={onChange}
             required
@@ -98,6 +103,7 @@ export default function LeadForm({
             <input
               id={`${idBase}-phone`}
               name="phone"
+              autoComplete="tel"
               value={form.phone}
               onChange={onChange}
               placeholder="Best number"
@@ -126,6 +132,7 @@ export default function LeadForm({
               <input
                 id={`${idBase}-location`}
                 name="location"
+                autoComplete="address-level2"
                 value={form.location}
                 onChange={onChange}
                 placeholder="Toronto, Vaughan, Mississauga..."
@@ -167,7 +174,7 @@ export default function LeadForm({
       </div>
 
       {saved ? (
-        <div className="toast">
+        <div className="toast" aria-live="polite">
           <strong>{successTitle}</strong> {successBody}
         </div>
       ) : null}

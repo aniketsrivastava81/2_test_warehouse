@@ -66,3 +66,10 @@ npm run dev
 - Listings and guides content live in `src/data/siteData.js`.
 - The warehouse page remains isolated as a secondary demo experience.
 - No `package-lock.json` is included in this folder.
+
+
+## Legacy warehouse code note
+
+The live marketing website runs from `src/main.jsx` and the React pages/components referenced by `src/App.jsx`.
+The older standalone warehouse/game code under `src/main.js`, `src/core/*`, `src/game/*`, `src/world/*`, `src/input/*`, `src/fx/*`, `src/ui/*`, and `src/style.css` is reference-only unless the warehouse experience is rebuilt natively later.
+Do not edit those files for normal website/page work.

@@ -4,6 +4,7 @@ import LeadForm from "../components/LeadForm";
 import ListingCard from "../components/ListingCard";
 import { LISTINGS } from "../data/siteData";
 import { useLeadMagnet } from "../context/LeadMagnetContext";
+import { trackEvent } from "../utils/tracking";
 
 export default function PropertyDetailPage() {
   const { openLeadMagnet } = useLeadMagnet();
@@ -54,13 +55,15 @@ export default function PropertyDetailPage() {
 
             <p className="muted" style={{ marginTop: "12px" }}>{listing.address}</p>
 
-            <div className="listing-thumb property-hero-image"><img src={listing.img} alt={listing.title} /></div>
+            <div className="listing-thumb property-hero-image">
+              <img src={listing.img} alt={`${listing.title} main property view`} fetchPriority="high" decoding="async" />
+            </div>
 
             {listing.gallery?.length ? (
               <div className="property-gallery-grid">
                 {listing.gallery.map((image, index) => (
                   <div className="listing-thumb property-gallery-thumb" key={`${image}-${index}`}>
-                    <img src={image} alt={`${listing.title} view ${index + 1}`} />
+                    <img src={image} alt={`${listing.title} view ${index + 1}`} loading="lazy" decoding="async" />
                   </div>
                 ))}
               </div>
@@ -104,16 +107,39 @@ export default function PropertyDetailPage() {
             </div>
 
             <div className="hero-actions">
-              <button className="btn btn-primary" type="button" onClick={openLeadMagnet}>Get the checklist</button>
-              <Link className="btn btn-secondary" to="/listings">Back to listings</Link>
-              <a className="btn btn-ghost" href={walkLink} target="_blank" rel="noreferrer">Open Walk Score</a>
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={() => {
+                  trackEvent("checklist_open", { page: "listing-detail", listing: listing.slug });
+                  openLeadMagnet();
+                }}
+              >
+                Get the checklist
+              </button>
+              <Link
+                className="btn btn-secondary"
+                to="/listings"
+                onClick={() => trackEvent("listing_navigation", { action: "back_to_listings", listing: listing.slug })}
+              >
+                Back to listings
+              </Link>
+              <a
+                className="btn btn-ghost"
+                href={walkLink}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackEvent("listing_walkscore_open", { listing: listing.slug })}
+              >
+                Open Walk Score
+              </a>
             </div>
           </div>
 
           <div className="property-detail-right-rail">
             <LeadForm
               title="Request details or a tour"
-              intro="Share what matters most and Megha can help you evaluate this property against the rest of your shortlist."
+              intro="Share what matters most and Megha can help you compare this property against the rest of your shortlist."
               storageKey="MM_tour_requests"
               source="listing-detail"
               context={`${listing.title} — ${listing.inquiryContext}`}
@@ -130,6 +156,7 @@ export default function PropertyDetailPage() {
               timelineOptions={["Immediately", "0–3 months", "3–6 months", "6+ months"]}
               messagePlaceholder="Share team size, layout needs, loading or parking requirements, budget range, or what makes this property interesting to you."
               note="A clear brief makes tours and negotiations more productive."
+              onSuccess={() => trackEvent("property_inquiry_submit", { listing: listing.slug, city: listing.city, assetClass: listing.assetClass })}
             />
 
             <div className="card soft">
@@ -149,11 +176,23 @@ export default function PropertyDetailPage() {
           <div className="inline-callout">
             <div>
               <div className="kicker">Best next move</div>
-              <div><strong>Do not judge this property in isolation.</strong> Compare it against at least two real alternatives before you negotiate.</div>
+              <div><strong>Compare this property against at least two real alternatives before you negotiate.</strong></div>
             </div>
             <div className="footer-actions">
-              <Link className="btn btn-secondary" to="/listings">See comparable options</Link>
-              <Link className="btn btn-ghost" to="/tools">Compare with tools</Link>
+              <Link
+                className="btn btn-secondary"
+                to="/listings"
+                onClick={() => trackEvent("listing_navigation", { action: "compare_options", listing: listing.slug })}
+              >
+                See comparable options
+              </Link>
+              <Link
+                className="btn btn-ghost"
+                to="/tools"
+                onClick={() => trackEvent("listing_navigation", { action: "compare_with_tools", listing: listing.slug })}
+              >
+                Compare with tools
+              </Link>
             </div>
           </div>
         </section>

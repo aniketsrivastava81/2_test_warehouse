@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import CTASection from "../components/CTASection";
 import LeaseVsBuyTool from "../components/tools/LeaseVsBuyTool";
@@ -7,8 +7,18 @@ import CamEstimatorTool from "../components/tools/CamEstimatorTool";
 import FootfallTool from "../components/tools/FootfallTool";
 import SubmarketComparator from "../components/tools/SubmarketComparator";
 import { TOOL_SECTIONS } from "../data/siteData";
+import { trackEvent } from "../utils/tracking";
 
 export default function ToolsPage() {
+  const viewedTools = useRef(new Set());
+
+  const handleToolFocus = (event) => {
+    const section = event.target.closest("section[id]");
+    if (!section?.id || viewedTools.current.has(section.id)) return;
+    viewedTools.current.add(section.id);
+    trackEvent("tools_use", { tool: section.id, page: "tools" });
+  };
+
   return (
     <>
       <section className="section">
@@ -19,8 +29,7 @@ export default function ToolsPage() {
               <h1 style={{ marginTop: "8px" }}>Commercial real-estate tools built to help you compare cost, fit, visibility, and next-step clarity.</h1>
             </div>
             <p>
-              These tools are designed for commercial users, owner-users, and investors who want a cleaner decision process before touring,
-              negotiating, renewing, or buying.
+              Use these calculators and comparison tools before the tour, before the renewal conversation, and before the shortlist starts expanding for the wrong reasons.
             </p>
           </div>
 
@@ -28,17 +37,21 @@ export default function ToolsPage() {
             <div className="section-header" style={{ marginBottom: "14px" }}>
               <div>
                 <div className="kicker">What you can do here</div>
-                <h2 style={{ marginTop: "8px" }}>Use the tools to screen options before you commit time, money, or negotiation leverage.</h2>
+                <h2 style={{ marginTop: "8px" }}>Compare the decision before you compare the listing.</h2>
               </div>
               <p>
-                Start with cost if you are comparing lease versus ownership. Start with access if visibility or customer convenience matters.
-                Start with submarkets if the corridor itself is still unclear.
+                Start with occupancy cost if you are weighing lease versus ownership. Start with visibility and access if customer convenience matters. Start with submarkets if the corridor itself is still unclear.
               </p>
             </div>
 
             <div className="grid grid-3 tools-overview-grid">
               {TOOL_SECTIONS.map((item) => (
-                <a className="card glow compact-card tool-link-card" href={item.href} key={item.title}>
+                <a
+                  className="card glow compact-card tool-link-card"
+                  href={item.href}
+                  key={item.title}
+                  onClick={() => trackEvent("tools_jump_click", { tool: item.href.replace("#", ""), page: "tools" })}
+                >
                   <div className="kicker">Tool</div>
                   <h3 style={{ marginTop: "8px" }}>{item.title}</h3>
                   <p className="muted">{item.body}</p>
@@ -49,7 +62,7 @@ export default function ToolsPage() {
         </div>
       </section>
 
-      <section className="section tight">
+      <section className="section tight" onFocusCapture={handleToolFocus} onChangeCapture={handleToolFocus}>
         <div className="container tool-stack">
           <LeaseVsBuyTool />
           <CapRateTool />
@@ -65,13 +78,12 @@ export default function ToolsPage() {
             <div>
               <div className="kicker">Use the result properly</div>
               <div>
-                <strong>The tool should sharpen the shortlist, not replace the shortlist.</strong> Once the numbers start making sense,
-                move into listings, compare real spaces, and then ask the next questions.
+                <strong>Use the numbers to tighten the shortlist, not to replace the shortlist.</strong> Once the cost and corridor logic start making sense, compare real spaces and ask sharper questions.
               </div>
             </div>
             <div className="footer-actions">
-              <Link className="btn btn-primary" to="/listings">Browse listings</Link>
-              <Link className="btn btn-secondary" to="/guides">Read guides</Link>
+              <Link className="btn btn-primary" to="/listings" onClick={() => trackEvent("tools_next_step", { cta: "browse_listings" })}>Browse listings</Link>
+              <Link className="btn btn-secondary" to="/guides" onClick={() => trackEvent("tools_next_step", { cta: "read_guides" })}>Read guides</Link>
             </div>
           </div>
         </div>

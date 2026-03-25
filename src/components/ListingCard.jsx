@@ -15,7 +15,12 @@ export default function ListingCard({ listing, active = false, onSelect }) {
       aria-label={`${listing.title} in ${listing.city}`}
     >
       <div className="listing-thumb">
-        <img src={listing.img} alt={listing.title} />
+        <img
+          src={listing.img}
+          alt={`${listing.title} — ${listing.assetClass} in ${listing.city}`}
+          loading="lazy"
+          decoding="async"
+        />
       </div>
 
       <div>

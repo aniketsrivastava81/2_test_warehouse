@@ -2,6 +2,7 @@ import React from "react";
 import CTASection from "../components/CTASection";
 import LeadForm from "../components/LeadForm";
 import { SITE } from "../config/site";
+import { trackEvent } from "../utils/tracking";
 
 const CONTACT_REASONS = [
   ["Lease is expiring", "Review renewal versus relocation before time pressure takes over."],
@@ -63,7 +64,13 @@ export default function ContactPage() {
                   <div className="card soft compact-card" key={item.title}>
                     <div className="kicker">{item.title}</div>
                     {item.href ? (
-                      <a className="contact-method-link" href={item.href}>{item.value}</a>
+                      <a
+                        className="contact-method-link"
+                        href={item.href}
+                        onClick={() => trackEvent(item.title === "Direct line" ? "call_click" : "email_click", { page: "contact" })}
+                      >
+                        {item.value}
+                      </a>
                     ) : (
                       <strong className="contact-method-link static">{item.value}</strong>
                     )}
@@ -86,7 +93,7 @@ export default function ContactPage() {
 
             <LeadForm
               title="Tell Megha what you need"
-              intro="Share the basics and the request will be saved in demo mode so the inquiry flow feels clean and complete during testing."
+              intro="Share the basics and Megha can begin with a cleaner brief and a more useful next step."
               storageKey="MM_contact_requests"
               source="contact-page"
               context="General site contact form"
@@ -102,7 +109,8 @@ export default function ContactPage() {
               timelineLabel="How soon do you need clarity?"
               timelineOptions={["Immediately", "0–3 months", "3–6 months", "6+ months"]}
               messagePlaceholder="Share the type of space, the size range, the location, your timing, and anything the next property must do for the business."
-              note="Demo mode saves the inquiry locally so the page remains testable end to end."
+              note="A concise brief makes the first conversation more productive."
+              onSuccess={() => trackEvent("contact_form_submit", { page: "contact" })}
             />
           </div>
         </div>

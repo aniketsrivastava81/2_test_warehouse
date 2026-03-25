@@ -59,7 +59,7 @@ export default function Footer() {
                   <NavLink to={item.to} end={item.to === "/"}>{item.label}</NavLink>
                 </li>
               ))}
-              <li><NavLink to="/warehouse">Warehouse Demo</NavLink></li>
+              <li><NavLink to="/warehouse">Interactive Demo</NavLink></li>
             </ul>
 
             <div className="hr"></div>
