@@ -1,0 +1,181 @@
+
+<div class="container">
+<div class="section-header">
+<div>
+<div class="kicker">Tools</div>
+<h1 style="margin-top:8px">Walk Score + Convenience Tools</h1>
+</div>
+<p>
+          These tools help business owners estimate “what the street gives you” — walkability, transit pull, and
+          office-goer rhythm. (Demo: the Walk Score site opens in a new tab; API key required for automated fetch.)
+        </p>
+</div>
+<!-- Footfall Tool -->
+<section class="card glow" data-footfall-tool="" id="footfall">
+<div class="section-header" style="margin-bottom:10px">
+<div>
+<div class="kicker">Footfall counter</div>
+<h2 style="margin:8px 0 0 0">Estimate access to people + generate an office-goer guide</h2>
+</div>
+<div class="badges">
+<span class="pill"><strong>Benchmark:</strong> Toronto (Walk 61 • Transit 78 • Bike 61)</span>
+</div>
+</div>
+<div class="grid grid-2" style="align-items:start">
+<form class="form" data-footfall-form="">
+<div class="field">
+<label for="addr">Address (optional)</label>
+<input id="addr" name="address" placeholder="e.g., 35 Leek Crescent, Richmond Hill, ON" type="text"/>
+</div>
+<div class="grid grid-2">
+<div class="field">
+<label for="lat">Latitude (optional)</label>
+<input id="lat" inputmode="decimal" name="lat" placeholder="43.84" type="text"/>
+</div>
+<div class="field">
+<label for="lng">Longitude (optional)</label>
+<input id="lng" inputmode="decimal" name="lng" placeholder="-79.37" type="text"/>
+</div>
+</div>
+<div class="inline-callout">
+<div>
+<div class="kicker">Step 1</div>
+<div><strong>Open Walk Score</strong>, then paste the Walk/Transit/Bike scores below.</div>
+</div>
+<button class="btn btn-secondary" data-open-walkscore="" type="button">Open Walk Score</button>
+</div>
+<div class="grid grid-3">
+<div class="field">
+<label for="walk">Walk Score</label>
+<input id="walk" max="100" min="0" name="walk" placeholder="0-100" required="" type="number"/>
+</div>
+<div class="field">
+<label for="transit">Transit Score</label>
+<input id="transit" max="100" min="0" name="transit" placeholder="0-100" required="" type="number"/>
+</div>
+<div class="field">
+<label for="bike">Bike Score</label>
+<input id="bike" max="100" min="0" name="bike" placeholder="0-100" required="" type="number"/>
+</div>
+</div>
+<div class="grid grid-2">
+<div class="field">
+<label for="density">Office density (estimate)</label>
+<select id="density" name="density">
+<option value="low">Low</option>
+<option selected="" value="medium">Medium</option>
+<option value="high">High</option>
+</select>
+</div>
+<div class="field">
+<label for="category">Location category</label>
+<select id="category" name="category">
+<option>Beaver Creek Business Park</option>
+<option>Yonge Street corridor</option>
+<option>Neighbourhood retail strip</option>
+<option>Industrial last-mile node</option>
+<option selected="">General</option>
+</select>
+</div>
+</div>
+<div class="field">
+<label for="bizType">Business type</label>
+<select id="bizType" name="bizType">
+<option selected="" value="retail">Retail / Food / Service</option>
+<option value="office">Office / Professional Services</option>
+<option value="warehouse">Warehouse / Industrial</option>
+</select>
+</div>
+<button class="btn btn-primary" type="submit">Generate guide</button>
+<p class="tiny muted">
+              For automated score retrieval, you’ll need a Walk Score API key. See Walk Score Professional → API Docs.
+            </p>
+</form>
+<div data-footfall-output="">
+<div class="card soft">
+<h3>How to use this</h3>
+<ol style="margin:0; padding-left:18px; color: rgba(255,255,255,.82)">
+<li>Open Walk Score for your target address.</li>
+<li>Paste Walk / Transit / Bike scores here.</li>
+<li>Get a “footfall index” + office-goer capture plan you can act on.</li>
+</ol>
+<div class="hr"></div>
+<p class="muted">
+                Want a shortlist? Use the <strong>Request a free shortlist</strong> form on the Home page.
+              </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Follow-up email generator -->
+<section class="section tight" data-email-tool="">
+<div class="section-header">
+<div>
+<div class="kicker">Client conversion</div>
+<h2>Contact Form Follow-up Email Generator</h2>
+</div>
+<p>Use this for automated follow-ups or your site chat to keep leads warm.</p>
+</div>
+<div class="grid grid-2">
+<form class="form card soft" data-email-form="">
+<div class="field">
+<label for="leadName">Lead name</label>
+<input id="leadName" name="leadName" placeholder="Alex" type="text"/>
+</div>
+<div class="field">
+<label for="leadFocus">Lead interest</label>
+<input id="leadFocus" name="leadFocus" placeholder="a commercial space / home valuation" type="text"/>
+</div>
+<div class="field">
+<label for="marketLink">Market report link</label>
+<input id="marketLink" name="marketLink" placeholder="https://your-site.com/market-report" type="text"/>
+</div>
+<button class="btn btn-primary" type="submit">Generate email</button>
+<p class="tiny muted">Demo: the “Open in Email” button uses your device email client.</p>
+</form>
+<div data-email-output="">
+<div class="card soft">
+<h3>Tip</h3>
+<p class="muted">Pair this email with a simple CTA: “Book a 15‑minute call” + one scheduling link.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Lead magnet outline -->
+<section class="section tight">
+<div class="section-header">
+<div>
+<div class="kicker">Lead magnet</div>
+<h2>PDF Outline Generator (Richmond Hill)</h2>
+</div>
+<p>Use this as a downloadable PDF guide headline + structure.</p>
+</div>
+<div data-lead-outline=""></div>
+</section>
+<!-- Visual prompts -->
+<section class="section tight">
+<div class="section-header">
+<div>
+<div class="kicker">Visual prompts</div>
+<h2>AI image prompts (hero + social)</h2>
+</div>
+<p>Use these in Midjourney / Gemini / any image generator.</p>
+</div>
+<div class="grid grid-2">
+<div class="card soft">
+<h3>Hero Image</h3>
+<p class="muted">
+              “Photo-realistic image of a modern two-storey home with a large front lawn and a bright, sunny sky.
+              The lighting should be golden hour, creating a warm and welcoming atmosphere. 16:9 aspect ratio”.
+            </p>
+</div>
+<div class="card soft">
+<h3>Social Graphic (Market Update)</h3>
+<p class="muted">
+              “Generate a 1080x1080 graphic for a 'Market Update' post. Use a clean, professional blue and white color palette
+              with a subtle line graph background and space for text overlay”.
+            </p>
+</div>
+</div>
+</section>
+</div>
