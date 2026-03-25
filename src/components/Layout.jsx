@@ -4,10 +4,12 @@ import Header from "./Header";
 import Footer from "./Footer";
 import LeadMagnetModal from "./LeadMagnetModal";
 import MobileStickyCTA from "./MobileStickyCTA";
+import RouteSeo from "./RouteSeo";
 
 export default function Layout() {
   return (
     <div className="app-shell">
+      <RouteSeo />
       <a className="skip-link" href="#main">Skip to content</a>
       <Header />
       <main id="main" className="site-main">

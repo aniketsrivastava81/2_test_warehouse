@@ -3,6 +3,8 @@ export const SITE = {
   shortBrand: "MM",
   titleSuffix: "Commercial Real Estate | GTA",
   tagline: "Commercial real estate, industrial condos, retail plazas, and land opportunities across the Greater Toronto Area.",
+  defaultDescription:
+    "Commercial real-estate advisory across Toronto, Vaughan, Mississauga, Brampton, Markham, and North York for industrial condos, warehouse space, office, retail, and development land.",
   primaryPhone: "+1 (647) 339-9805",
   primaryPhoneHref: "tel:+16473399805",
   primaryEmail: "megha@seekacapital.com",
@@ -13,6 +15,7 @@ export const SITE = {
   officeEmailHref: "mailto:info@kolt.ca",
   officeAddress: "2300 Yonge Street, Suite 3030 / Box 2310, Toronto, ON M4P 1E4",
   productionUrl: "https://meghamehta.ca",
+  socialPreviewPath: "/social-preview.svg",
   brokerage: "KOLT Realty Inc., Brokerage",
   role: "Sales Representative",
   leadMagnetTitle: "Lease Renewal vs. Relocation Checklist",
@@ -30,6 +33,11 @@ export const SITE = {
     "Accounting & Finance background",
     "Mortgage financing, sales, and banking experience",
     "Hindi, Gujarati, and Marathi spoken",
+  ],
+  socialProfiles: [
+    "https://www.instagram.com/koltrealty/",
+    "https://www.linkedin.com/",
+    "https://www.facebook.com/",
   ],
 };
 
