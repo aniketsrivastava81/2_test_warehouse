@@ -150,14 +150,14 @@ export default function LeadMagnetModal() {
           </button>
 
           <p className="tiny muted">
-            No spam. Just practical leasing guidance and a clearer starting point. If you do not see the email, check Promotions or Junk.
+            Practical leasing guidance, delivered with a clear starting point for the next conversation.
           </p>
 
           {!saved ? null : (
             <div className="toast">
-              <strong>Done.</strong> Your request has been saved. (Demo mode: no email is sent.)
+              <strong>Done.</strong> Your request has been received.
               <div className="tiny muted" style={{ marginTop: "6px" }}>
-                Tip: the tools page also includes follow-up email support, footfall guidance, lease-vs-buy comparison, and CAM estimators.
+                You can also use the tools page to compare lease-vs-buy scenarios, footfall patterns, and occupancy costs.
               </div>
             </div>
           )}

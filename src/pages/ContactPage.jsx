@@ -4,30 +4,30 @@ import LeadForm from "../components/LeadForm";
 import { SITE } from "../config/site";
 
 const CONTACT_REASONS = [
-  ["Need a shortlist", "Get 3–5 stronger-fit options instead of endless browsing."],
-  ["Lease is expiring", "Compare renewal versus relocation before urgency takes over."],
-  ["Need warehouse / office / retail fit", "Clarify use, access, budget, and timing."],
-  ["Exploring owner-user or investment options", "Start with the right brief and evaluation lens."],
+  ["Lease is expiring", "Review renewal versus relocation before time pressure takes over."],
+  ["Need a shortlist", "Compare 3–5 stronger-fit options instead of searching without a plan."],
+  ["Need warehouse, office, or retail fit", "Clarify layout, location, access, timing, and budget priorities."],
+  ["Thinking about buying", "Review owner-user and investment opportunities with a finance-aware lens."],
 ];
 
 const CONTACT_METHODS = [
   {
-    title: "Call",
+    title: "Direct line",
     value: SITE.primaryPhone,
     href: SITE.primaryPhoneHref,
-    body: "Best for fast clarification when timing is tight or the move feels urgent.",
+    body: "Best for urgent timing, quick questions, or a fast first conversation.",
   },
   {
     title: "Email",
     value: SITE.primaryEmail,
     href: SITE.primaryEmailHref,
-    body: "Best when you already know the basics and want to send a cleaner brief.",
+    body: "Best when you want to send a cleaner brief with location, size, and timing details.",
   },
   {
-    title: "Service area",
-    value: SITE.serviceAreas.join(", "),
+    title: "Brokerage office",
+    value: SITE.officeAddress,
     href: null,
-    body: "Coverage is GTA-focused so the conversation stays relevant and local.",
+    body: "Serving commercial clients across Toronto, Vaughan, Mississauga, Brampton, Markham, North York, and Richmond Hill.",
   },
 ];
 
@@ -39,19 +39,19 @@ export default function ContactPage() {
           <div className="section-header">
             <div>
               <div className="kicker">Contact</div>
-              <h1 style={{ marginTop: "8px" }}>Book a short conversation to clarify the next move.</h1>
+              <h1 style={{ marginTop: "8px" }}>Let’s talk about the next commercial move.</h1>
             </div>
             <p>
-              This page exists to remove friction. Every major page on the site should be able to send someone here with a clear sense of what happens next.
+              Whether you are leasing, renewing, relocating, buying, or reviewing investment opportunities, Megha can help you start with a cleaner brief and a better next step.
             </p>
           </div>
 
           <div className="grid grid-2 contact-page-grid" style={{ alignItems: "start" }}>
             <div className="contact-left-rail">
               <div className="card glow">
-                <div className="kicker">Best reasons to reach out</div>
-                <h3 style={{ marginTop: "8px" }}>What this page is meant to convert</h3>
-                <div className="table-like">
+                <div className="kicker">When to reach out</div>
+                <h3 style={{ marginTop: "8px" }}>The best time to start is before urgency takes over.</h3>
+                <div className="table-like" style={{ marginTop: "14px" }}>
                   {CONTACT_REASONS.map(([label, body]) => (
                     <div className="row" key={label}><b>{label}</b><span>{body}</span></div>
                   ))}
@@ -73,37 +73,47 @@ export default function ContactPage() {
               </div>
 
               <div className="card soft" style={{ marginTop: "18px" }}>
-                <div className="kicker">What to expect</div>
-                <h3 style={{ marginTop: "8px" }}>A clearer brief first. A better next step second.</h3>
-                <p className="muted">
-                  The goal is not to overwhelm the visitor with forms. It is to make it easy to say what is needed,
-                  where the search is focused, and what kind of decision is being made.
-                </p>
+                <div className="kicker">What to send</div>
+                <h3 style={{ marginTop: "8px" }}>A few details are enough to get started.</h3>
+                <div className="table-like" style={{ marginTop: "12px" }}>
+                  <div className="row"><b>Property type</b><span>Office, warehouse, industrial condo, retail, or land</span></div>
+                  <div className="row"><b>Preferred area</b><span>City, submarket, or corridor</span></div>
+                  <div className="row"><b>Timing</b><span>Immediate, 0–3 months, 3–6 months, or longer</span></div>
+                  <div className="row"><b>Must-haves</b><span>Size, parking, loading, exposure, budget, or access</span></div>
+                </div>
               </div>
             </div>
 
             <LeadForm
-              title="Tell us what you need"
-              intro="Share the basics and the request will be saved in demo mode with a cleaner structure than the earlier batches."
+              title="Tell Megha what you need"
+              intro="Share the basics and the request will be saved in demo mode so the inquiry flow feels clean and complete during testing."
               storageKey="MM_contact_requests"
               source="contact-page"
               context="General site contact form"
               submitLabel="Send inquiry"
-              interestOptions={["Lease", "Renewal", "Relocate", "Buy", "Investment review"]}
-              locationLabel="Preferred submarket"
+              interestOptions={[
+                "Lease a commercial space",
+                "Renew an existing lease",
+                "Relocate to a new space",
+                "Buy for my business",
+                "Review an investment opportunity",
+              ]}
+              locationLabel="Preferred city or submarket"
               timelineLabel="How soon do you need clarity?"
               timelineOptions={["Immediately", "0–3 months", "3–6 months", "6+ months"]}
+              messagePlaceholder="Share the type of space, the size range, the location, your timing, and anything the next property must do for the business."
+              note="Demo mode saves the inquiry locally so the page remains testable end to end."
             />
           </div>
         </div>
       </section>
 
       <CTASection
-        kicker="Prefer to browse first?"
-        title="Use the listings and tools pages to narrow the brief before you reach out."
-        body="The strongest conversations usually happen when the visitor already has a sense of fit, timing, and what kind of move they are making."
+        kicker="Prefer to call first?"
+        title="Call Megha directly if the timing is tight or the decision needs quick clarity."
+        body="A short conversation can usually narrow the search faster than a long chain of messages."
         primary={{ label: "Browse listings", to: "/listings" }}
-        secondary={{ label: "Use the tools", to: "/tools" }}
+        secondary={{ label: "See services", to: "/services" }}
       />
     </>
   );

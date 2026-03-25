@@ -46,14 +46,14 @@ export default function HomePage() {
             <div className="badges">
               <span className="pill"><strong>GTA Commercial & Industrial Advisory</strong></span>
               <span className="pill">For tenants, owner-users, investors, and developers</span>
-              <span className="pill">Warehouse demo kept separate from the sales flow</span>
+              <span className="pill">Warehouse walkthrough available as a secondary showcase</span>
             </div>
 
             <div style={{ marginTop: "18px" }}>
               <div className="kicker">Commercial space, chosen with more clarity</div>
               <h1>Industrial condos, warehouse space, retail opportunities, and growth-focused leasing support across the GTA.</h1>
               <p className="muted hero-lead">
-                This demo is built to compete like a serious Toronto-area commercial real-estate site: tighter positioning, cleaner next steps, practical tools, and stronger fit-based property selection.
+                Megha helps tenants, owner-users, investors, and developers find better-fit commercial opportunities with a clear process, practical tools, and stronger shortlist quality.
               </p>
             </div>
 
@@ -74,7 +74,7 @@ export default function HomePage() {
             <div className="hero-form-wrap">
               <LeadForm
                 title="Request a tailored shortlist of 3–5 spaces"
-                intro="Share the broad requirement and stage so the demo stores a cleaner lead than the earlier inline form."
+                intro="Share the broad requirement and stage so Megha can start with a cleaner brief and a stronger shortlist."
                 storageKey="MM_leads"
                 source="hero-shortlist"
                 context="Homepage shortlist request"
@@ -100,7 +100,7 @@ export default function HomePage() {
                   <div className="kicker">Trust strip</div>
                   <h3 style={{ marginTop: "8px" }}>What this site is built to prove</h3>
                   <div className="mini-proof-list">
-                    <div><strong>Brokerage style:</strong> polished commercial advisory presentation</div>
+                    <div><strong>Brokerage:</strong> KOLT Realty Inc., Brokerage</div>
                     <div><strong>Focus:</strong> leasing, industrial space, office, retail, land</div>
                     <div><strong>Coverage:</strong> {SITE.serviceAreas.join(", ")}</div>
                     <div><strong>Angle:</strong> finance-aware, fit-focused, shortlist-first guidance</div>
@@ -109,8 +109,8 @@ export default function HomePage() {
 
                 <div>
                   <div className="kicker">Secondary feature</div>
-                  <p className="muted" style={{ marginTop: "8px" }}>The warehouse walkthrough stays available for demo value, but the main sales flow stays focused on trust, listings, tools, and conversion.</p>
-                  <Link className="btn btn-ghost" to="/warehouse">Open warehouse demo</Link>
+                  <p className="muted" style={{ marginTop: "8px" }}>Explore the warehouse walkthrough as a secondary showcase while the main site stays focused on listings, tools, and client conversion.</p>
+                  <Link className="btn btn-ghost" to="/warehouse">Open warehouse walkthrough</Link>
                 </div>
               </div>
             </div>
@@ -171,7 +171,7 @@ export default function HomePage() {
           <div className="section-header section-accent">
             <div>
               <div className="kicker">Asset classes</div>
-              <h2>Commercial property types the demo is built to showcase well.</h2>
+              <h2>Commercial property types Megha helps clients source and evaluate.</h2>
             </div>
             <p>Each card is intentionally simple so the homepage stays premium and digestible while still feeling specialized.</p>
           </div>
@@ -249,7 +249,7 @@ export default function HomePage() {
               <div className="kicker">Guides</div>
               <h2>Support content that helps this site feel authoritative, not empty.</h2>
             </div>
-            <p>Short practical content pieces help the demo feel closer to a real lead-generation platform.</p>
+            <p>Practical guides help clients make better decisions before they tour, negotiate, or commit.</p>
           </div>
           <div className="grid grid-3">
             {featuredGuides.map((post) => (
@@ -269,8 +269,8 @@ export default function HomePage() {
 
       <CTASection
         kicker="Primary next step"
-        title="Ready to turn the demo into a full commercial real-estate platform?"
-        body="This build now has the positioning and structure to move into deeper page work, listing expansion, tools refinement, and final SEO/deployment polish in later batches."
+        title="Ready to move from browsing to a stronger commercial real-estate strategy?"
+        body="Book a short consultation or explore the tools page to compare locations, occupancy costs, and the next move with more clarity."
         primary={{ label: "Book a consultation", to: "/contact" }}
         secondary={{ label: "Explore tools", to: "/tools" }}
       />

@@ -4,66 +4,66 @@ import { SITE } from "../config/site";
 
 const SERVICES = [
   {
-    title: "Leasing advisory",
-    bestFor: "First-time tenants, renewal decisions, and relocation strategy.",
+    title: "Tenant representation & site selection",
+    summary: "For businesses leasing office, industrial, retail, or flex space across the GTA.",
     points: [
-      "Clarify size, access, budget, and timing before touring.",
-      "Turn broad requirements into a shortlist of 3–5 better-fit options.",
-      "Compare renewal versus relocation with less guesswork.",
+      "Define size, layout, budget, location, parking, and access requirements before touring.",
+      "Build a shortlist of spaces that match operations, staffing, and client-facing needs.",
+      "Compare options on total occupancy cost, flexibility, and move-in timing.",
+    ],
+  },
+  {
+    title: "Lease renewal strategy",
+    summary: "For tenants deciding whether to renew, relocate, or use both paths to negotiate from leverage.",
+    points: [
+      "Review what is and is not working in the current space.",
+      "Benchmark renewal economics against real alternatives in the market.",
+      "Prepare a negotiation position before urgency starts driving the process.",
     ],
   },
   {
     title: "Owner-user acquisition support",
-    bestFor: "Businesses deciding whether buying creates more control than leasing.",
+    summary: "For business owners weighing the control of buying against the flexibility of leasing.",
     points: [
-      "Evaluate long-term control, occupancy cost, and future flexibility.",
-      "Screen opportunities with operations, not just brochure language, in mind.",
-      "Keep acquisition logic grounded in real business use.",
+      "Compare buy-versus-lease scenarios using occupancy cost, cash flow, and future use needs.",
+      "Screen industrial condos, flex units, and commercial ownership opportunities.",
+      "Focus on fit, expansion potential, and long-term business value.",
     ],
   },
   {
-    title: "Investment opportunity review",
-    bestFor: "Buyers comparing industrial, office, or retail opportunities.",
+    title: "Industrial & warehouse search",
+    summary: "For operators focused on loading, clear height, truck flow, parking, and workflow efficiency.",
     points: [
-      "Review income logic, downside risk, and neighbourhood fit.",
-      "Filter opportunities by practicality, not headline hype.",
-      "Use the right evaluation lens before spending time on weak options.",
+      "Prioritize practical operational fit before cosmetic features.",
+      "Review loading access, shipping flow, office ratio, and permitted use early.",
+      "Shortlist spaces that work for the business today and leave room for growth.",
     ],
   },
   {
-    title: "Retail and visibility analysis",
-    bestFor: "Storefront and plaza users who depend on frontage and footfall.",
+    title: "Retail & medical plaza advisory",
+    summary: "For users who rely on visibility, convenience, signage, and customer access.",
     points: [
-      "Assess signage, access, anchor context, and pedestrian rhythm.",
-      "Compare how a location feels on paper versus on the street.",
-      "Reduce the risk of choosing a unit that looks fine but performs poorly.",
+      "Assess frontage, parking, co-tenancy, wayfinding, and access from the street.",
+      "Compare how a unit performs for real day-to-day customer behaviour, not just photos.",
+      "Test whether the plaza and surrounding mix support the business model.",
     ],
   },
   {
-    title: "Industrial / warehouse search",
-    bestFor: "Businesses that care about truck flow, shipping, and operational fit.",
+    title: "Investment & development support",
+    summary: "For investors and developers reviewing commercial opportunities, land, and strategic holds.",
     points: [
-      "Prioritize clear height, parking, loading, and circulation.",
-      "Compare units through daily use, not only polished marketing language.",
-      "Keep operations and future growth in the selection process.",
-    ],
-  },
-  {
-    title: "Land and development support",
-    bestFor: "Clients exploring site potential beyond standard ready-to-lease inventory.",
-    points: [
-      "Look at context, future-use potential, and surrounding momentum.",
-      "Filter out opportunities that lack practical upside.",
-      "Start with a clearer brief before deeper due diligence begins.",
+      "Evaluate opportunity through income quality, downside risk, and location logic.",
+      "Review site context, future-use potential, and neighbourhood momentum.",
+      "Bring a finance-aware lens to acquisition and hold decisions.",
     ],
   },
 ];
 
 const PROCESS = [
-  ["Brief first", "Start with use, timing, budget range, and non-negotiables before looking at properties."],
-  ["Shortlist second", "Reduce noise into a tighter set of stronger-fit options worth real attention."],
-  ["Decision support", "Compare the shortlist through operations, image, cost, and flexibility."],
-  ["Move with clarity", "Use that work to support negotiations, tours, and next-step confidence."],
+  ["Step 1", "Clarify the brief", "Use, timing, budget, location priorities, and non-negotiables."],
+  ["Step 2", "Build the shortlist", "Narrow the market to the options worth serious attention."],
+  ["Step 3", "Compare the options", "Review cost, functionality, flexibility, and location advantage side by side."],
+  ["Step 4", "Move with leverage", "Enter tours, negotiations, and next steps with a cleaner decision path."],
 ];
 
 export default function ServicesPage() {
@@ -74,41 +74,38 @@ export default function ServicesPage() {
           <div className="section-header">
             <div>
               <div className="kicker">Services</div>
-              <h1 style={{ marginTop: "8px" }}>Commercial real-estate support built around fit, clarity, and stronger decision-making.</h1>
+              <h1 style={{ marginTop: "8px" }}>Commercial real-estate advisory for leasing, buying, and smarter site decisions across the GTA.</h1>
             </div>
             <p>
-              This page exists so the website reads like a serious advisory platform, not only a listings brochure.
-              The goal is to make the offering easy to understand before someone ever reaches the contact page.
+              Megha works with tenants, owner-users, investors, and developers who need clear advice, stronger shortlists,
+              and space decisions that hold up after the deal is signed.
             </p>
           </div>
 
           <div className="service-hero-grid grid grid-2">
             <div className="card glow">
-              <div className="kicker">What clients actually need</div>
-              <h3 style={{ marginTop: "8px" }}>Not more listings. A cleaner decision path.</h3>
-              <p className="muted">
-                Commercial clients usually arrive with partial requirements, time pressure, and too many weak options.
-                The service layer of the site needs to show how that gets turned into a more focused, more confident decision.
-              </p>
-              <div className="table-like">
+              <div className="kicker">Coverage</div>
+              <h3 style={{ marginTop: "8px" }}>What Megha helps clients solve</h3>
+              <div className="table-like" style={{ marginTop: "14px" }}>
+                <div className="row"><b>Markets</b><span>{SITE.serviceAreas.join(", ")}</span></div>
                 <div className="row"><b>Asset classes</b><span>{SITE.assetClasses.join(", ")}</span></div>
-                <div className="row"><b>Coverage</b><span>{SITE.serviceAreas.join(", ")}</span></div>
-                <div className="row"><b>Working style</b><span>Shortlist-first • fit-focused • finance-aware</span></div>
+                <div className="row"><b>Client types</b><span>Tenants, owner-users, investors, developers</span></div>
+                <div className="row"><b>Focus</b><span>Fit, clarity, negotiation leverage, and cleaner execution</span></div>
               </div>
             </div>
 
             <div className="card soft">
-              <div className="kicker">What you gain</div>
-              <h3 style={{ marginTop: "8px" }}>The site starts sounding more expensive in the right way.</h3>
+              <div className="kicker">How the work is approached</div>
+              <h3 style={{ marginTop: "8px" }}>Less noise. Better-fit options. Stronger decisions.</h3>
               <p className="muted">
-                Strong service pages improve trust, pre-qualify leads, and help the visitor understand where your guidance adds value.
-                That means fewer vague inquiries and better conversion from serious prospects.
+                The process starts with the business itself: how the space needs to work, where it needs to be, what the budget needs to carry,
+                and which trade-offs are acceptable. From there, the shortlist gets tighter, the touring gets sharper, and the negotiation gets stronger.
               </p>
               <div className="service-badge-stack">
-                <span className="pill"><strong>Lease renewal vs relocation clarity</strong></span>
-                <span className="pill">Owner-user decision support</span>
-                <span className="pill">Industrial / warehouse operational fit</span>
-                <span className="pill">Retail visibility + access lens</span>
+                <span className="pill"><strong>Tenant rep</strong></span>
+                <span className="pill">Lease renewals</span>
+                <span className="pill">Owner-user strategy</span>
+                <span className="pill">Industrial + retail fit</span>
               </div>
             </div>
           </div>
@@ -118,7 +115,7 @@ export default function ServicesPage() {
               <article className="card glow reveal service-card" key={service.title}>
                 <div className="kicker">Service</div>
                 <h3 style={{ marginTop: "8px" }}>{service.title}</h3>
-                <p className="muted"><strong>Best for:</strong> {service.bestFor}</p>
+                <p className="muted"><strong>Best for:</strong> {service.summary}</p>
                 <ul className="service-points">
                   {service.points.map((point) => <li key={point}>{point}</li>)}
                 </ul>
@@ -133,18 +130,19 @@ export default function ServicesPage() {
           <div className="card soft">
             <div className="section-header" style={{ marginBottom: "18px" }}>
               <div>
-                <div className="kicker">How engagements usually start</div>
-                <h2 style={{ marginTop: "8px" }}>A simple process keeps the search from becoming noisy.</h2>
+                <div className="kicker">Process</div>
+                <h2 style={{ marginTop: "8px" }}>Every search starts with a clear brief and ends with a stronger decision.</h2>
               </div>
               <p>
-                This process language helps the site feel more premium because it explains how a lead moves from confusion to action.
+                Good commercial representation is not just about finding a listing. It is about narrowing the market, testing the fit,
+                and making the next move with more leverage.
               </p>
             </div>
 
             <div className="grid grid-4 service-process-grid">
-              {PROCESS.map(([title, body]) => (
+              {PROCESS.map(([step, title, body]) => (
                 <div className="card soft compact-card" key={title}>
-                  <div className="kicker">Step</div>
+                  <div className="kicker">{step}</div>
                   <h3 style={{ marginTop: "8px" }}>{title}</h3>
                   <p className="muted">{body}</p>
                 </div>
@@ -155,9 +153,9 @@ export default function ServicesPage() {
       </section>
 
       <CTASection
-        kicker="Need one place to start?"
-        title="Book a short strategy conversation and we’ll point you to the right path first."
-        body="Whether the right answer is lease, renew, relocate, or buy, the next step should start from a clearer brief and a smarter shortlist."
+        kicker="Start here"
+        title="Tell Megha what you need, where you want to be, and what has to work on day one."
+        body="If you are comparing lease, renewal, relocation, or ownership paths, the best next step is a clearer brief and a sharper shortlist."
         primary={{ label: "Contact Megha", to: "/contact" }}
         secondary={{ label: "Browse listings", to: "/listings" }}
       />

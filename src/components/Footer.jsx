@@ -15,7 +15,7 @@ export default function Footer() {
               <div className="kicker">Move with more clarity</div>
               <h2 style={{ margin: "8px 0 10px 0" }}>Commercial space decisions should feel strategic, not rushed.</h2>
               <p className="muted" style={{ maxWidth: "62ch" }}>
-                This demo is structured to feel like a serious GTA commercial real-estate platform: clear positioning, useful tools, strong listing flow, and a visible next step on every key page.
+                The site is built to help commercial clients move from early browsing to a more focused shortlist, stronger property comparisons, and a clear next step.
               </p>
             </div>
 
@@ -41,7 +41,7 @@ export default function Footer() {
             </div>
 
             <p className="muted">
-              A premium commercial leasing and property advisory demo built for tenants, owner-users, investors, and developers who need better-fit options and a clearer decision path.
+              Commercial real-estate guidance for tenants, owner-users, investors, and developers who need better-fit options and a clearer decision path across the GTA.
             </p>
 
             <div className="badges" style={{ marginTop: "14px" }}>
@@ -94,7 +94,7 @@ export default function Footer() {
 
         <div className="card soft" style={{ marginTop: "24px" }}>
           <p className="tiny muted" style={{ marginBottom: 0 }}>
-            <strong>Disclaimer:</strong> This website is a polished demo. Property listings, market snapshots, and calculator outputs are illustrative unless connected to verified live data.
+            <strong>Note:</strong> Property listings, market snapshots, and calculator outputs should be verified before any real-world decision or offer is made.
           </p>
         </div>
 

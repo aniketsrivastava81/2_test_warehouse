@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { Link } from "react-router-dom";
 import ListingCard from "../components/ListingCard";
@@ -11,40 +11,114 @@ function formatNumber(value) {
 
 function FitBounds({ items }) {
   const map = useMap();
-  React.useEffect(() => {
+
+  useEffect(() => {
     if (!items.length) return;
     if (items.length === 1) {
-      map.setView([items[0].lat, items[0].lng], 13);
+      map.setView([items[0].lat, items[0].lng], 12);
       return;
     }
     const bounds = items.map((item) => [item.lat, item.lng]);
-    map.fitBounds(bounds, { padding: [40, 40] });
+    map.fitBounds(bounds, { padding: [34, 34] });
   }, [items, map]);
 
   return null;
 }
 
+function FocusListingOnMap({ listing }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!listing) return;
+    map.setView([listing.lat, listing.lng], 12, { animate: true });
+  }, [listing, map]);
+
+  return null;
+}
+
+const SIZE_BUCKETS = [
+  { label: "Any size", value: "all" },
+  { label: "Under 2,500 SF", value: "under-2500" },
+  { label: "2,500–7,500 SF", value: "2500-7500" },
+  { label: "7,500–20,000 SF", value: "7500-20000" },
+  { label: "20,000+ SF", value: "20000-plus" },
+];
+
+function matchesSizeBucket(listing, bucket) {
+  if (bucket === "all") return true;
+  if (bucket === "under-2500") return listing.sqft < 2500;
+  if (bucket === "2500-7500") return listing.sqft >= 2500 && listing.sqft <= 7500;
+  if (bucket === "7500-20000") return listing.sqft > 7500 && listing.sqft <= 20000;
+  if (bucket === "20000-plus") return listing.sqft > 20000;
+  return true;
+}
+
 export default function PropertyListPage() {
   const { openLeadMagnet } = useLeadMagnet();
   const [query, setQuery] = useState("");
-  const [type, setType] = useState("All");
-  const [minSq, setMinSq] = useState("");
-  const [maxSq, setMaxSq] = useState("");
+  const [city, setCity] = useState("All cities");
+  const [assetClass, setAssetClass] = useState("All asset classes");
+  const [dealType, setDealType] = useState("All availabilities");
+  const [sizeBucket, setSizeBucket] = useState("all");
+  const [selectedId, setSelectedId] = useState(LISTINGS[0]?.id ?? null);
 
-  const types = useMemo(() => ["All", ...new Set(LISTINGS.map((item) => item.type))], []);
+  const cities = useMemo(() => ["All cities", ...new Set(LISTINGS.map((item) => item.city))], []);
+  const assetClasses = useMemo(() => ["All asset classes", ...new Set(LISTINGS.map((item) => item.assetClass))], []);
+  const dealTypes = useMemo(() => ["All availabilities", ...new Set(LISTINGS.map((item) => item.leaseSale))], []);
 
   const filtered = useMemo(() => {
-    const min = Number(minSq || 0) || 0;
-    const max = Number(maxSq || 9999999) || 9999999;
+    const normalizedQuery = query.trim().toLowerCase();
+
     return LISTINGS.filter((listing) => {
-      const hay = `${listing.title} ${listing.address} ${listing.neighbourhood} ${listing.type} ${listing.city}`.toLowerCase();
-      const okQ = !query.trim() || hay.includes(query.trim().toLowerCase());
-      const okT = type === "All" || listing.type === type;
-      const okMin = listing.sqft >= min;
-      const okMax = listing.sqft <= max;
-      return okQ && okT && okMin && okMax;
+      const haystack = [
+        listing.title,
+        listing.address,
+        listing.city,
+        listing.submarket,
+        listing.neighbourhood,
+        listing.assetClass,
+        listing.useCase,
+      ]
+        .join(" ")
+        .toLowerCase();
+
+      const matchesQuery = !normalizedQuery || haystack.includes(normalizedQuery);
+      const matchesCity = city === "All cities" || listing.city === city;
+      const matchesAsset = assetClass === "All asset classes" || listing.assetClass === assetClass;
+      const matchesDeal = dealType === "All availabilities" || listing.leaseSale === dealType;
+      const matchesSize = matchesSizeBucket(listing, sizeBucket);
+
+      return matchesQuery && matchesCity && matchesAsset && matchesDeal && matchesSize;
     });
-  }, [query, type, minSq, maxSq]);
+  }, [query, city, assetClass, dealType, sizeBucket]);
+
+  useEffect(() => {
+    if (!filtered.length) {
+      setSelectedId(null);
+      return;
+    }
+    if (!filtered.some((item) => item.id === selectedId)) {
+      setSelectedId(filtered[0].id);
+    }
+  }, [filtered, selectedId]);
+
+  const selectedListing = useMemo(
+    () => filtered.find((item) => item.id === selectedId) || filtered[0] || null,
+    [filtered, selectedId]
+  );
+
+  const totalSqft = useMemo(
+    () => filtered.reduce((sum, item) => sum + item.sqft, 0),
+    [filtered]
+  );
+
+  const resetFilters = () => {
+    setQuery("");
+    setCity("All cities");
+    setAssetClass("All asset classes");
+    setDealType("All availabilities");
+    setSizeBucket("all");
+  };
 
   return (
     <section className="section">
@@ -52,61 +126,110 @@ export default function PropertyListPage() {
         <div className="section-header">
           <div>
             <div className="kicker">Listings</div>
-            <h1 style={{ marginTop: "8px" }}>Commercial opportunities presented with fit, practicality, and a cleaner next step.</h1>
+            <h1 style={{ marginTop: "8px" }}>Browse commercial spaces by type, location, size, and fit.</h1>
           </div>
-          <p>This page is still demo-driven, but it now reads more like a real commercial browse experience: filters, map, detail pages, and a clear conversion path.</p>
+          <p>
+            Explore active examples across the GTA, compare the shortlist, and move into the detail page when a space starts to look right for the business.
+          </p>
         </div>
 
-        <div className="grid grid-2" style={{ alignItems: "start" }}>
-          <section className="card soft">
-            <h3>Filters</h3>
-            <div className="form" style={{ marginTop: "10px" }}>
-              <div className="field">
-                <label htmlFor="q">Search</label>
-                <input id="q" type="text" placeholder="Try: Beaver Creek, warehouse, Leek, office…" value={query} onChange={(e) => setQuery(e.target.value)} />
+        <div className="grid grid-2 listing-top-grid" style={{ alignItems: "start" }}>
+          <section className="card soft listing-filter-panel">
+            <div className="section-header" style={{ marginBottom: "12px" }}>
+              <div>
+                <div className="kicker">Search filters</div>
+                <h3 style={{ marginTop: "8px" }}>Narrow the shortlist</h3>
               </div>
+              <button className="btn btn-ghost btn-sm" type="button" onClick={resetFilters}>Reset</button>
+            </div>
+
+            <div className="form">
               <div className="field">
-                <label htmlFor="type">Type</label>
-                <select id="type" value={type} onChange={(e) => setType(e.target.value)}>
-                  {types.map((item) => <option key={item}>{item}</option>)}
-                </select>
+                <label htmlFor="listing-q">Search</label>
+                <input
+                  id="listing-q"
+                  type="text"
+                  placeholder="Try: industrial condo, Vaughan, warehouse, office..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                />
               </div>
+
               <div className="grid grid-2">
                 <div className="field">
-                  <label htmlFor="minsq">Min SF</label>
-                  <input id="minsq" type="number" placeholder="0" value={minSq} onChange={(e) => setMinSq(e.target.value)} />
+                  <label htmlFor="listing-city">City</label>
+                  <select id="listing-city" value={city} onChange={(e) => setCity(e.target.value)}>
+                    {cities.map((item) => <option key={item}>{item}</option>)}
+                  </select>
                 </div>
                 <div className="field">
-                  <label htmlFor="maxsq">Max SF</label>
-                  <input id="maxsq" type="number" placeholder="99999" value={maxSq} onChange={(e) => setMaxSq(e.target.value)} />
+                  <label htmlFor="listing-deal">Availability</label>
+                  <select id="listing-deal" value={dealType} onChange={(e) => setDealType(e.target.value)}>
+                    {dealTypes.map((item) => <option key={item}>{item}</option>)}
+                  </select>
                 </div>
               </div>
-              <div className="inline-callout">
-                <div>
-                  <div className="kicker">Need a shortcut?</div>
-                  <div><strong>Simple filters convert better.</strong> Type + size + location is enough for a strong demo browse experience.</div>
+
+              <div className="grid grid-2">
+                <div className="field">
+                  <label htmlFor="listing-asset">Asset class</label>
+                  <select id="listing-asset" value={assetClass} onChange={(e) => setAssetClass(e.target.value)}>
+                    {assetClasses.map((item) => <option key={item}>{item}</option>)}
+                  </select>
                 </div>
-                <Link className="btn btn-primary btn-sm" to="/tools#footfall">Open tools</Link>
+                <div className="field">
+                  <label htmlFor="listing-size">Size</label>
+                  <select id="listing-size" value={sizeBucket} onChange={(e) => setSizeBucket(e.target.value)}>
+                    {SIZE_BUCKETS.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
+                  </select>
+                </div>
               </div>
+            </div>
+
+            <div className="inline-callout" style={{ marginTop: "16px" }}>
+              <div>
+                <div className="kicker">Focused search</div>
+                <div><strong>{filtered.length}</strong> spaces matched • <strong>{formatNumber(totalSqft)}</strong> total SF currently in view.</div>
+              </div>
+              <Link className="btn btn-secondary btn-sm" to="/tools#footfall">Open tools</Link>
             </div>
           </section>
 
-          <section className="card soft">
-            <h3>Searchable map</h3>
-            <p className="tiny muted">Markers update based on the filters above.</p>
+          <section className="card soft listing-map-panel">
+            <div className="section-header" style={{ marginBottom: "12px" }}>
+              <div>
+                <div className="kicker">Map view</div>
+                <h3 style={{ marginTop: "8px" }}>Use the map to support the shortlist</h3>
+              </div>
+              <p className="tiny muted" style={{ marginBottom: 0 }}>Click or hover a card to focus the map.</p>
+            </div>
+
+            {selectedListing ? (
+              <div className="card soft listing-map-focus-card" style={{ marginBottom: "14px" }}>
+                <div className="badges">
+                  <span className="pill"><strong>{selectedListing.city}</strong></span>
+                  <span className="pill">{selectedListing.submarket}</span>
+                  <span className="pill">{selectedListing.leaseSale}</span>
+                </div>
+                <h3 style={{ marginTop: "10px" }}>{selectedListing.title}</h3>
+                <p className="muted">{selectedListing.address}</p>
+              </div>
+            ) : null}
+
             <div className="map-wrap">
-              <MapContainer className="map" center={[43.85, -79.37]} zoom={12} scrollWheelZoom={false}>
+              <MapContainer className="map" center={[43.746, -79.46]} zoom={10} scrollWheelZoom={false}>
                 <TileLayer attribution="&copy; OpenStreetMap contributors" url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 {filtered.map((listing) => (
-                  <Marker key={listing.id} position={[listing.lat, listing.lng]}>
+                  <Marker key={listing.id} position={[listing.lat, listing.lng]} eventHandlers={{ click: () => setSelectedId(listing.id) }}>
                     <Popup>
-                      <strong>{listing.type}</strong>
-                      <br />{listing.title}
+                      <strong>{listing.title}</strong>
+                      <br />{listing.city} • {listing.leaseSale}
                       <br /><Link to={`/listings/${listing.slug}`}>Open details</Link>
                     </Popup>
                   </Marker>
                 ))}
                 <FitBounds items={filtered} />
+                <FocusListingOnMap listing={selectedListing} />
               </MapContainer>
             </div>
           </section>
@@ -116,16 +239,29 @@ export default function PropertyListPage() {
           <div className="section-header">
             <div>
               <div className="kicker">Results</div>
-              <h2>{filtered.length ? `${filtered.length} spaces in view` : "No spaces match the current filters"}</h2>
+              <h2>{filtered.length ? `${filtered.length} properties in the current shortlist` : "No properties match the current filters"}</h2>
             </div>
-            <p>Each card focuses on the fit story first: what the space feels like, how it functions, and why the location matters.</p>
+            <p>
+              Review the shortlist by fit first: location logic, size, business use, and whether the space supports the way the company actually operates.
+            </p>
           </div>
 
           <div className="grid">
             {!filtered.length ? (
-              <div className="card soft"><p>No matches. Try broadening the size or search filters.</p></div>
+              <div className="card soft listing-empty-state">
+                <h3>Nothing matched this search.</h3>
+                <p className="muted">Try broadening the city, asset class, or size range to bring more options back into view.</p>
+                <button className="btn btn-secondary" type="button" onClick={resetFilters}>Reset filters</button>
+              </div>
             ) : (
-              filtered.map((listing) => <ListingCard key={listing.id} listing={listing} />)
+              filtered.map((listing) => (
+                <ListingCard
+                  key={listing.id}
+                  listing={listing}
+                  active={listing.id === selectedId}
+                  onSelect={() => setSelectedId(listing.id)}
+                />
+              ))
             )}
           </div>
         </section>
@@ -134,33 +270,20 @@ export default function PropertyListPage() {
           <div className="card glow">
             <div className="grid grid-2" style={{ alignItems: "center" }}>
               <div>
-                <div className="kicker">Lead capture</div>
-                <h2 style={{ margin: "8px 0 10px 0" }}>Want a shortlist tailored to the way your business actually works?</h2>
-                <p className="muted">Tell us the use, size, timing, and must-haves, then compare 3–5 stronger-fit options before urgency weakens the negotiation.</p>
+                <div className="kicker">Need a better shortlist?</div>
+                <h2 style={{ margin: "8px 0 10px 0" }}>Tell Megha the type of space, timing, and must-haves before the search gets noisy.</h2>
+                <p className="muted">A tighter shortlist makes tours more useful and negotiations stronger.</p>
                 <button className="btn btn-primary" type="button" onClick={openLeadMagnet}>Get the checklist</button>
               </div>
               <div className="card soft">
-                <h3>What the shortlist is built to test</h3>
+                <h3>What a strong shortlist usually compares</h3>
                 <div className="table-like">
-                  <div className="row"><b>Total occupancy cost</b><span>rent + ops + utilities</span></div>
-                  <div className="row"><b>Use clause + zoning fit</b><span>avoid operational risk</span></div>
-                  <div className="row"><b>Parking + access</b><span>staff + deliveries</span></div>
-                  <div className="row"><b>Flexibility</b><span>renew, sublease, expansion</span></div>
+                  <div className="row"><b>Total occupancy cost</b><span>Rent, operating costs, utilities, and setup</span></div>
+                  <div className="row"><b>Location fit</b><span>Client access, labour pool, supplier reach, and commute</span></div>
+                  <div className="row"><b>Function</b><span>Parking, loading, layout, visibility, and permitted use</span></div>
+                  <div className="row"><b>Flexibility</b><span>Renewal, expansion, and exit options</span></div>
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section tight">
-          <div className="card soft">
-            <div className="kicker">Snapshot</div>
-            <h3 style={{ marginTop: "8px" }}>{filtered.length} matching spaces • {filtered.reduce((sum, item) => sum + item.sqft, 0).toLocaleString()} total SF in view</h3>
-            <p className="muted">The current set includes office and warehouse examples around Richmond Hill / Beaver Creek to demonstrate the UX before a real feed is connected.</p>
-            <div className="badges">
-              {filtered.slice(0, 4).map((item) => (
-                <span className="pill" key={item.id}><strong>{item.type}</strong> {formatNumber(item.sqft)} SF</span>
-              ))}
             </div>
           </div>
         </section>

@@ -16,10 +16,15 @@ export default function PropertyDetailPage() {
     return LISTINGS.find((item) => item.id === id) || LISTINGS[0];
   }, [slug, searchParams]);
 
-  const related = useMemo(
-    () => LISTINGS.filter((item) => item.id !== listing.id).slice(0, 2),
-    [listing.id]
-  );
+  const related = useMemo(() => {
+    if (listing.related?.length) {
+      return listing.related
+        .map((id) => LISTINGS.find((item) => item.id === id))
+        .filter(Boolean)
+        .slice(0, 2);
+    }
+    return LISTINGS.filter((item) => item.id !== listing.id).slice(0, 2);
+  }, [listing]);
 
   const walkLink = useMemo(
     () => `https://www.walkscore.com/score/loc/lat%3D${encodeURIComponent(listing.lat)}/lng%3D${encodeURIComponent(listing.lng)}`,
@@ -40,65 +45,113 @@ export default function PropertyDetailPage() {
         <div className="grid grid-2 property-detail-grid">
           <div className="card glow">
             <div className="badges">
-              <span className="pill"><strong>{listing.type}</strong></span>
-              <span className="pill">{listing.neighbourhood}</span>
+              <span className="pill"><strong>{listing.leaseSale}</strong></span>
+              <span className="pill">{listing.assetClass}</span>
+              <span className="pill">{listing.submarket}</span>
               <span className="pill"><strong>{listing.sqft.toLocaleString()}</strong> SF</span>
-              <span className="pill">{listing.rate}</span>
               <span className="pill">{listing.status}</span>
             </div>
 
             <p className="muted" style={{ marginTop: "12px" }}>{listing.address}</p>
+
             <div className="listing-thumb property-hero-image"><img src={listing.img} alt={listing.title} /></div>
+
+            {listing.gallery?.length ? (
+              <div className="property-gallery-grid">
+                {listing.gallery.map((image, index) => (
+                  <div className="listing-thumb property-gallery-thumb" key={`${image}-${index}`}>
+                    <img src={image} alt={`${listing.title} view ${index + 1}`} />
+                  </div>
+                ))}
+              </div>
+            ) : null}
 
             <div className="hr"></div>
 
-            <h3>Why this space stands out</h3>
+            <h3>Property overview</h3>
             <p className="muted">{listing.vibe}</p>
 
-            <div className="table-like">
-              <div className="row"><b>Asset class</b><span>{listing.assetClass}</span></div>
-              <div className="row"><b>Square footage</b><span>{listing.sqft.toLocaleString()} SF</span></div>
-              <div className="row"><b>Ceiling height</b><span>{listing.ceilingHeight}</span></div>
-              <div className="row"><b>Parking</b><span>{listing.parking}</span></div>
-              <div className="row"><b>Ideal use</b><span>{listing.useCase}</span></div>
+            <div className="table-like property-specs-table" style={{ marginTop: "14px" }}>
+              {listing.specs.map(([label, value]) => (
+                <div className="row" key={label}><b>{label}</b><span>{value}</span></div>
+              ))}
             </div>
 
-            <h3 style={{ marginTop: "14px" }}>Location advantage</h3>
-            <p className="muted">{listing.locationAdvantage}</p>
+            <div className="grid grid-2 detail-support-grid" style={{ marginTop: "18px" }}>
+              <div className="card soft compact-card">
+                <div className="kicker">Location advantage</div>
+                <p className="muted">{listing.locationAdvantage}</p>
+              </div>
+              <div className="card soft compact-card">
+                <div className="kicker">Structure notes</div>
+                <p className="muted">{listing.leaseFlex}</p>
+              </div>
+            </div>
 
-            <h3 style={{ marginTop: "14px" }}>Lease / structure notes</h3>
-            <p className="muted">{listing.leaseFlex}</p>
+            <div className="grid grid-2 detail-support-grid" style={{ marginTop: "18px" }}>
+              <div className="card soft compact-card">
+                <div className="kicker">Ideal use</div>
+                <ul className="service-points">
+                  {listing.idealFor.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              </div>
+              <div className="card soft compact-card">
+                <div className="kicker">What to test on the shortlist</div>
+                <ul className="service-points">
+                  {listing.decisionPoints.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              </div>
+            </div>
 
             <div className="hero-actions">
               <button className="btn btn-primary" type="button" onClick={openLeadMagnet}>Get the checklist</button>
-              <Link className="btn btn-secondary" to="/tools#footfall">Run footfall</Link>
+              <Link className="btn btn-secondary" to="/listings">Back to listings</Link>
               <a className="btn btn-ghost" href={walkLink} target="_blank" rel="noreferrer">Open Walk Score</a>
             </div>
           </div>
 
-          <LeadForm
-            title="Request details or a tour"
-            intro="This reusable form now handles listing-specific inquiries with cleaner saved context than the earlier page-specific logic."
-            storageKey="MM_tour_requests"
-            source="listing-detail"
-            context={`${listing.title} — ${listing.address}`}
-            submitLabel="Request details"
-            interestLabel="What do you want help with?"
-            interestOptions={["Tour this property", "Compare alternatives", "Lease terms / fit", "Owner-user evaluation"]}
-            includeLocation={false}
-            timelineLabel="How soon do you need to move?"
-            timelineOptions={["Immediately", "0–3 months", "3–6 months", "6+ months"]}
-            messagePlaceholder="Share anything useful: team size, shipping / parking needs, budget range, or what makes this property interesting to you."
-          />
+          <div className="property-detail-right-rail">
+            <LeadForm
+              title="Request details or a tour"
+              intro="Share what matters most and Megha can help you evaluate this property against the rest of your shortlist."
+              storageKey="MM_tour_requests"
+              source="listing-detail"
+              context={`${listing.title} — ${listing.inquiryContext}`}
+              submitLabel="Request details"
+              interestLabel="What do you want help with?"
+              interestOptions={[
+                "Tour this property",
+                "Compare alternatives",
+                "Review lease / price structure",
+                "Owner-user evaluation",
+              ]}
+              includeLocation={false}
+              timelineLabel="How soon do you need to move?"
+              timelineOptions={["Immediately", "0–3 months", "3–6 months", "6+ months"]}
+              messagePlaceholder="Share team size, layout needs, loading or parking requirements, budget range, or what makes this property interesting to you."
+              note="A clear brief makes tours and negotiations more productive."
+            />
+
+            <div className="card soft">
+              <div className="kicker">Key details</div>
+              <div className="table-like" style={{ marginTop: "12px" }}>
+                <div className="row"><b>Rate / price</b><span>{listing.rate}</span></div>
+                <div className="row"><b>Parking</b><span>{listing.parking}</span></div>
+                <div className="row"><b>Loading</b><span>{listing.loading}</span></div>
+                <div className="row"><b>Zoning</b><span>{listing.zoning}</span></div>
+                <div className="row"><b>Power</b><span>{listing.power}</span></div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <section className="section tight">
           <div className="inline-callout">
             <div>
-              <div className="kicker">Next best action</div>
-              <div><strong>Compare options before you negotiate.</strong> Better terms usually come when 2–3 viable alternatives are already in play.</div>
+              <div className="kicker">Best next move</div>
+              <div><strong>Do not judge this property in isolation.</strong> Compare it against at least two real alternatives before you negotiate.</div>
             </div>
-            <Link className="btn btn-secondary" to="/listings">Back to listings</Link>
+            <Link className="btn btn-secondary" to="/listings">See comparable options</Link>
           </div>
         </section>
 
@@ -106,9 +159,9 @@ export default function PropertyDetailPage() {
           <div className="section-header">
             <div>
               <div className="kicker">Related options</div>
-              <h2>Compare this against a couple of nearby alternatives.</h2>
+              <h2>Use these as comparison points before deciding.</h2>
             </div>
-            <p>This reinforces the shortlist-first sales flow instead of treating one listing page like the only decision surface.</p>
+            <p>Good commercial decisions usually get better when there is a real shortlist behind them.</p>
           </div>
           <div className="grid">
             {related.map((item) => <ListingCard key={item.id} listing={item} />)}

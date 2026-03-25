@@ -1188,3 +1188,69 @@ canvas{
   }
   .header-contact-btn{ display:none; }
 }
+
+/* =========================
+   BATCH 4 EXTENSIONS
+   ========================= */
+.listing-top-grid{
+  align-items:start;
+}
+.listing-filter-panel,
+.listing-map-panel,
+.property-detail-right-rail{
+  display:grid;
+  gap:16px;
+}
+.listing-map-focus-card h3,
+.listing-empty-state h3{
+  margin:10px 0 6px 0;
+}
+.listing-card-active{
+  border-color:rgba(91,124,255,.24);
+  box-shadow:0 24px 60px rgba(91,124,255,.12);
+}
+.listing-card-table .row{
+  padding:9px 12px;
+}
+.listing-empty-state{
+  text-align:center;
+  justify-items:center;
+  gap:10px;
+}
+.property-gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin:0 0 16px 0;
+}
+.property-gallery-thumb{
+  min-height:120px;
+}
+.property-specs-table .row{
+  align-items:flex-start;
+}
+.detail-support-grid{
+  align-items:start;
+}
+.property-detail-right-rail{
+  position:sticky;
+  top:118px;
+}
+.contact-method-link.static{
+  line-height:1.45;
+}
+@media (max-width: 1100px){
+  .property-detail-right-rail{
+    position:static;
+  }
+}
+@media (max-width: 900px){
+  .property-gallery-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+@media (max-width: 720px){
+  .property-gallery-grid{
+    grid-template-columns:1fr;
+  }
+}
