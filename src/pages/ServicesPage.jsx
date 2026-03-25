@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import CTASection from "../components/CTASection";
 import { SITE } from "../config/site";
 
@@ -147,6 +148,21 @@ export default function ServicesPage() {
                   <p className="muted">{body}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section tight">
+        <div className="container">
+          <div className="inline-callout">
+            <div>
+              <div className="kicker">Useful next steps</div>
+              <div><strong>Need to compare cost, shortlist quality, or submarkets before deciding?</strong></div>
+            </div>
+            <div className="footer-actions">
+              <Link className="btn btn-primary" to="/tools">Open tools</Link>
+              <Link className="btn btn-secondary" to="/guides">Read guides</Link>
             </div>
           </div>
         </div>

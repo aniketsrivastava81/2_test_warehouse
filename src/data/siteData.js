@@ -352,58 +352,178 @@ export const LISTINGS = [
 export const BLOG_POSTS = [
   {
     slug: "richmond-hill-spotlight",
-    title: "Neighbourhood Spotlight: Why Richmond Hill Works for Commercial Users",
+    title: "Why Richmond Hill Keeps Showing Up on GTA Commercial Shortlists",
     tag: "Neighbourhood Guide",
-    date: "2026-02-24",
+    date: "2026-03-04",
+    readTime: "4 min read",
     excerpt:
-      "A practical look at Beaver Creek, commuter convenience, and why Richmond Hill keeps showing up on shortlists for office and industrial users.",
+      "Richmond Hill works for businesses that want a polished client-facing image, north-GTA access, and a location that feels easy for staff and visitors to use.",
+    relatedListings: ["richmond-hill-turnkey-office", "beaver-creek-modern-warehouse"],
     contentHtml: `
-      <p>Richmond Hill works well for businesses that want north-GTA access without losing a polished client-facing image. Beaver Creek Business Park anchors the area with a strong office and industrial ecosystem, while the surrounding neighbourhood still feels easy to navigate for teams and visitors.</p>
-      <p>It is the kind of submarket that often appeals to companies comparing Vaughan, Markham, and Richmond Hill side by side. Access matters, but so do lunch options, staff convenience, and the overall “feel” of the location when clients come by.</p>
-      <p>For owner-users and tenants alike, Richmond Hill can be a strong middle ground: connected enough for serious business use, but calmer and easier to manage than the core.</p>
-      <p class="muted tiny">Tip: Use the footfall and lease-vs-buy tools to compare submarkets before you lock into a single corridor.</p>
+      <p>Richmond Hill is one of the easiest north-GTA submarkets to underestimate. On paper, it can look less obvious than Vaughan or central Markham. In practice, it often ends up making shortlists because it balances access, image, and day-to-day convenience better than people expect.</p>
+      <p>Beaver Creek Business Park is the strongest example. It gives businesses a credible office-and-industrial setting, practical highway access, and a location that feels easy to explain to clients, suppliers, and staff. For teams that care about parking, travel time, and a polished first impression, that matters.</p>
+      <p>Richmond Hill also works well for businesses that do not need downtown visibility but still want a professional environment. Professional services firms, healthcare-adjacent users, training operations, and light industrial occupiers often like the balance of image and function here.</p>
+      <div class="table-like">
+        <div class="row"><b>Best fit</b><span>Professional office, flex users, showroom-adjacent operators, and north-GTA service teams.</span></div>
+        <div class="row"><b>Main strength</b><span>Easy access, easier parking, and a more polished experience for staff and visitors.</span></div>
+        <div class="row"><b>What to compare</b><span>Travel times, parking, frontage, and occupancy cost versus Vaughan and Markham options.</span></div>
+      </div>
+      <p class="muted tiny">Next step: run the submarket and occupancy tools, then compare Richmond Hill options against Vaughan and Mississauga before you negotiate.</p>
     `,
   },
   {
     slug: "lease-renewal-vs-relocation",
-    title: "Lease Renewal vs. Relocation: 5 Questions to Answer Before You Commit",
+    title: "Lease Renewal vs. Relocation: The 5 Questions to Answer Before You Commit",
     tag: "Lease Strategy",
-    date: "2026-02-24",
-    excerpt: "If your lease expires within the next 6 months, your leverage is time. These five questions help you use it properly.",
+    date: "2026-03-08",
+    readTime: "5 min read",
+    excerpt: "If your lease expires within the next 6 to 12 months, your leverage is time. These five questions help you use it before urgency takes over.",
+    relatedListings: ["beaver-creek-modern-warehouse", "vaughan-steeles-showroom-flex"],
     contentHtml: `
-      <p>Most tenants wait too long, then negotiate from urgency instead of options. If your lease expiry is within the next 6 months, now is the time to compare renewal and relocation side by side.</p>
+      <p>The biggest lease mistake most businesses make is waiting too long. Once the clock starts working against you, even good options can feel expensive because the decision is being driven by urgency instead of leverage.</p>
+      <p>The better approach is to answer five questions before the landlord anchors the conversation:</p>
       <div class="table-like">
-        <div class="row"><b>1) What is not working today?</b><span>Layout, access, image, parking, commute, or cost structure.</span></div>
-        <div class="row"><b>2) What must stay the same?</b><span>Client area, supplier reach, labour access, or corridor preference.</span></div>
-        <div class="row"><b>3) What is the real budget?</b><span>Rent, operating costs, buildout, moving costs, and downtime.</span></div>
-        <div class="row"><b>4) What is the timeline?</b><span>Notice periods, fit-out, permitting, IT, and furniture moves.</span></div>
-        <div class="row"><b>5) What is your walk-away number?</b><span>Define it before the landlord anchors the conversation.</span></div>
+        <div class="row"><b>1. What is not working today?</b><span>Layout, parking, loading, visibility, image, commute, or cost structure.</span></div>
+        <div class="row"><b>2. What must stay the same?</b><span>Corridor, staffing access, supplier reach, customer flow, or service area.</span></div>
+        <div class="row"><b>3. What is the real occupancy budget?</b><span>Base rent, additional rent, utilities, buildout, moving cost, and downtime.</span></div>
+        <div class="row"><b>4. What is the timeline?</b><span>Notice periods, construction, signage, IT, furniture, and move coordination.</span></div>
+        <div class="row"><b>5. What is the walk-away point?</b><span>Know it before negotiation starts, not after.</span></div>
       </div>
-      <p class="muted">The strongest negotiations usually happen when two or three viable alternatives already exist.</p>
+      <p>Once those answers are clear, renewal becomes one option instead of the only option. That changes the tone of the negotiation immediately.</p>
+      <p class="muted tiny">Next step: use the lease-vs-buy and CAM tools, then compare at least two real alternatives before agreeing to a renewal structure.</p>
     `,
   },
   {
     slug: "industrial-condo-buyer-checklist",
     title: "Industrial Condo Buyer Checklist for First-Time Owner-Users",
     tag: "Buyer Guide",
-    date: "2026-02-28",
-    excerpt: "What to compare before buying an industrial condo in the GTA — beyond the brochure and photos.",
+    date: "2026-03-12",
+    readTime: "4 min read",
+    excerpt: "Before you buy an industrial condo in the GTA, compare more than square footage and price. The practical details usually decide whether the unit will still work two years from now.",
+    relatedListings: ["mississauga-general-road-industrial", "brampton-steeles-flex-24"],
     contentHtml: `
-      <p>Industrial condos can look very similar online, but the practical differences show up in truck flow, parking, condo rules, permitted uses, office ratio, and future expansion flexibility.</p>
-      <p>Before you commit, compare condo fees, loading, power, signage rights, and how well the unit actually supports your next 2 to 5 years of growth. A good shortlist removes surprises before the offer stage, not after.</p>
-      <p class="muted">If you are comparing buy versus lease, start with occupancy cost and control — not just sticker price.</p>
+      <p>Industrial condos can look interchangeable online. The real differences show up when you compare loading, parking, office ratio, signage rights, condo rules, and how the unit will support the business once operations are actually running.</p>
+      <p>Before committing, review the following side by side:</p>
+      <ul>
+        <li>Truck access, loading door convenience, and turning efficiency.</li>
+        <li>Parking count and whether it works for both staff and clients.</li>
+        <li>Office-to-warehouse ratio and whether it matches the next 2 to 5 years of use.</li>
+        <li>Condo fees, signage limitations, and any operational rules that reduce flexibility.</li>
+        <li>Power, permitted use, and whether the location actually improves the business.</li>
+      </ul>
+      <p>A good owner-user purchase should solve today’s need without boxing the business in too early. That usually means comparing at least one purchase and one lease path before deciding.</p>
+      <p class="muted tiny">Next step: run the lease-vs-buy tool, then compare monthly occupancy cost against the control and branding upside of ownership.</p>
     `,
   },
   {
     slug: "retail-plaza-fit-check",
     title: "Retail Plaza Fit Check: What to Review Before You Sign",
     tag: "Retail Leasing",
-    date: "2026-03-03",
-    excerpt: "A short checklist for retail, medical, and service users comparing plazas, frontage, parking, and neighbour quality.",
+    date: "2026-03-15",
+    readTime: "4 min read",
+    excerpt: "Retail, medical, and service users should compare more than rent. Frontage, parking, co-tenancy, and discovery usually drive the real outcome.",
+    relatedListings: ["vaughan-steeles-showroom-flex"],
     contentHtml: `
-      <p>Retail plaza decisions are rarely just about the rent. Visibility, signage, parking convenience, neighbouring tenants, and ease of access often matter just as much as the lease economics.</p>
-      <p>For service businesses, the best plaza is usually the one that makes the first visit feel effortless. Look at turning access, parking speed, anchor relevance, and whether the surrounding mix supports repeat visits.</p>
-      <p class="muted">A unit can look good on paper and still underperform if discovery and convenience are weak.</p>
+      <p>A retail plaza can look strong on paper and still underperform in real life. The difference is usually not the square footage. It is whether the space feels easy to find, easy to park at, and easy to use.</p>
+      <p>When reviewing a retail or service location, pay attention to:</p>
+      <div class="table-like">
+        <div class="row"><b>Visibility</b><span>Can a first-time visitor understand where the unit is within seconds?</span></div>
+        <div class="row"><b>Parking speed</b><span>Can clients arrive, park, and get inside without friction?</span></div>
+        <div class="row"><b>Co-tenancy</b><span>Do neighbouring tenants strengthen your traffic or dilute it?</span></div>
+        <div class="row"><b>Access</b><span>Is the turn-in easy from the road and does signage help?</span></div>
+        <div class="row"><b>Neighbourhood fit</b><span>Does the surrounding mix support repeat visits and referrals?</span></div>
+      </div>
+      <p>For service businesses, convenience is often the product before the service is even delivered.</p>
+      <p class="muted tiny">Next step: use the footfall and submarket tools, then compare plaza fit, parking, and access before you look at fixturing details.</p>
+    `,
+  },
+  {
+    slug: "warehouse-space-shortlist",
+    title: "How to Shortlist Warehouse Space Without Wasting Tours",
+    tag: "Industrial Leasing",
+    date: "2026-03-18",
+    readTime: "5 min read",
+    excerpt: "A warehouse search gets easier once the shortlist is based on function, not just map pins and asking rates.",
+    relatedListings: ["beaver-creek-modern-warehouse", "brampton-steeles-flex-24"],
+    contentHtml: `
+      <p>The wrong warehouse tour costs more than time. It slows the whole search and makes real options harder to compare because the shortlist was never clean to begin with.</p>
+      <p>Start by ranking the factors that actually affect operations:</p>
+      <ul>
+        <li>Clear height and usable cubic volume.</li>
+        <li>Loading door count, truck maneuvering, and shipping flow.</li>
+        <li>Office ratio and whether the front-of-house space is enough.</li>
+        <li>Parking, labour access, and supplier route convenience.</li>
+        <li>Permitted use, power, and whether the space can scale with the business.</li>
+      </ul>
+      <p>Once those filters are fixed, the search becomes smaller and better. That is what usually improves both negotiation and final fit.</p>
+      <p class="muted tiny">Next step: compare three spaces max, then review true occupancy cost and workflow fit before you book more tours.</p>
     `,
   },
 ];
+
+export const TOOL_SECTIONS = [
+  {
+    title: "Lease vs buy",
+    body: "Compare monthly occupancy cost, down payment, and long-term control before choosing the ownership path.",
+    href: "#lease-vs-buy",
+  },
+  {
+    title: "Cap rate / ROI",
+    body: "Stress-test income, operating expenses, and acquisition pricing for investor-style commercial decisions.",
+    href: "#cap-rate",
+  },
+  {
+    title: "CAM / TMI budget",
+    body: "Estimate additional rent and common-area charges so the quote reflects real occupancy cost, not just base rent.",
+    href: "#cam-budget",
+  },
+  {
+    title: "Footfall + access",
+    body: "Score visibility, convenience, and commuter pull for customer-facing or service-based locations.",
+    href: "#footfall-access",
+  },
+  {
+    title: "Submarket comparison",
+    body: "Compare GTA submarkets side by side before you commit too early to one corridor.",
+    href: "#submarket-comparison",
+  },
+];
+
+export const SUBMARKET_SNAPSHOTS = [
+  {
+    name: "Richmond Hill / Beaver Creek",
+    bestFor: "Professional office, flex, and north-GTA warehouse users",
+    strengths: ["Parking convenience", "Client-friendly environment", "North-GTA access"],
+    watchouts: ["Can feel quieter than Vaughan for visibility-driven uses", "Need to compare true commute patterns by team"],
+  },
+  {
+    name: "Vaughan / Concord",
+    bestFor: "Showroom-flex, industrial, and larger customer-facing operators",
+    strengths: ["Highway access", "Established business identity", "Good visibility opportunities"],
+    watchouts: ["Traffic patterns matter", "Some corridors need careful signage and parking review"],
+  },
+  {
+    name: "Mississauga / Airport",
+    bestFor: "Owner-users, logistics, service businesses, and airport-linked operators",
+    strengths: ["Regional highway access", "Pearson proximity", "Proven industrial base"],
+    watchouts: ["Occupancy cost discipline matters", "Location fit varies heavily by exact corridor"],
+  },
+  {
+    name: "Brampton / Steeles East",
+    bestFor: "Flex-industrial, trade supply, and small distributor users",
+    strengths: ["Practical frontage", "Industrial utility", "Good east-west access"],
+    watchouts: ["Need to verify loading and turning efficiency", "Showroom fit varies by building"],
+  },
+];
+
+export function getListingBySlug(slug) {
+  return LISTINGS.find((item) => item.slug === slug);
+}
+
+export function getRelatedListings(slugs = []) {
+  return LISTINGS.filter((item) => slugs.includes(item.id) || slugs.includes(item.slug));
+}
+
+export function getPostBySlug(slug) {
+  return BLOG_POSTS.find((item) => item.slug === slug);
+}

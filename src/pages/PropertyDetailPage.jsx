@@ -151,7 +151,10 @@ export default function PropertyDetailPage() {
               <div className="kicker">Best next move</div>
               <div><strong>Do not judge this property in isolation.</strong> Compare it against at least two real alternatives before you negotiate.</div>
             </div>
-            <Link className="btn btn-secondary" to="/listings">See comparable options</Link>
+            <div className="footer-actions">
+              <Link className="btn btn-secondary" to="/listings">See comparable options</Link>
+              <Link className="btn btn-ghost" to="/tools">Compare with tools</Link>
+            </div>
           </div>
         </section>
 
@@ -161,7 +164,7 @@ export default function PropertyDetailPage() {
               <div className="kicker">Related options</div>
               <h2>Use these as comparison points before deciding.</h2>
             </div>
-            <p>Good commercial decisions usually get better when there is a real shortlist behind them.</p>
+            <p>Good commercial decisions usually get better when there is a real shortlist behind them. Use the tools and guides if you need more clarity before the next tour or offer.</p>
           </div>
           <div className="grid">
             {related.map((item) => <ListingCard key={item.id} listing={item} />)}

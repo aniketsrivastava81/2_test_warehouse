@@ -191,7 +191,10 @@ export default function PropertyListPage() {
                 <div className="kicker">Focused search</div>
                 <div><strong>{filtered.length}</strong> spaces matched • <strong>{formatNumber(totalSqft)}</strong> total SF currently in view.</div>
               </div>
-              <Link className="btn btn-secondary btn-sm" to="/tools#footfall">Open tools</Link>
+              <div className="footer-actions">
+                <Link className="btn btn-secondary btn-sm" to="/tools">Open tools</Link>
+                <Link className="btn btn-ghost btn-sm" to="/guides">Read guides</Link>
+              </div>
             </div>
           </section>
 
@@ -273,7 +276,10 @@ export default function PropertyListPage() {
                 <div className="kicker">Need a better shortlist?</div>
                 <h2 style={{ margin: "8px 0 10px 0" }}>Tell Megha the type of space, timing, and must-haves before the search gets noisy.</h2>
                 <p className="muted">A tighter shortlist makes tours more useful and negotiations stronger.</p>
+                <div className="footer-actions">
                 <button className="btn btn-primary" type="button" onClick={openLeadMagnet}>Get the checklist</button>
+                <Link className="btn btn-secondary" to="/guides/lease-renewal-vs-relocation">Read lease guide</Link>
+              </div>
               </div>
               <div className="card soft">
                 <h3>What a strong shortlist usually compares</h3>
