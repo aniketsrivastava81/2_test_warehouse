@@ -8,6 +8,7 @@ import MobileStickyCTA from "./MobileStickyCTA";
 export default function Layout() {
   return (
     <div className="app-shell">
+      <a className="skip-link" href="#main">Skip to content</a>
       <Header />
       <main id="main" className="site-main">
         <Outlet />

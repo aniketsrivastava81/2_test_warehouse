@@ -1,22 +1,30 @@
 export const SITE = {
-  name: "Megha Mehta Commercial Real Estate",
-  shortName: "Megha Mehta",
+  brandName: "Megha Mehta",
+  shortBrand: "MM",
+  titleSuffix: "GTA Commercial Real Estate",
+  tagline: "Commercial leasing, industrial space, and growth-focused advisory across the Greater Toronto Area.",
+  primaryPhone: "+1 (416) 555-1234",
+  primaryPhoneHref: "tel:+14165551234",
+  primaryEmail: "megha@yourbrokerage.ca",
+  primaryEmailHref: "mailto:megha@yourbrokerage.ca",
   productionUrl: "https://meghamehta.ca",
-  tagline: "Commercial real estate advisory across the Greater Toronto Area",
-  primaryCtaLabel: "Get the checklist",
-  consultationCtaLabel: "Book a consultation",
-  contact: {
-    phoneDisplay: "+1 (416) 555-1234",
-    phoneHref: "tel:+14165551234",
-    email: "megha@yourbrokerage.ca",
-    emailHref: "mailto:megha@yourbrokerage.ca",
-  },
-  brokerage: {
-    name: "Your Brokerage",
-    descriptor: "Commercial leasing • Greater Toronto Area",
-  },
-  serviceAreas: ["Toronto", "Vaughan", "Richmond Hill", "Markham", "Mississauga", "Brampton"],
-  assetClasses: ["Industrial condos", "Warehouses", "Office", "Retail plazas", "Development land"],
+  brokerage: "Commercial Leasing Advisory • Greater Toronto Area",
+  leadMagnetTitle: "Lease Renewal vs. Relocation Checklist",
+  serviceAreas: [
+    "Toronto",
+    "Vaughan",
+    "Mississauga",
+    "Brampton",
+    "Markham",
+    "North York",
+    "Richmond Hill",
+  ],
+  assetClasses: ["Industrial Condos", "Warehouses", "Retail Plazas", "Development Land"],
+  proofPoints: [
+    "Relationship-first commercial guidance",
+    "Shortlists built around real fit",
+    "Clear process for lease, renewal, and relocation",
+  ],
 };
 
 export const PRIMARY_NAV = [

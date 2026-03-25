@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import BlogCard from "../components/BlogCard";
 import { BLOG_POSTS } from "../data/siteData";
 
 export default function BlogPage() {
@@ -9,33 +10,26 @@ export default function BlogPage() {
         <div className="section-header">
           <div>
             <div className="kicker">Guides</div>
-            <h1 style={{ marginTop: "8px" }}>Neighbourhood guides and leasing strategy content</h1>
+            <h1 style={{ marginTop: "8px" }}>Neighbourhood guides, lease strategy, and commercial decision support.</h1>
           </div>
-          <p>
-            Batch 1 turns the old stacked blog layout into a cleaner guides index with shareable
-            individual routes.
-          </p>
+          <p>Instead of dumping full articles on one page, this guide index makes the site feel closer to a real authority platform.</p>
         </div>
 
-        <div className="grid grid-2">
-          {BLOG_POSTS.map((post) => (
-            <article className="card soft" key={post.slug}>
-              <div className="badges" style={{ marginBottom: "10px" }}>
-                <span className="pill"><strong>{post.tag}</strong></span>
-                <span className="pill">{post.date}</span>
-              </div>
-              <h2 style={{ margin: "0 0 10px 0" }}>{post.title}</h2>
-              <p className="muted">{post.excerpt}</p>
-              <div className="footer-actions" style={{ marginTop: "16px" }}>
-                <Link className="btn btn-primary btn-sm" to={`/guides/${post.slug}`}>
-                  Read guide
-                </Link>
-                <Link className="btn btn-ghost btn-sm" to="/listings">
-                  Browse listings
-                </Link>
-              </div>
-            </article>
-          ))}
+        <div className="grid grid-3">
+          {BLOG_POSTS.map((post) => <BlogCard key={post.slug} post={post} />)}
+        </div>
+
+        <div className="section tight">
+          <div className="inline-callout">
+            <div>
+              <div className="kicker">Next step</div>
+              <div><strong>Use the guides to build confidence, then move into listings or tools.</strong></div>
+            </div>
+            <div className="footer-actions">
+              <Link className="btn btn-primary" to="/listings">Browse listings</Link>
+              <Link className="btn btn-secondary" to="/tools">Open tools</Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -9,32 +9,24 @@ export default function ListingCard({ listing }) {
   return (
     <article className="listing-card">
       <div className="listing-thumb">
-        <img src={listing.img} alt={`${listing.type} listing`} />
+        <img src={listing.img} alt={`${listing.title}`} />
       </div>
       <div>
         <div className="badges">
-          <span className="pill">
-            <strong>{listing.type}</strong>
-          </span>
-          <span className="pill">{listing.neighbourhood}</span>
-          <span className="pill">
-            <strong>{formatNumber(listing.sqft)}</strong> SF
-          </span>
+          <span className="pill"><strong>{listing.type}</strong></span>
+          <span className="pill">{listing.city}</span>
+          <span className="pill"><strong>{formatNumber(listing.sqft)}</strong> SF</span>
           <span className="pill">{listing.rate}</span>
         </div>
         <h3 style={{ marginTop: "10px" }}>{listing.title}</h3>
-        <p className="muted" style={{ marginTop: "6px" }}>
-          {listing.vibe}
-        </p>
+        <p className="muted" style={{ marginTop: "6px" }}>{listing.heroSummary || listing.vibe}</p>
         <div className="listing-meta">
           {listing.highlights.map((item) => (
-            <span className="pill" key={item}>
-              {item}
-            </span>
+            <span className="pill" key={item}>{item}</span>
           ))}
         </div>
         <div className="hero-actions" style={{ marginTop: "12px" }}>
-          <Link className="btn btn-primary btn-sm" to={`/listings/${encodeURIComponent(listing.id)}`}>
+          <Link className="btn btn-primary btn-sm" to={`/listings/${listing.slug}`}>
             View details
           </Link>
           <Link className="btn btn-ghost btn-sm" to="/tools#footfall">

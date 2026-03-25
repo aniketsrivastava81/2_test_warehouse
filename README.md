@@ -1,27 +1,31 @@
 # Megha Mehta React Migration
 
-This repo currently contains **two parallel systems**:
+This is a Vite + React commercial real-estate demo project prepared for Vercel deployment.
 
-1. **The live React + Vite marketing site**
-2. **Older / secondary warehouse-game and legacy HTML files**
-
-## Live files you should edit first
+## Live app structure
+These are the main website files that should be treated as the live marketing app:
 - `src/main.jsx`
 - `src/App.jsx`
 - `src/components/Layout.jsx`
 - `src/components/Header.jsx`
 - `src/components/Footer.jsx`
 - `src/components/LeadMagnetModal.jsx`
-- `src/pages/*` used by `src/App.jsx`
+- `src/components/MobileStickyCTA.jsx`
+- `src/pages/HomePage.jsx`
+- `src/pages/ServicesPage.jsx`
+- `src/pages/AboutPage.jsx`
+- `src/pages/ContactPage.jsx`
+- `src/pages/PropertyListPage.jsx`
+- `src/pages/PropertyDetailPage.jsx`
+- `src/pages/ToolsPage.jsx`
+- `src/pages/BlogPage.jsx`
+- `src/pages/BlogPostPage.jsx`
+- `src/pages/WarehousePage.jsx`
 - `src/data/siteData.js`
 - `src/config/site.js`
-- `src/styles/base.css`
-- `src/styles/landing.css`
-- `src/styles/app.css`
-- `src/styles/react-addons.css`
 
 ## Legacy / secondary files
-These are **not** the main website entry path and should not be used as the default place for marketing-site edits:
+These are present for reference or older experiments and should not be treated as the main website unless intentionally revived later:
 - `src/main.js`
 - `src/core/*`
 - `src/game/*`
@@ -29,37 +33,24 @@ These are **not** the main website entry path and should not be used as the defa
 - `src/input/*`
 - `src/fx/*`
 - `src/ui/*`
+- `src/lib/*`
 - `src/legacy/*`
 - `index_old.html`
 - `dist/*`
-- `src/lib/siteData.js`
-- `src/lib/siteUtils.js`
-- `src/pages/ListingsPage.jsx`
-- `src/pages/GuidesPage.jsx`
-- `src/pages/ListingType2Page.jsx`
 
-## Current live routes
+## Included routes
 - `/` — homepage
-- `/services` — services page
+- `/services` — services
+- `/about` — advisor-style about page
+- `/contact` — contact + lead form
 - `/listings` — searchable listings + map
-- `/listings/:slug` — property detail page
-- `/tools` — tools page
-- `/guides` — guides index
-- `/guides/:slug` — individual guide route
-- `/about` — advisor profile page
-- `/contact` — contact / lead capture page
-- `/warehouse` — secondary warehouse + 3D pallet game route
+- `/listings/:slug` — listing detail page
+- `/tools` — commercial tools page
+- `/guides` — blog/guides index
+- `/guides/:slug` — guide detail page
+- `/warehouse` — warehouse + 3D pallet game page
 
-Legacy routes such as `/blog`, `/property-list`, and `/property-details?id=...` are redirected temporarily.
-
-## CSS source-of-truth note
-The live app imports:
-- `src/styles/base.css`
-- `src/styles/landing.css`
-- `src/styles/app.css`
-- `src/styles/react-addons.css`
-
-`src/styles/globals.css` currently exists as an archival/duplicate stylesheet and is **not** part of the live import chain.
+Legacy redirects remain in place for older paths like `/blog`, `/property-list`, and `/property-details`.
 
 ## Run locally
 ```bash
@@ -67,8 +58,11 @@ npm install
 npm run dev
 ```
 
+## Deployment note
+`vercel.json` includes a rewrite to `index.html` so React Router routes work correctly on Vercel.
+
 ## Notes
-- The warehouse page is preserved as the approved one-file 3D page and loaded through a React route in an iframe so its camera/game behavior stays intact.
-- Lead capture, hero shortlist request, and tour request forms currently store demo data in `localStorage`.
-- Listings and guide content live in `src/data/siteData.js`.
-- Site-level brand/contact values now live in `src/config/site.js`.
+- Lead capture, shortlist requests, and tour/contact requests store demo data in `localStorage`.
+- Listings and guides content live in `src/data/siteData.js`.
+- The warehouse page remains isolated as a secondary demo experience.
+- No `package-lock.json` is included in this folder.
