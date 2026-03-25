@@ -72,11 +72,16 @@ export default function Footer() {
 
           <div>
             <h3>Contact</h3>
-            <ul className="footer-links">
-              <li><a href={SITE.primaryPhoneHref}>{SITE.primaryPhone}</a></li>
-              <li><a href={SITE.primaryEmailHref}>{SITE.primaryEmail}</a></li>
-              <li>{SITE.serviceAreas.join(", ")}</li>
+            <ul className="footer-links footer-contact-list">
+              <li><span>Call:</span> <a href={SITE.primaryPhoneHref}>{SITE.primaryPhone}</a></li>
+              <li><span>Email:</span> <a href={SITE.primaryEmailHref}>{SITE.primaryEmail}</a></li>
+              <li><span>Coverage:</span> {SITE.serviceAreas.join(", ")}</li>
             </ul>
+
+            <div className="footer-actions footer-contact-actions">
+              <NavLink className="btn btn-secondary btn-sm" to="/contact">Book consult</NavLink>
+              <button className="btn btn-ghost btn-sm" type="button" onClick={openLeadMagnet}>Get checklist</button>
+            </div>
 
             <div className="hr"></div>
 

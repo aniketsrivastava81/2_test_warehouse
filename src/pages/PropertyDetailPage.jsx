@@ -21,7 +21,10 @@ export default function PropertyDetailPage() {
     [listing.id]
   );
 
-  const walkLink = useMemo(() => `https://www.walkscore.com/score/loc/lat%3D${encodeURIComponent(listing.lat)}/lng%3D${encodeURIComponent(listing.lng)}`, [listing]);
+  const walkLink = useMemo(
+    () => `https://www.walkscore.com/score/loc/lat%3D${encodeURIComponent(listing.lat)}/lng%3D${encodeURIComponent(listing.lng)}`,
+    [listing]
+  );
 
   return (
     <section className="section">
@@ -34,7 +37,7 @@ export default function PropertyDetailPage() {
           <p>{listing.heroSummary}</p>
         </div>
 
-        <div className="grid grid-2">
+        <div className="grid grid-2 property-detail-grid">
           <div className="card glow">
             <div className="badges">
               <span className="pill"><strong>{listing.type}</strong></span>
@@ -75,9 +78,17 @@ export default function PropertyDetailPage() {
 
           <LeadForm
             title="Request details or a tour"
+            intro="This reusable form now handles listing-specific inquiries with cleaner saved context than the earlier page-specific logic."
             storageKey="MM_tour_requests"
             source="listing-detail"
             context={`${listing.title} — ${listing.address}`}
+            submitLabel="Request details"
+            interestLabel="What do you want help with?"
+            interestOptions={["Tour this property", "Compare alternatives", "Lease terms / fit", "Owner-user evaluation"]}
+            includeLocation={false}
+            timelineLabel="How soon do you need to move?"
+            timelineOptions={["Immediately", "0–3 months", "3–6 months", "6+ months"]}
+            messagePlaceholder="Share anything useful: team size, shipping / parking needs, budget range, or what makes this property interesting to you."
           />
         </div>
 

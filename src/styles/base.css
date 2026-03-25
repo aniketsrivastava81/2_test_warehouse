@@ -1078,3 +1078,113 @@ canvas{
   .mobile-sticky-cta{ display:grid; }
   .site-footer{ padding-bottom:96px; }
 }
+
+/* =========================
+   BATCH 3 EXTENSIONS
+   ========================= */
+.header-consult-link{
+  color:var(--muted);
+  font-weight:700;
+}
+.header-contact-btn{
+  white-space:nowrap;
+}
+.header-drawer-contact a{
+  color:var(--text);
+}
+
+.lead-form{
+  min-height:100%;
+}
+.lead-form-head p:last-child{
+  margin-bottom:0;
+}
+.lead-form-grid{
+  align-items:start;
+}
+.lead-form-actions{
+  display:grid;
+  gap:10px;
+}
+.lead-form-compact{
+  padding:20px;
+}
+.lead-form-compact .lead-form-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.service-hero-grid,
+.about-process-grid,
+.contact-page-grid,
+.property-detail-grid{
+  align-items:start;
+}
+.service-card{
+  min-height:100%;
+}
+.service-points{
+  padding-left:18px;
+  margin:0;
+  color:var(--muted);
+  display:grid;
+  gap:8px;
+}
+.service-badge-stack{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
+}
+.service-process-grid .card{
+  min-height:100%;
+}
+.profile-quote{
+  margin:16px 0 0 0;
+  padding:14px 16px;
+  border-left:4px solid rgba(91,124,255,.34);
+  background:rgba(255,255,255,.56);
+  border-radius:14px;
+  color:var(--text);
+}
+.numbered-list{
+  margin:14px 0 0 0;
+  padding-left:20px;
+  color:var(--muted);
+  display:grid;
+  gap:10px;
+}
+.contact-left-rail{
+  display:grid;
+  gap:18px;
+}
+.contact-method-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+.contact-method-link{
+  display:block;
+  font-weight:800;
+  margin:6px 0 8px 0;
+  color:var(--text);
+}
+.contact-method-link.static{
+  cursor:default;
+}
+.footer-contact-list li span{
+  color:var(--muted2);
+  font-weight:700;
+}
+.footer-contact-actions{
+  margin-top:12px;
+}
+
+@media (max-width: 980px){
+  .contact-method-grid{ grid-template-columns:1fr; }
+}
+
+@media (max-width: 720px){
+  .lead-form-compact .lead-form-grid,
+  .contact-method-grid{
+    grid-template-columns:1fr;
+  }
+  .header-contact-btn{ display:none; }
+}

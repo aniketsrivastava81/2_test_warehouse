@@ -1,11 +1,11 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import CTASection from "../components/CTASection";
+import LeadForm from "../components/LeadForm";
 import ListingCard from "../components/ListingCard";
 import { useLeadMagnet } from "../context/LeadMagnetContext";
 import { LISTINGS, BLOG_POSTS } from "../data/siteData";
 import { SITE } from "../config/site";
-import { appendLead } from "../utils/leadStorage";
 
 const AUDIENCES = [
   {
@@ -37,16 +37,6 @@ export default function HomePage() {
   const { openLeadMagnet } = useLeadMagnet();
   const featuredListings = useMemo(() => LISTINGS.filter((item) => item.featured).slice(0, 3), []);
   const featuredGuides = useMemo(() => BLOG_POSTS.slice(0, 3), []);
-  const [form, setForm] = useState({ email: "", need: "", stage: "" });
-  const [saved, setSaved] = useState(false);
-
-  const submitHero = (event) => {
-    event.preventDefault();
-    appendLead("MM_leads", { ...form, source: "hero-shortlist" });
-    setSaved(true);
-    setForm({ email: "", need: "", stage: "" });
-    window.setTimeout(() => setSaved(false), 5000);
-  };
 
   return (
     <div className="home-shell">
@@ -82,46 +72,28 @@ export default function HomePage() {
             <div className="hr"></div>
 
             <div className="hero-form-wrap">
-              <form className="form card soft" onSubmit={submitHero}>
-                <div className="field">
-                  <label htmlFor="h_email">Request a tailored shortlist of 3–5 spaces</label>
-                  <input
-                    id="h_email"
-                    name="email"
-                    type="email"
-                    placeholder="you@company.com"
-                    required
-                    value={form.email}
-                    onChange={(e) => setForm((s) => ({ ...s, email: e.target.value }))}
-                  />
-                </div>
-
-                <div className="field">
-                  <label htmlFor="h_need">What are you looking for?</label>
-                  <select id="h_need" name="need" required value={form.need} onChange={(e) => setForm((s) => ({ ...s, need: e.target.value }))}>
-                    <option value="" disabled>Select one</option>
-                    <option>Industrial / Warehouse</option>
-                    <option>Office</option>
-                    <option>Retail</option>
-                    <option>Land / Development</option>
-                  </select>
-                </div>
-
-                <div className="field">
-                  <label htmlFor="h_stage">Where are you in the process?</label>
-                  <select id="h_stage" name="stage" required value={form.stage} onChange={(e) => setForm((s) => ({ ...s, stage: e.target.value }))}>
-                    <option value="" disabled>Select one</option>
-                    <option>First commercial lease</option>
-                    <option>Lease renewal in 0–6 months</option>
-                    <option>Relocating / scaling</option>
-                    <option>Owner-user purchase exploration</option>
-                  </select>
-                </div>
-
-                <button className="btn btn-primary" type="submit">Request shortlist</button>
-                {saved ? <div className="toast"><strong>Saved.</strong> Demo mode: no email is sent.</div> : null}
-                <p className="tiny muted">We respond with practical next steps, not spam.</p>
-              </form>
+              <LeadForm
+                title="Request a tailored shortlist of 3–5 spaces"
+                intro="Share the broad requirement and stage so the demo stores a cleaner lead than the earlier inline form."
+                storageKey="MM_leads"
+                source="hero-shortlist"
+                context="Homepage shortlist request"
+                submitLabel="Request shortlist"
+                interestLabel="What are you looking for?"
+                interestOptions={["Industrial / Warehouse", "Office", "Retail", "Land / Development"]}
+                locationLabel="Preferred area"
+                timelineLabel="Where are you in the process?"
+                timelineOptions={[
+                  "First commercial lease",
+                  "Lease renewal in 0–6 months",
+                  "Relocating / scaling",
+                  "Owner-user purchase exploration",
+                ]}
+                includePhone={false}
+                includeMessage={false}
+                variant="compact"
+                note="We respond with practical next steps, not spam."
+              />
 
               <div className="card soft hero-side-card">
                 <div>

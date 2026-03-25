@@ -20,8 +20,9 @@ export default function Header() {
         <div className="header-topbar tiny muted">
           <span>{SITE.brokerage}</span>
           <div className="header-topbar-links">
-            <a href={SITE.primaryPhoneHref}>{SITE.primaryPhone}</a>
-            <a href={SITE.primaryEmailHref}>{SITE.primaryEmail}</a>
+            <a href={SITE.primaryPhoneHref}>Call Megha</a>
+            <a href={SITE.primaryEmailHref}>Email Megha</a>
+            <NavLink to="/contact" className="header-consult-link">Book consult</NavLink>
           </div>
         </div>
 
@@ -41,6 +42,7 @@ export default function Header() {
               </NavLink>
             ))}
             <NavLink to="/warehouse" className="nav-secondary-link">Warehouse Demo</NavLink>
+            <NavLink className="btn btn-secondary btn-sm header-contact-btn" to="/contact">Book consult</NavLink>
             <button className="btn btn-primary btn-sm" type="button" onClick={openLeadMagnet}>
               Get the Checklist
             </button>
@@ -77,20 +79,23 @@ export default function Header() {
               <NavLink to="/warehouse" className={linkClass} onClick={closeDrawer}>Warehouse Demo</NavLink>
 
               <div className="card soft" style={{ padding: "14px", marginTop: "4px" }}>
-                <div className="tiny muted" style={{ display: "grid", gap: "6px", marginBottom: "12px" }}>
-                  <a href={SITE.primaryPhoneHref}>{SITE.primaryPhone}</a>
-                  <a href={SITE.primaryEmailHref}>{SITE.primaryEmail}</a>
+                <div className="tiny muted header-drawer-contact" style={{ display: "grid", gap: "6px", marginBottom: "12px" }}>
+                  <a href={SITE.primaryPhoneHref}>Call Megha — {SITE.primaryPhone}</a>
+                  <a href={SITE.primaryEmailHref}>Email Megha — {SITE.primaryEmail}</a>
                 </div>
-                <button
-                  className="btn btn-primary"
-                  type="button"
-                  onClick={() => {
-                    closeDrawer();
-                    openLeadMagnet();
-                  }}
-                >
-                  Get the Checklist
-                </button>
+                <div className="footer-actions" style={{ marginTop: 0 }}>
+                  <NavLink className="btn btn-secondary" to="/contact" onClick={closeDrawer}>Book consult</NavLink>
+                  <button
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={() => {
+                      closeDrawer();
+                      openLeadMagnet();
+                    }}
+                  >
+                    Get the Checklist
+                  </button>
+                </div>
               </div>
             </div>
           </div>

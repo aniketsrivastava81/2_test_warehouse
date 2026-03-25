@@ -5,8 +5,8 @@ import { SITE } from "../config/site";
 export default function MobileStickyCTA() {
   return (
     <div className="mobile-sticky-cta" aria-label="Quick contact actions">
-      <a href={SITE.primaryPhoneHref}>Call</a>
-      <a href={SITE.primaryEmailHref}>Email</a>
+      <a href={SITE.primaryPhoneHref}>Call Megha</a>
+      <a href={SITE.primaryEmailHref}>Email Megha</a>
       <NavLink to="/contact">Book consult</NavLink>
     </div>
   );

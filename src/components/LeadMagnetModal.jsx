@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from "react";
+import { SITE } from "../config/site";
 import { useLeadMagnet } from "../context/LeadMagnetContext";
+import { appendLead } from "../utils/leadStorage";
 
 const initialForm = {
   name: "",
@@ -39,10 +41,7 @@ export default function LeadMagnetModal() {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    const key = "MM_leads";
-    const existing = JSON.parse(localStorage.getItem(key) || "[]");
-    existing.unshift({ ...form, ts: new Date().toISOString(), source: "checklist-modal" });
-    localStorage.setItem(key, JSON.stringify(existing).slice(0, 80000));
+    appendLead("MM_leads", { ...form, source: "checklist-modal", context: SITE.leadMagnetTitle });
     setSaved(true);
     setForm(initialForm);
     window.setTimeout(() => setSaved(false), 6500);
@@ -54,24 +53,21 @@ export default function LeadMagnetModal() {
     <div className="modal" aria-hidden="false">
       <div className="modal-backdrop" onClick={closeLeadMagnet}></div>
 
-      <div className="modal-card" role="dialog" aria-modal="true" aria-label="Get the Lease Checklist">
+      <div className="modal-card" role="dialog" aria-modal="true" aria-label={`Get the ${SITE.leadMagnetTitle}`}>
         <button className="modal-close" aria-label="Close" type="button" onClick={closeLeadMagnet}>
           ×
         </button>
 
         <div className="modal-header">
           <div className="badges" style={{ marginBottom: "10px" }}>
-            <span className="pill">
-              <strong>Free PDF</strong>
-            </span>
+            <span className="pill"><strong>Free PDF</strong></span>
             <span className="pill">First lease • Renewal • Relocation</span>
           </div>
 
-          <h2>Lease Renewal vs. Relocation Checklist</h2>
+          <h2>{SITE.leadMagnetTitle}</h2>
           <p className="muted">
             A calm, practical checklist designed to help GTA business owners compare options,
-            reduce uncertainty, and move forward with more confidence before signing a commercial
-            lease.
+            reduce uncertainty, and move forward with more confidence before signing a commercial lease.
           </p>
         </div>
 
@@ -108,13 +104,7 @@ export default function LeadMagnetModal() {
 
           <div className="field">
             <label htmlFor="lm_stage">Where are you in your leasing journey?</label>
-            <select
-              id="lm_stage"
-              name="stage"
-              required
-              value={form.stage}
-              onChange={updateField}
-            >
+            <select id="lm_stage" name="stage" required value={form.stage} onChange={updateField}>
               <option value="" disabled>
                 Select one
               </option>
@@ -129,27 +119,15 @@ export default function LeadMagnetModal() {
             <label>What type of space are you considering?</label>
             <div className="checks">
               <label className="check">
-                <input
-                  type="checkbox"
-                  checked={checkedMap.office}
-                  onChange={() => toggleSpace("office")}
-                />
+                <input type="checkbox" checked={checkedMap.office} onChange={() => toggleSpace("office")} />
                 <span>Office</span>
               </label>
               <label className="check">
-                <input
-                  type="checkbox"
-                  checked={checkedMap.retail}
-                  onChange={() => toggleSpace("retail")}
-                />
+                <input type="checkbox" checked={checkedMap.retail} onChange={() => toggleSpace("retail")} />
                 <span>Retail</span>
               </label>
               <label className="check">
-                <input
-                  type="checkbox"
-                  checked={checkedMap.warehouse}
-                  onChange={() => toggleSpace("warehouse")}
-                />
+                <input type="checkbox" checked={checkedMap.warehouse} onChange={() => toggleSpace("warehouse")} />
                 <span>Warehouse / Industrial</span>
               </label>
             </div>
@@ -172,16 +150,14 @@ export default function LeadMagnetModal() {
           </button>
 
           <p className="tiny muted">
-            No spam. Just practical leasing guidance and a clearer starting point. If you do not
-            see the email, check Promotions or Junk.
+            No spam. Just practical leasing guidance and a clearer starting point. If you do not see the email, check Promotions or Junk.
           </p>
 
           {!saved ? null : (
             <div className="toast">
               <strong>Done.</strong> Your request has been saved. (Demo mode: no email is sent.)
               <div className="tiny muted" style={{ marginTop: "6px" }}>
-                Tip: The tools page also includes follow-up email support, footfall guidance,
-                lease-vs-buy comparison, and CAM estimators.
+                Tip: the tools page also includes follow-up email support, footfall guidance, lease-vs-buy comparison, and CAM estimators.
               </div>
             </div>
           )}
