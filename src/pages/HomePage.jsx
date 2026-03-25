@@ -157,17 +157,17 @@ export default function HomePage() {
           <aside className="hero-stage willEnter" aria-label="Commercial real estate image collage">
             <div className="hero-image-main" data-depth="0.06">
               <img
-                src="/images/hero-office.svg"
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80"
                 alt="Premium GTA office and commercial environment"
                 fetchPriority="high"
                 decoding="async"
               />
             </div>
             <div className="hero-image-mini one" data-depth="0.11">
-              <img src="/images/hero-retail.svg" alt="Retail frontage with visibility and walk-in access" loading="eager" decoding="async" />
+              <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=80" alt="Retail frontage with visibility and walk-in access" loading="eager" decoding="async" />
             </div>
             <div className="hero-image-mini two" data-depth="0.09">
-              <img src="/images/hero-warehouse.svg" alt="Warehouse access and distribution-ready exterior" loading="eager" decoding="async" />
+              <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=80" alt="Warehouse access and distribution-ready exterior" loading="eager" decoding="async" />
             </div>
             <div className="float-card a">
               <div className="fc-kicker">Service areas</div>
