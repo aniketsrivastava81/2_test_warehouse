@@ -9,9 +9,9 @@ export default function PropertyDetailPage() {
 
   return (
     <>
-      <section className="page-hero property-hero">
+      <section className="page-hero property-hero page-hero-premium">
         <div className="container property-hero-grid">
-          <div>
+          <div className="page-hero-inner property-copy-shell">
             <div className="eyebrow">{listing.category}</div>
             <h1>{listing.title}</h1>
             <p>{listing.teaser}</p>
@@ -19,6 +19,11 @@ export default function PropertyDetailPage() {
               <span>{listing.location}</span>
               <span>{listing.size}</span>
               <span>{listing.status}</span>
+            </div>
+            <div className="hero-proof-row">
+              <span className="proof-chip">{listing.corridor}</span>
+              <span className="proof-chip">{listing.format}</span>
+              <span className="proof-chip">{listing.ask}</span>
             </div>
           </div>
           <div className="property-image-panel">
@@ -29,38 +34,62 @@ export default function PropertyDetailPage() {
 
       <section className="section">
         <div className="container detail-grid">
-          <div className="detail-main-card">
-            <div className="eyebrow">Why this deserves attention</div>
+          <div className="detail-main-card detail-main-card-premium">
+            <div className="eyebrow">Why it works</div>
             <h2>{listing.highlight}</h2>
             <div className="detail-list">
-              {listing.details.map((item) => (
+              {listing.advantage.map((item) => (
                 <div key={item} className="detail-point">{item}</div>
               ))}
             </div>
           </div>
 
-          <aside className="detail-side-card">
-            <div className="eyebrow">Use this page well</div>
-            <h3>Compare the property against the business, not against the excitement.</h3>
+          <aside className="detail-side-card detail-side-card-premium">
+            <div className="eyebrow">Best fit</div>
+            <h3>Who should take this seriously</h3>
+            <div className="principle-list">
+              {listing.bestFor.map((item) => (
+                <div key={item} className="detail-point">{item}</div>
+              ))}
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section className="section section-soft-borderless">
+        <div className="container detail-grid">
+          <div className="detail-main-card detail-main-card-premium">
+            <div className="eyebrow">Decision checklist</div>
+            <h2>What to test before this becomes a yes</h2>
+            <div className="detail-list">
+              {listing.checklist.map((item) => (
+                <div key={item} className="detail-point">{item}</div>
+              ))}
+            </div>
+          </div>
+
+          <aside className="detail-side-card detail-side-card-premium">
+            <div className="eyebrow">Use the site properly</div>
+            <h3>Compare the building against the business.</h3>
             <p>
-              Use the tools and market pages to evaluate total fit, operating logic, and corridor strength before moving forward.
+              Run the property through the tools, then use the guides to sharpen the final judgment before the shortlist tightens.
             </p>
             <div className="stacked-links">
-              <Link className="button button-primary" to="/tools">Compare with tools</Link>
-              <Link className="button button-secondary" to="/markets">Review markets</Link>
+              <Link className="button button-primary" to="/tools">Apply the tools</Link>
+              <Link className="button button-secondary" to="/guides">Read the guides</Link>
             </div>
           </aside>
         </div>
       </section>
 
       <CTASection
-        eyebrow="Next move"
-        title="Property pages should create a better shortlist, not just a better mood." 
-        body="This layout is built to keep users moving toward more disciplined comparisons across the rest of the site."
+        eyebrow="Continue"
+        title="A strong property page should lead to a stronger next action."
+        body="Move back into the listing set or widen the comparison through markets and asset classes."
         primaryLabel="Back to Listings"
         primaryTo="/listings"
-        secondaryLabel="Explore Asset Classes"
-        secondaryTo="/asset-classes"
+        secondaryLabel="Review Markets"
+        secondaryTo="/markets"
       />
     </>
   );
