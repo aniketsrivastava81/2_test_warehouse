@@ -1,15 +1,15 @@
 export const VALUE_PILLARS = [
   {
-    title: "Search with intent",
-    body: "Every move starts with use, loading, power, parking, image, team access, and timing—not just square footage.",
+    title: "Lead with the real requirement",
+    body: "Every serious move starts with use, timing, loading, power, staffing, parking, customer experience, and expansion logic—not just square footage.",
   },
   {
-    title: "Compare the real cost",
-    body: "Occupancy cost, capex exposure, landlord scope, and operational tradeoffs are surfaced before the shortlist becomes a negotiation.",
+    title: "Compare with fewer blind spots",
+    body: "Occupancy cost, capex exposure, landlord scope, image quality, and operational tradeoffs are surfaced before the shortlist becomes emotional.",
   },
   {
-    title: "Move with leverage",
-    body: "Better briefs create better shortlists. Better shortlists create cleaner negotiations and sharper timing.",
+    title: "Turn insight into leverage",
+    body: "A better brief creates a tighter shortlist. A tighter shortlist produces cleaner negotiations, faster conviction, and a stronger final outcome.",
   },
 ];
 
@@ -17,32 +17,32 @@ export const SERVICES = [
   {
     slug: "tenant-representation",
     title: "Tenant Representation",
-    body: "For businesses securing new premises, renewing strategically, consolidating, or relocating into space that fits operations and growth.",
+    body: "For occupiers who need sharper shortlists, stronger lease decisions, and space that supports operations, timing, and growth without unnecessary friction.",
   },
   {
     slug: "landlord-representation",
     title: "Landlord Representation",
-    body: "For owners who need stronger positioning, cleaner marketing, and a sharper leasing story that aligns space with tenant demand.",
+    body: "For owners who want assets positioned with cleaner market logic, stronger presentation, and leasing strategy aligned with the demand the space should attract.",
   },
   {
     slug: "owner-user-acquisition",
     title: "Owner-User Acquisition",
-    body: "For operators comparing lease flexibility against ownership control, equity creation, and long-term occupancy economics.",
+    body: "For operators evaluating whether ownership creates better long-term control, equity, and operational permanence than another lease cycle.",
   },
   {
     slug: "investment-advisory",
     title: "Investment Advisory",
-    body: "For buyers and sellers evaluating income durability, location quality, tenant logic, and long-range upside across GTA assets.",
+    body: "For capital that needs opportunities screened through tenant logic, corridor quality, resilience, and credible long-term hold potential across GTA assets.",
   },
   {
     slug: "development-land",
     title: "Development Land Advisory",
-    body: "For groups screening land and repositioning opportunities where zoning context, access, and corridor strength shape value.",
+    body: "For groups assessing land and repositioning opportunities where access, context, timing, and future-use alignment shape the real upside.",
   },
   {
     slug: "portfolio-positioning",
     title: "Portfolio Positioning",
-    body: "For clients reassessing hold-sell-lease decisions across multiple properties where capital allocation and timing matter.",
+    body: "For clients reassessing what to hold, upgrade, lease, sell, or redeploy when capital allocation and timing matter across multiple properties.",
   },
 ];
 
@@ -251,22 +251,22 @@ export const JOURNEY = [
   {
     step: "01",
     title: "Define the real requirement",
-    body: "Use, timing, non-negotiables, customer exposure, shipping, expansion, and image are fixed before the search opens.",
+    body: "Use, timing, shipping, power, staffing, customer exposure, image, and expansion logic are clarified before the search is allowed to widen.",
   },
   {
     step: "02",
     title: "Pressure-test the market",
-    body: "Submarkets, asset classes, and property formats are filtered down to the options that deserve serious attention.",
+    body: "Submarkets, formats, and asset classes are filtered against the actual business or investment objective until only credible options remain.",
   },
   {
     step: "03",
-    title: "Compare without blind spots",
-    body: "Cost, access, function, capex, and strategic upside are stacked side by side before emotion takes over.",
+    title: "Compare with commercial depth",
+    body: "Cost, capex, access, fit, efficiency, downside, and strategic upside are stacked side by side before any shortlist becomes emotionally expensive.",
   },
   {
     step: "04",
-    title: "Convert insight into leverage",
-    body: "A stronger shortlist leads to cleaner negotiation, faster conviction, and a better final decision.",
+    title: "Move with leverage",
+    body: "A better process produces a tighter shortlist, a tighter shortlist produces stronger negotiation, and stronger negotiation protects the final outcome.",
   },
 ];
 
