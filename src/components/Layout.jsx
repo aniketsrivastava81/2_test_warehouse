@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import RouteSeo from "./RouteSeo";
 
 export default function Layout() {
   const location = useLocation();
@@ -12,6 +13,7 @@ export default function Layout() {
 
   return (
     <div className="site-shell">
+      <RouteSeo />
       <Header />
       <main>
         <Outlet />

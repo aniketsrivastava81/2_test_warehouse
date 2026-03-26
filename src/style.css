@@ -358,6 +358,16 @@ p {
   border-color: var(--color-line);
 }
 
+.button-ghost {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.button-ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
 .small-button {
   min-height: 44px;
   padding: 0 16px;

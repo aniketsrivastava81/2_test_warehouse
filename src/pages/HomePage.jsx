@@ -52,6 +52,7 @@ export default function HomePage() {
             <div className="hero-button-row">
               <Link to="/listings" className="button button-primary">Browse Opportunities</Link>
               <Link to="/tools" className="button button-secondary">Open Decision Tools</Link>
+              <Link to="/checklists" className="button button-ghost">View Checklists</Link>
             </div>
             <div className="hero-proof-row">
               {SITE.proofPoints.map((item) => (

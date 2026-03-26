@@ -408,3 +408,44 @@ export const ASSET_CLASSES = [
     body: "For groups assessing future use, repositioning, entitlement potential, and longer-horizon upside where timing, access, and context shape the real value.",
   },
 ];
+
+export const SUBMARKET_SNAPSHOTS = [
+  {
+    name: "Toronto Core",
+    bestFor: "client-facing firms, leadership hubs, and transit-oriented office users",
+    strengths: ["Transit access", "Executive image", "Dense business ecosystem"],
+    watchouts: ["Higher occupancy cost", "Parking friction", "Longer suburban commutes"],
+  },
+  {
+    name: "Mississauga",
+    bestFor: "airport-linked users, regional distribution, and western GTA service operations",
+    strengths: ["Highway access", "Labour depth", "Logistics utility"],
+    watchouts: ["Congestion pressure", "Node-by-node rent variation", "Competitive industrial demand"],
+  },
+  {
+    name: "Vaughan",
+    bestFor: "flex industrial users, showroom formats, and operators needing strong 400-series access",
+    strengths: ["Customer accessibility", "Industrial utility", "Balanced image profile"],
+    watchouts: ["Peak-hour traffic", "Patchy parking conditions", "Mixed asset quality by pocket"],
+  },
+  {
+    name: "Brampton",
+    bestFor: "trade, trucking, and value-driven industrial occupiers",
+    strengths: ["Industrial depth", "Distribution logic", "Relative value"],
+    watchouts: ["Travel time volatility", "Asset consistency", "Operational bottlenecks on busy routes"],
+  },
+];
+
+export const TOOL_SECTIONS = TOOLS;
+
+export function getListingBySlug(slug) {
+  return LISTINGS.find((item) => item.slug === slug);
+}
+
+export function getRelatedListings(slug, limit = 3) {
+  return LISTINGS.filter((item) => item.slug !== slug).slice(0, limit);
+}
+
+export function getPostBySlug(slug) {
+  return BLOG_POSTS.find((item) => item.slug === slug);
+}

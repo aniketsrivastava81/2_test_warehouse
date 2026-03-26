@@ -7,8 +7,7 @@ import { BLOG_POSTS, LISTINGS, getListingBySlug, getPostBySlug } from "../data/s
 
 function absolute(path = "/") {
   const base = SITE.productionUrl.replace(/\/$/, "");
-  if (path === "/") return base;
-  return `${base}${path.startsWith("/") ? path : `/${path}`}`;
+  return path === "/" ? base : `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
 function buildBreadcrumbSchema(items) {
@@ -30,14 +29,12 @@ function buildOrganizationSchema() {
     "@type": "Organization",
     name: SITE.brandName,
     url: SITE.productionUrl,
-    email: SITE.primaryEmail,
-    telephone: SITE.primaryPhone,
     logo: absolute(SITE.socialPreviewPath),
-    sameAs: SITE.socialProfiles,
+    description: SITE.defaultDescription,
   };
 }
 
-function buildWebSiteSchema() {
+function buildWebsiteSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -47,39 +44,14 @@ function buildWebSiteSchema() {
   };
 }
 
-function buildLocalBusinessSchema() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
-    name: `${SITE.brandName} — ${SITE.role}`,
-    image: absolute(SITE.socialPreviewPath),
-    url: SITE.productionUrl,
-    email: SITE.primaryEmail,
-    telephone: SITE.primaryPhone,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: SITE.officeAddress,
-      addressLocality: "Toronto",
-      addressRegion: "ON",
-      addressCountry: "CA",
-    },
-    areaServed: SITE.serviceAreas,
-    parentOrganization: {
-      "@type": "Organization",
-      name: SITE.brokerage,
-    },
-  };
-}
-
 function buildArticleSchema(post) {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: post.title,
     description: post.excerpt,
-    datePublished: post.date,
     author: {
-      "@type": "Person",
+      "@type": "Organization",
       name: SITE.brandName,
     },
     publisher: {
@@ -94,103 +66,57 @@ function buildArticleSchema(post) {
   };
 }
 
-function listingFromLegacyId(id) {
-  return LISTINGS.find((item) => item.id === id) || LISTINGS[0];
+function buildPage(title, description, canonicalPath, keywords = [], extra = {}) {
+  return {
+    title,
+    description,
+    canonicalPath,
+    keywords,
+    structuredData: [
+      [
+        `${canonicalPath}-breadcrumbs`,
+        buildBreadcrumbSchema([
+          { name: "Home", path: "/" },
+          ...(canonicalPath === "/" ? [] : [{ name: title, path: canonicalPath }]),
+        ]),
+      ],
+    ],
+    ...extra,
+  };
 }
 
 export default function RouteSeo() {
   const location = useLocation();
 
   const page = useMemo(() => {
-    const params = new URLSearchParams(location.search);
     const pathname = location.pathname;
 
     if (pathname === "/") {
       return {
         title: "GTA Commercial Real Estate Advisory",
-        description:
-          "Commercial real-estate advisory across the GTA for industrial condos, warehouses, office, retail, and development land with a shortlist-first approach.",
-        keywords: ["GTA commercial real estate", "industrial condos Toronto", "warehouse space GTA", "Megha Mehta"],
-        type: "website",
+        description: SITE.defaultDescription,
         canonicalPath: "/",
+        keywords: ["KOLT Realty", "GTA commercial real estate", "industrial space GTA", "warehouse advisory Toronto"],
         structuredData: [
           ["organization", buildOrganizationSchema()],
-          ["website", buildWebSiteSchema()],
-          ["local-business", buildLocalBusinessSchema()],
-          ["breadcrumbs-home", buildBreadcrumbSchema([{ name: "Home", path: "/" }])],
+          ["website", buildWebsiteSchema()],
+          ["home-breadcrumbs", buildBreadcrumbSchema([{ name: "Home", path: "/" }])],
         ],
       };
     }
 
-    if (pathname === "/services") {
-      return {
-        title: "Services",
-        description:
-          "Tenant representation, lease renewal strategy, owner-user acquisition support, industrial and warehouse search, retail plaza advisory, and development support across the GTA.",
-        keywords: ["tenant representation GTA", "lease renewal strategy Toronto", "industrial search GTA"],
-        canonicalPath: "/services",
-        structuredData: [
-          ["services-breadcrumbs", buildBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Services", path: "/services" }])],
-          ["services-local-business", buildLocalBusinessSchema()],
-        ],
-      };
-    }
-
-    if (pathname === "/about") {
-      return {
-        title: "About Megha Mehta",
-        description:
-          "Learn more about Megha Mehta's finance-aware commercial real-estate approach, GTA market coverage, and client process across leasing, ownership, and investment decisions.",
-        keywords: ["about Megha Mehta", "GTA commercial realtor", "commercial real estate Toronto advisor"],
-        canonicalPath: "/about",
-        structuredData: [
-          ["about-breadcrumbs", buildBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "About", path: "/about" }])],
-          ["about-organization", buildOrganizationSchema()],
-        ],
-      };
-    }
-
-    if (pathname === "/contact") {
-      return {
-        title: "Contact Megha Mehta",
-        description:
-          "Book a consultation, request a shortlist, or ask about commercial listings across Toronto, Vaughan, Mississauga, Brampton, Markham, and North York.",
-        keywords: ["contact commercial realtor GTA", "book commercial real estate consultation", "Megha Mehta contact"],
-        canonicalPath: "/contact",
-        structuredData: [
-          ["contact-breadcrumbs", buildBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Contact", path: "/contact" }])],
-          ["contact-local-business", buildLocalBusinessSchema()],
-        ],
-      };
-    }
-
-    if (pathname === "/tools") {
-      return {
-        title: "Commercial Real Estate Tools",
-        description:
-          "Use commercial tools for lease-vs-buy, cap rate, CAM budgeting, footfall scoring, and GTA submarket comparison before you shortlist spaces.",
-        keywords: ["lease vs buy commercial space", "cap rate calculator GTA", "commercial real estate tools"],
-        canonicalPath: "/tools",
-        structuredData: [
-          ["tools-breadcrumbs", buildBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Tools", path: "/tools" }])],
-          ["tools-website", buildWebSiteSchema()],
-        ],
-      };
-    }
-
-    if (pathname === "/guides") {
-      return {
-        title: "Commercial Real Estate Guides",
-        description:
-          "Commercial real-estate guides for lease renewals, owner-user buying, warehouse shortlists, and retail plaza fit checks across the GTA.",
-        keywords: ["commercial real estate guides", "warehouse leasing guide", "owner-user buying Toronto"],
-        canonicalPath: "/guides",
-        structuredData: [
-          ["guides-breadcrumbs", buildBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Guides", path: "/guides" }])],
-          ["guides-website", buildWebSiteSchema()],
-        ],
-      };
-    }
+    if (pathname === "/services") return buildPage("Services", "Tenant, landlord, owner-user, investment, land, and portfolio advisory paths structured to reduce decision risk across the GTA.", "/services", ["commercial real estate services", "tenant representation GTA", "owner-user acquisition Toronto"]);
+    if (pathname === "/listings") return buildPage("Listings", "Browse industrial, warehouse, office, retail, and land opportunities framed through fit, corridor logic, and commercial usefulness.", "/listings", ["GTA commercial listings", "industrial listings Toronto", "warehouse opportunities GTA"]);
+    if (pathname === "/tools") return buildPage("Tools", "Decision tools for occupancy cost, lease-vs-buy logic, submarket comparison, warehouse fit, and hidden commercial tradeoffs.", "/tools", ["commercial real estate tools", "occupancy cost calculator", "warehouse fit checklist"]);
+    if (pathname === "/guides") return buildPage("Guides", "Commercial real estate guides that sharpen shortlists, market comparisons, and negotiation posture across the GTA.", "/guides", ["commercial real estate guides", "GTA market guide", "industrial shortlist framework"]);
+    if (pathname === "/about") return buildPage("About KOLT Realty", "Learn how KOLT Realty is positioned to organize commercial decisions through sharper filters, useful frameworks, and a stronger user journey.", "/about", ["about KOLT Realty", "commercial real estate platform GTA"]);
+    if (pathname === "/contact") return buildPage("Contact", "Approval-safe contact route preserved while live contact details remain withheld. Users can continue through listings, tools, and guides in the meantime.", "/contact", ["contact KOLT Realty", "commercial real estate GTA"]);
+    if (pathname === "/markets") return buildPage("Markets", "GTA markets explained through occupancy, corridor access, labour logic, customer reach, and real commercial usefulness.", "/markets", ["GTA markets", "Toronto commercial markets", "industrial corridors GTA"]);
+    if (pathname === "/asset-classes") return buildPage("Asset Classes", "Industrial, warehouse, office, retail, flex, and land asset classes explained through fit, value, and decision quality.", "/asset-classes", ["asset classes commercial real estate", "industrial office retail land"]);
+    if (pathname === "/why-kolt") return buildPage("Why KOLT", "See why KOLT is designed to give users sharper checklists, better comparisons, and stronger commercial confidence before outreach begins.", "/why-kolt", ["why KOLT Realty", "commercial real estate differentiation"]);
+    if (pathname === "/checklists") return buildPage("Checklists", "Practical decision checklists for industrial, office, retail, warehouse, owner-user, and development real estate moves across the GTA.", "/checklists", ["commercial real estate checklist", "industrial checklist GTA", "owner-user checklist"]);
+    if (pathname === "/warehouse") return buildPage("Warehouse Demo", "Interactive warehouse review experience framed as a branded KOLT decision layer.", "/warehouse", ["warehouse demo", "industrial interactive showcase"], { forceNoindex: true });
+    if (pathname === "/listing-type-2") return buildPage("Interactive Showcase", "Immersive industrial presentation route designed to deepen attention and move users back into the commercial journey.", "/listing-type-2", ["interactive industrial showcase", "commercial warehouse presentation"], { forceNoindex: true });
 
     if (pathname.startsWith("/guides/")) {
       const slug = pathname.replace("/guides/", "");
@@ -198,9 +124,9 @@ export default function RouteSeo() {
       return {
         title: post.title,
         description: post.excerpt,
-        keywords: [post.tag, "commercial real estate guide", SITE.brandName],
-        type: "article",
         canonicalPath: `/guides/${post.slug}`,
+        keywords: [post.category, "commercial real estate guide", SITE.brandName],
+        type: "article",
         structuredData: [
           ["guide-breadcrumbs", buildBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Guides", path: "/guides" }, { name: post.title, path: `/guides/${post.slug}` }])],
           ["guide-article", buildArticleSchema(post)],
@@ -208,55 +134,28 @@ export default function RouteSeo() {
       };
     }
 
-    if (pathname === "/listings") {
+    if (pathname.startsWith("/listings/")) {
+      const slug = pathname.replace("/listings/", "");
+      const listing = getListingBySlug(slug) || LISTINGS[0];
       return {
-        title: "Commercial Listings",
-        description:
-          "Browse industrial, office, retail, and development opportunities across the GTA with filters for city, asset class, availability, and size.",
-        keywords: ["commercial listings GTA", "industrial condo listings", "warehouse for lease GTA"],
-        canonicalPath: "/listings",
-        structuredData: [
-          ["listings-breadcrumbs", buildBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Listings", path: "/listings" }])],
-          ["listings-local-business", buildLocalBusinessSchema()],
-        ],
-      };
-    }
-
-    if (pathname.startsWith("/listings/") || pathname === "/property-details") {
-      const slug = pathname.startsWith("/listings/") ? pathname.replace("/listings/", "") : null;
-      const listing = slug ? getListingBySlug(slug) || LISTINGS[0] : listingFromLegacyId(params.get("id"));
-      return {
-        title: `${listing.title} | ${listing.city}`,
-        description: `${listing.heroSummary} ${listing.assetClass} in ${listing.city} with ${listing.sqft.toLocaleString()} SF and ${listing.leaseSale.toLowerCase()} status.`,
-        keywords: [listing.assetClass, listing.city, listing.leaseSale, "commercial listing GTA"],
+        title: `${listing.title} in ${listing.location}`,
+        description: `${listing.teaser} ${listing.size} ${listing.category} opportunity in ${listing.location}.`,
         canonicalPath: `/listings/${listing.slug}`,
+        keywords: [listing.category, listing.location, listing.status, "commercial listing GTA"],
         structuredData: [
           ["listing-breadcrumbs", buildBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Listings", path: "/listings" }, { name: listing.title, path: `/listings/${listing.slug}` }])],
           [
-            "listing-local-business",
+            "listing-offer",
             {
               "@context": "https://schema.org",
               "@type": "Offer",
               name: listing.title,
-              category: listing.assetClass,
-              availability: listing.status === "Available" ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
-              description: listing.heroSummary,
+              category: listing.category,
+              description: listing.teaser,
+              availability: "https://schema.org/InStock",
               url: absolute(`/listings/${listing.slug}`),
             },
           ],
-        ],
-      };
-    }
-
-    if (pathname === "/warehouse") {
-      return {
-        title: "Warehouse Walkthrough",
-        description:
-          "Explore the warehouse walkthrough and pallet-stack demo as a secondary showcase inside the commercial real-estate site.",
-        canonicalPath: "/warehouse",
-        forceNoindex: true,
-        structuredData: [
-          ["warehouse-breadcrumbs", buildBreadcrumbSchema([{ name: "Home", path: "/" }, { name: "Warehouse Walkthrough", path: "/warehouse" }])],
         ],
       };
     }
@@ -265,9 +164,10 @@ export default function RouteSeo() {
       title: SITE.brandName,
       description: SITE.defaultDescription,
       canonicalPath: pathname,
-      structuredData: [],
+      keywords: [SITE.brandName],
+      structuredData: [["organization", buildOrganizationSchema()]],
     };
-  }, [location.pathname, location.search]);
+  }, [location.pathname]);
 
   return (
     <>
