@@ -1,23 +1,22 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
-import LeadMagnetModal from "./LeadMagnetModal";
-import MobileStickyCTA from "./MobileStickyCTA";
-import RouteSeo from "./RouteSeo";
 
 export default function Layout() {
+  const location = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [location.pathname]);
+
   return (
-    <div className="app-shell">
-      <RouteSeo />
-      <a className="skip-link" href="#main">Skip to content</a>
+    <div className="site-shell">
       <Header />
-      <main id="main" className="site-main">
+      <main>
         <Outlet />
       </main>
       <Footer />
-      <MobileStickyCTA />
-      <LeadMagnetModal />
     </div>
   );
 }

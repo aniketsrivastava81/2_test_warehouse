@@ -1,45 +1,34 @@
 import React from "react";
+import CTASection from "../components/CTASection";
 
 export default function WarehousePage() {
   return (
-    <section className="section warehouse-page">
-      <div className="container">
-        <div className="section-header">
-          <div>
-            <div className="kicker">Warehouse demo</div>
-            <h1 style={{ marginTop: "8px" }}>Interactive warehouse walkthrough</h1>
-          </div>
+    <>
+      <section className="page-hero slim-hero">
+        <div className="container page-hero-inner">
+          <div className="eyebrow">Warehouse Demo</div>
+          <h1>An interactive warehouse experience that makes the brand feel more capable than a static brochure ever could.</h1>
           <p>
-            Explore the warehouse scene and pallet-stack challenge as a supporting showcase while the core website stays focused on listings, tools, and lead generation.
+            This showcase stays inside the KOLT journey as a high-value asset for industrial and logistics-focused users.
           </p>
         </div>
+      </section>
 
-        <div className="card soft" style={{ marginBottom: "18px" }}>
-          <div className="table-like">
-            <div className="row">
-              <b>View controls</b>
-              <span>Interior, wide shot, aisle, overhead, dock, street, and site-bird presets</span>
-            </div>
-            <div className="row">
-              <b>Game mode</b>
-              <span>Launch the pallet-stack challenge directly from the toolbar</span>
-            </div>
-            <div className="row">
-              <b>Purpose on the site</b>
-              <span>A secondary interactive showcase that stays separate from the main commercial search and contact flow</span>
-            </div>
-          </div>
+      <section className="section warehouse-shell-section">
+        <div className="container warehouse-frame-wrap frame-large">
+          <iframe className="warehouse-frame" src="/warehouse.html" title="KOLT warehouse walkthrough" loading="eager"></iframe>
         </div>
+      </section>
 
-        <div className="warehouse-page-shell">
-          <iframe
-            className="warehouse-embed"
-            src="/warehouse.html"
-            title="3D warehouse experience"
-            loading="lazy"
-          ></iframe>
-        </div>
-      </div>
-    </section>
+      <CTASection
+        eyebrow="Continue"
+        title="Interactive proof is strongest when it still feels part of the main site."
+        body="This page keeps the demo branded, intentional, and commercially relevant."
+        primaryLabel="Open Listing Type 2"
+        primaryTo="/listing-type-2"
+        secondaryLabel="Back to Home"
+        secondaryTo="/"
+      />
+    </>
   );
 }

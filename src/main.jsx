@@ -4,11 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import App from "./App";
-import "leaflet/dist/leaflet.css";
-import "./styles/base.css";
-import "./styles/landing.css";
-import "./styles/app.css";
-import "./styles/react-addons.css";
+import "./style.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
