@@ -353,3 +353,58 @@ export const JOURNEY = [
     body: "The final move is made with cleaner alternatives, stronger timing, and more control over the terms that matter.",
   },
 ];
+
+
+export const MARKETS = [
+  {
+    title: "Toronto Core",
+    body: "Best for firms that need executive presence, transit reach, client-facing polish, and proximity to dense business ecosystems where image and access affect the decision.",
+  },
+  {
+    title: "Mississauga",
+    body: "A high-utility western GTA market for occupiers balancing airport access, highway movement, labour depth, and regional distribution logic without sacrificing commercial credibility.",
+  },
+  {
+    title: "Brampton",
+    body: "Strong for industrial users who care about trucking efficiency, value relative to core western nodes, and practical space that supports service, distribution, and trade operations.",
+  },
+  {
+    title: "Vaughan",
+    body: "Useful for groups that need a blend of customer accessibility, strong highway linkage, industrial functionality, and a higher-quality front-end presentation profile.",
+  },
+  {
+    title: "Richmond Hill",
+    body: "Compelling for north GTA occupiers weighing talent access, customer convenience, office scalability, and last-mile coverage with cleaner economics than denser core locations.",
+  },
+  {
+    title: "Logistics Corridors",
+    body: "The right corridor is rarely just about rent. It is about route density, dispatch time, supplier reach, first-stop performance, and how daily movement affects service quality.",
+  },
+];
+
+export const ASSET_CLASSES = [
+  {
+    title: "Industrial",
+    body: "For users whose business runs on loading, storage, power, throughput, dispatch, and operational control. Industrial space should be screened through flow, not just size.",
+  },
+  {
+    title: "Warehouse",
+    body: "For occupiers where inbound and outbound movement define performance. The right warehouse creates speed, cleaner staging, and fewer hidden operational penalties.",
+  },
+  {
+    title: "Office",
+    body: "For teams where talent, client confidence, collaboration, and workplace image matter. The right office improves experience, not just occupancy.",
+  },
+  {
+    title: "Retail",
+    body: "For brands that depend on visibility, access, co-tenancy, parking, and quality of attention. Retail success comes from fit with the customer decision journey.",
+  },
+  {
+    title: "Flex / Showroom",
+    body: "For businesses that need both presentation and utility. This format works when customer-facing polish and backend operations have to coexist without compromise.",
+  },
+  {
+    title: "Land / Development",
+    body: "For groups assessing future use, repositioning, entitlement potential, and longer-horizon upside where timing, access, and context shape the real value.",
+  },
+];
