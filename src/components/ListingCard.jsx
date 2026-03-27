@@ -37,12 +37,7 @@ export default function ListingCard({ listing }) {
 
       <div className="p-6">
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {[
-            [listing.size, "sq ft"],
-            [listing.clearHeight, "clear"],
-            [listing.zoning, "zoning"],
-            [listing.loading, "loading"],
-          ].map(([value, label]) => (
+          {[[listing.size, "sq ft"], [listing.clearHeight, "clear"], [listing.zoning, "zoning"], [listing.loading, "loading"]].map(([value, label]) => (
             <div key={`${listing.slug}-${label}`} className="rounded-[1.25rem] border border-black/6 bg-[#faf7f4] px-4 py-3">
               <div className="text-[0.7rem] font-extrabold uppercase tracking-[0.18em] text-black/60">{label}</div>
               <div className="mt-1 text-[0.95rem] font-semibold text-black/86">{value}</div>
@@ -53,15 +48,9 @@ export default function ListingCard({ listing }) {
         <p className="mb-0 mt-5 text-[1rem] leading-7 text-black/80">{listing.teaser}</p>
 
         <div className="mt-5 flex flex-wrap gap-2">
-          <span className="rounded-full border border-black/10 bg-white px-3 py-2 text-sm text-black/78 shadow-[0_10px_20px_rgba(17,17,17,0.04)]">
-            {listing.corridor}
-          </span>
-          <span className="rounded-full border border-black/10 bg-white px-3 py-2 text-sm text-black/78 shadow-[0_10px_20px_rgba(17,17,17,0.04)]">
-            {listing.assetClass}
-          </span>
-          <span className="rounded-full border border-black/10 bg-white px-3 py-2 text-sm text-black/78 shadow-[0_10px_20px_rgba(17,17,17,0.04)]">
-            {listing.rate}
-          </span>
+          <span className="rounded-full border border-black/10 bg-white px-3 py-2 text-sm text-black/78 shadow-[0_10px_20px_rgba(17,17,17,0.04)]">{listing.corridor}</span>
+          <span className="rounded-full border border-black/10 bg-white px-3 py-2 text-sm text-black/78 shadow-[0_10px_20px_rgba(17,17,17,0.04)]">{listing.assetClass}</span>
+          <span className="rounded-full border border-black/10 bg-white px-3 py-2 text-sm text-black/78 shadow-[0_10px_20px_rgba(17,17,17,0.04)]">{listing.rate}</span>
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
@@ -71,9 +60,8 @@ export default function ListingCard({ listing }) {
           </div>
           <div className="flex flex-wrap gap-2">
             <ShortlistButton listing={listing} compact className="button button-secondary small-button shortlist-button" />
-            <Link to={`/listings/${listing.slug}`} className="button button-primary inline-button small-button">
-              View property
-            </Link>
+            <a href={`/brochures/${listing.slug}-brochure.pdf`} className="button button-secondary inline-button small-button" download>Brochure</a>
+            <Link to={`/listings/${listing.slug}`} className="button button-primary inline-button small-button">View property</Link>
           </div>
         </div>
       </div>

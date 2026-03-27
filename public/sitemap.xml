@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://kolt-realty.vercel.app</loc></url>
+  <url><loc>https://kolt-realty.vercel.app/</loc></url>
   <url><loc>https://kolt-realty.vercel.app/services</loc></url>
   <url><loc>https://kolt-realty.vercel.app/listings</loc></url>
   <url><loc>https://kolt-realty.vercel.app/tools</loc></url>
@@ -17,10 +17,9 @@
   <url><loc>https://kolt-realty.vercel.app/listings/toronto-office-hq</loc></url>
   <url><loc>https://kolt-realty.vercel.app/listings/richmond-hill-office-campus</loc></url>
   <url><loc>https://kolt-realty.vercel.app/listings/richmond-hill-last-mile</loc></url>
-  <url><loc>https://kolt-realty.vercel.app/guides/gta-industrial-shortlist-framework</loc></url>
-  <url><loc>https://kolt-realty.vercel.app/guides/why-occupancy-cost-beats-asking-rent</loc></url>
-  <url><loc>https://kolt-realty.vercel.app/guides/warehouse-fit-before-warehouse-size</loc></url>
-  <url><loc>https://kolt-realty.vercel.app/guides/retail-location-beyond-foot-traffic</loc></url>
-  <url><loc>https://kolt-realty.vercel.app/guides/owner-user-buying-checklist</loc></url>
-  <url><loc>https://kolt-realty.vercel.app/guides/gta-submarket-comparison</loc></url>
+  <url><loc>https://kolt-realty.vercel.app/guides/toronto-core-office-shortlist-logic</loc></url>
+  <url><loc>https://kolt-realty.vercel.app/guides/mississauga-logistics-node-comparison</loc></url>
+  <url><loc>https://kolt-realty.vercel.app/guides/brampton-industrial-condo-owner-user-playbook</loc></url>
+  <url><loc>https://kolt-realty.vercel.app/guides/vaughan-showroom-flex-for-hybrid-operators</loc></url>
+  <url><loc>https://kolt-realty.vercel.app/guides/golden-horseshoe-last-mile-screening-framework</loc></url>
 </urlset>

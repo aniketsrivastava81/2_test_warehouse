@@ -3,8 +3,22 @@ import React, { useMemo, useState } from "react";
 const LANES = ["Inbound", "Buffer", "Outbound"];
 
 export default function StorageFlowLabTool() {
-  const [pallets, setPallets] = useState([2, 3, 1]);
+  const [pallets, setPallets] = useState([3, 4, 2]);
+  const [ordersPerHour, setOrdersPerHour] = useState(32);
+  const [teamSize, setTeamSize] = useState(6);
+
   const total = useMemo(() => pallets.reduce((sum, value) => sum + value, 0), [pallets]);
+  const throughputScore = useMemo(() => {
+    const base = Math.max(35, 100 - Math.abs(pallets[1] - pallets[2]) * 9 - Math.max(0, pallets[0] - teamSize) * 5);
+    return Math.max(20, Math.min(100, Math.round(base + teamSize * 2 - Math.max(0, ordersPerHour - 36) * 1.2)));
+  }, [ordersPerHour, pallets, teamSize]);
+
+  const bottleneck = useMemo(() => {
+    if (pallets[0] > pallets[1] + 2) return "Receiving is outrunning staging. Clear inbound faster or add labour to avoid dock-side backlog.";
+    if (pallets[1] > pallets[2] + 2) return "Buffer inventory is stacking up. Outbound rhythm is not keeping pace with staging.";
+    if (ordersPerHour > teamSize * 7) return "Order volume is pressuring labour. You likely need a faster handoff between pick, stage, and dispatch.";
+    return "Flow is reasonably balanced. The current lane mix feels commercially believable for the selected team size and order pace.";
+  }, [ordersPerHour, pallets, teamSize]);
 
   const move = (from, to) => {
     setPallets((current) => {
@@ -16,49 +30,64 @@ export default function StorageFlowLabTool() {
     });
   };
 
-  const stack = (lane) => setPallets((current) => current.map((value, index) => index === lane ? value + 1 : value));
-  const clear = (lane) => setPallets((current) => current.map((value, index) => index === lane ? Math.max(0, value - 1) : value));
+  const reset = () => setPallets([3, 4, 2]);
 
   return (
-    <section id="tool-storage-flow-lab" className="tools-v2-card tools-v2-card-large">
+    <section id="tool-storage-flow-lab" className="tools-v2-card tools-v2-card-large premium-tool">
       <div className="tools-v2-head">
         <div>
-          <span className="tools-v2-tag">Tool 9 · Storage Flow Lab</span>
-          <h2>Small interactive module that makes warehouse information feel alive.</h2>
+          <span className="tools-v2-tag">Tool 9 - Storage Flow Lab</span>
+          <h2>Make staging and outbound readiness fully live.</h2>
           <p>
-            This is the attention-grabber. It is deliberately simple, but it turns storage flow, staging balance, and outbound readiness into something the user can touch instead of passively read.
+            This is now a proper interactive tool. Users can rebalance pallets, change order pace, and adjust labour to see where the
+            warehouse starts feeling operationally tight rather than just visually tidy.
           </p>
         </div>
       </div>
 
-      <div className="tools-v2-lab">
-        <div className="tools-v2-lanes">
-          {LANES.map((lane, laneIndex) => (
-            <div className="tools-v2-lane" key={lane}>
-              <strong>{lane}</strong>
-              <div className="tools-v2-pallet-stack">
-                {Array.from({ length: pallets[laneIndex] }).map((_, index) => (
-                  <span key={`${lane}-${index}`} className="tools-v2-pallet" />
-                ))}
-              </div>
-              <div className="tools-v2-lane-actions">
-                <button type="button" onClick={() => stack(laneIndex)}>+ Pallet</button>
-                <button type="button" onClick={() => clear(laneIndex)}>- Pallet</button>
-              </div>
+      <div className="premium-tool__grid">
+        <div className="premium-tool__panel">
+          <div className="storage-flow-config">
+            <label>
+              <span>Orders per hour ({ordersPerHour})</span>
+              <input type="range" min="8" max="60" value={ordersPerHour} onChange={(e) => setOrdersPerHour(Number(e.target.value))} />
+            </label>
+            <label>
+              <span>Floor team ({teamSize})</span>
+              <input type="range" min="2" max="14" value={teamSize} onChange={(e) => setTeamSize(Number(e.target.value))} />
+            </label>
+          </div>
+
+          <div className="tools-v2-lab">
+            <div className="tools-v2-lanes">
+              {LANES.map((lane, laneIndex) => (
+                <div className="tools-v2-lane" key={lane}>
+                  <strong>{lane}</strong>
+                  <div className="tools-v2-pallet-stack">
+                    {Array.from({ length: pallets[laneIndex] }).map((_, index) => (
+                      <span key={`${lane}-${index}`} className="tools-v2-pallet" />
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+
+            <div className="tools-v2-lab-actions">
+              <button type="button" onClick={() => move(0, 1)}>Move inbound -&gt; buffer</button>
+              <button type="button" onClick={() => move(1, 2)}>Move buffer -&gt; outbound</button>
+              <button type="button" onClick={() => move(2, 1)}>Return outbound -&gt; buffer</button>
+              <button type="button" onClick={reset}>Reset flow</button>
+            </div>
+          </div>
         </div>
 
-        <div className="tools-v2-lab-actions">
-          <button type="button" onClick={() => move(0, 1)}>Move inbound → buffer</button>
-          <button type="button" onClick={() => move(1, 2)}>Move buffer → outbound</button>
-          <button type="button" onClick={() => setPallets([2, 3, 1])}>Reset flow</button>
-        </div>
-
-        <div className="tools-v2-decision-row">
-          <article><h3>Live pallets</h3><p>{total} pallets currently placed across the lab.</p></article>
-          <article><h3>What it teaches</h3><p>Even a light interaction makes staging, choke points, and outbound readiness feel more real to the end user.</p></article>
-          <article><h3>How it helps KOLT</h3><p>This is the kind of interactive layer that makes the page memorable and distinctly not generic brokerage content.</p></article>
+        <div className="premium-tool__panel premium-tool__result">
+          <div className="premium-tool__kpis premium-tool__kpis--stack">
+            <article><small>Total pallets</small><strong>{total}</strong></article>
+            <article><small>Throughput score</small><strong>{throughputScore} / 100</strong></article>
+            <article><small>Likely pressure point</small><strong>{pallets[1] > pallets[2] ? "Staging" : "Outbound rhythm"}</strong></article>
+          </div>
+          <p>{bottleneck}</p>
         </div>
       </div>
     </section>

@@ -1,27 +1,24 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 import CTASection from "../components/CTASection";
 import ListingCard from "../components/ListingCard";
 import MultiStepLeadForm from "../components/MultiStepLeadForm";
 import ShortlistButton from "../components/ShortlistButton";
-import { LISTINGS, getRelatedListings } from "../data/siteData";
+import { getListingBySlug, getRelatedListings } from "../data/siteData";
 
 export default function PropertyDetailPage() {
   const { slug } = useParams();
-  const listing = LISTINGS.find((item) => item.slug === slug) || LISTINGS[0];
-  const related = useMemo(() => getRelatedListings(listing.slug, 3), [listing.slug]);
-  const [activeImage, setActiveImage] = useState(listing.gallery?.[0] || listing.image);
-
-  const brochureHref = `/one-sheets/${listing.slug}.pdf`;
+  const listing = getListingBySlug(slug) || getListingBySlug("brampton-industrial-condo");
+  const related = getRelatedListings(listing.slug, 3);
+  const [activeImage, setActiveImage] = React.useState((listing.gallery && listing.gallery[0]) || listing.image);
+  const brochureHref = `/brochures/${listing.slug}-brochure.pdf`;
+  const oneSheetHref = `/one-sheets/${listing.slug}.pdf`;
   const metrics = [
     { label: "Size", value: listing.size },
     { label: "Clear height", value: listing.clearHeight },
-    { label: "Zoning", value: listing.zoning },
     { label: "Loading", value: listing.loading },
-    { label: "Ask", value: listing.ask },
-    { label: "Format", value: listing.format },
+    { label: "Zoning", value: listing.zoning },
   ];
-
   const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(listing.mapQuery || listing.address || listing.location)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
 
   return (
@@ -45,10 +42,7 @@ export default function PropertyDetailPage() {
               </div>
               <div className="detail-metric-strip mt-6">
                 {metrics.map((metric) => (
-                  <article key={metric.label}>
-                    <small>{metric.label}</small>
-                    <strong>{metric.value}</strong>
-                  </article>
+                  <article key={metric.label}><small>{metric.label}</small><strong>{metric.value}</strong></article>
                 ))}
               </div>
             </div>
@@ -60,14 +54,7 @@ export default function PropertyDetailPage() {
               </div>
               <div className="grid grid-cols-3 gap-3 p-4">
                 {(listing.gallery || [listing.image]).map((image, index) => (
-                  <button
-                    key={image}
-                    type="button"
-                    onClick={() => setActiveImage(image)}
-                    aria-pressed={activeImage === image}
-                    aria-label={`Show gallery image ${index + 1} for ${listing.title}`}
-                    className={`overflow-hidden rounded-[1.2rem] border ${activeImage === image ? 'border-[#b01f24]' : 'border-black/10'} bg-[#faf7f4] p-0 transition-transform duration-200 hover:-translate-y-0.5`}
-                  >
+                  <button key={image} type="button" onClick={() => setActiveImage(image)} aria-pressed={activeImage === image} aria-label={`Show gallery image ${index + 1} for ${listing.title}`} className={`overflow-hidden rounded-[1.2rem] border ${activeImage === image ? 'border-[#b01f24]' : 'border-black/10'} bg-[#faf7f4] p-0 transition-transform duration-200 hover:-translate-y-0.5`}>
                     <img src={image} alt={`${listing.title} gallery ${index + 1}`} className="h-24 w-full object-cover" />
                   </button>
                 ))}
@@ -80,7 +67,8 @@ export default function PropertyDetailPage() {
               <div className="eyebrow">Action rail</div>
               <h2 className="m-0 mt-2 text-[1.7rem] leading-tight tracking-[-0.05em]">Primary conversion stays visible above the fold.</h2>
               <div className="mt-5 grid gap-3">
-                <a className="button button-primary" href={brochureHref} download>Download one-sheet PDF</a>
+                <a className="button button-primary" href={brochureHref} download>Download sample brochure PDF</a>
+                <a className="button button-secondary" href={oneSheetHref} download>Download one-sheet PDF</a>
                 <Link className="button button-secondary" to="/contact#analysis-workflow">Request confidential review</Link>
                 <Link className="button button-secondary" to="/tools">Run fit analysis</Link>
                 <button className="button button-secondary" type="button" onClick={() => window.print()}>Print one-sheet</button>
@@ -96,12 +84,12 @@ export default function PropertyDetailPage() {
               <div className="eyebrow">Analysis workflow</div>
               <div className="mt-4 grid gap-3">
                 {[
-                  "Download the one-sheet PDF for board-ready review.",
+                  "Download the sample brochure or one-sheet for board-ready review.",
                   "Add the property to a shortlist before comparing alternatives.",
                   "Run tools to pressure-test occupancy cost, cap rate, and operational fit.",
                   "Use the requirement brief to request analysis with context already attached.",
                 ].map((item) => (
-                  <div key={item} className="rounded-[1.2rem] border border-black/10 bg-[#faf7f4] px-4 py-3 text-[0.98rem] leading-7 text-black/80">{item}</div>
+                  <div key={item} className="rounded-[1.2rem] border border-black/10 bg-[#faf7f4] px-4 py-4 text-[0.98rem] leading-7 text-black/80">{item}</div>
                 ))}
               </div>
             </div>
@@ -116,90 +104,28 @@ export default function PropertyDetailPage() {
               <div className="eyebrow">Description</div>
               <h2 className="m-0 max-w-[13ch] text-[clamp(2rem,3vw,3.4rem)] leading-[0.95] tracking-[-0.06em]">{listing.highlight}</h2>
               <div className="mt-5 grid gap-4">
-                {listing.description.map((paragraph) => (
-                  <p key={paragraph} className="m-0 text-[1rem] leading-8 text-black/80">{paragraph}</p>
-                ))}
+                {listing.description.map((paragraph) => (<p key={paragraph} className="m-0 text-[1rem] leading-8 text-black/80">{paragraph}</p>))}
               </div>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-luxe">
-                <div className="eyebrow">Decision checklist</div>
-                <div className="mt-4 grid gap-3">
-                  {listing.checklist.map((item) => (
-                    <div key={item} className="rounded-[1.2rem] border border-black/10 bg-[#faf7f4] px-4 py-4 text-[0.98rem] leading-7 text-black/80">{item}</div>
-                  ))}
-                </div>
-              </div>
-              <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-luxe">
-                <div className="eyebrow">Best fit</div>
-                <div className="mt-4 grid gap-3">
-                  {listing.bestFor.map((item) => (
-                    <div key={item} className="rounded-[1.2rem] border border-black/10 bg-[#faf7f4] px-4 py-4 text-[0.98rem] leading-7 text-black/80">{item}</div>
-                  ))}
-                </div>
-              </div>
+              <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-luxe"><div className="eyebrow">Decision checklist</div><div className="mt-4 grid gap-3">{listing.checklist.map((item) => (<div key={item} className="rounded-[1.2rem] border border-black/10 bg-[#faf7f4] px-4 py-4 text-[0.98rem] leading-7 text-black/80">{item}</div>))}</div></div>
+              <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-luxe"><div className="eyebrow">Best fit</div><div className="mt-4 grid gap-3">{listing.bestFor.map((item) => (<div key={item} className="rounded-[1.2rem] border border-black/10 bg-[#faf7f4] px-4 py-4 text-[0.98rem] leading-7 text-black/80">{item}</div>))}</div></div>
             </div>
 
-            <MultiStepLeadForm
-              source={`property-${listing.slug}`}
-              title="Use the multi-step requirement brief for this property."
-              intro="This keeps the listing page conversion path more commercial: shortlist, analyze, then submit the requirement with context."
-              context={listing.title}
-            />
+            <MultiStepLeadForm source={`property-${listing.slug}`} title="Use the multi-step requirement brief for this property." intro="This keeps the listing page conversion path more commercial: shortlist, analyze, then submit the requirement with context." context={listing.title} />
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-luxe">
-              <div className="eyebrow">Financial snapshot</div>
-              <div className="mt-4 grid gap-3">
-                {listing.financialSnapshot.map((row) => (
-                  <div key={row.label} className="flex items-start justify-between gap-4 rounded-[1.2rem] border border-black/10 bg-[#faf7f4] px-4 py-4">
-                    <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/60">{row.label}</div>
-                    <div className="text-right text-[0.98rem] font-semibold text-black/88">{row.value}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-[2rem] border border-black/5 bg-white p-4 shadow-luxe">
-              <div className="eyebrow px-2 pt-2">Map</div>
-              <div className="overflow-hidden rounded-[1.5rem] border border-black/10 mt-3">
-                <iframe title={`${listing.title} map`} src={mapSrc} className="h-[320px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
-              </div>
-            </div>
+            <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-luxe"><div className="eyebrow">Financial snapshot</div><div className="mt-4 grid gap-3">{listing.financialSnapshot.map((row) => (<div key={row.label} className="flex items-start justify-between gap-4 rounded-[1.2rem] border border-black/10 bg-[#faf7f4] px-4 py-4"><div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/60">{row.label}</div><div className="text-right text-[0.98rem] font-semibold text-black/88">{row.value}</div></div>))}</div></div>
+            <div className="rounded-[2rem] border border-black/5 bg-white p-4 shadow-luxe"><div className="eyebrow px-2 pt-2">Map</div><div className="overflow-hidden rounded-[1.5rem] border border-black/10 mt-3"><iframe title={`${listing.title} map`} src={mapSrc} className="h-[320px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" /></div></div>
           </div>
         </div>
       </section>
 
-      <section className="section section-soft-borderless">
-        <div className="container">
-          <div className="section-heading-row">
-            <div>
-              <div className="eyebrow">Related opportunities</div>
-              <h2>Compare this against live alternatives before deciding.</h2>
-            </div>
-            <p>
-              A strong property page should lead to a stronger next action, not isolate the user inside one listing.
-            </p>
-          </div>
-          <div className="listing-grid">
-            {related.map((item) => (
-              <ListingCard key={item.slug} listing={item} />
-            ))}
-          </div>
-        </div>
-      </section>
+      <section className="section section-soft-borderless"><div className="container"><div className="section-heading-row"><div><div className="eyebrow">Related opportunities</div><h2>Compare this against live alternatives before deciding.</h2></div><p>A strong property page should lead to a stronger next action, not isolate the user inside one listing.</p></div><div className="listing-grid">{related.map((item) => (<ListingCard key={item.slug} listing={item} />))}</div></div></section>
 
-      <CTASection
-        eyebrow="Continue"
-        title="A strong property page should lead to a stronger next action."
-        body="Move back into the listing set, build the shortlist, or widen the comparison through markets, asset classes, and tools."
-        primaryLabel="Back to Listings"
-        primaryTo="/listings"
-        secondaryLabel="Review Markets"
-        secondaryTo="/markets"
-      />
+      <CTASection eyebrow="Continue" title="A strong property page should lead to a stronger next action." body="Move back into the listing set, build the shortlist, or widen the comparison through markets, asset classes, and tools." primaryLabel="Back to Listings" primaryTo="/listings" secondaryLabel="Review Markets" secondaryTo="/markets" />
     </>
   );
 }

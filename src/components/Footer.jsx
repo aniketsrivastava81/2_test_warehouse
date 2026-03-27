@@ -21,7 +21,7 @@ export default function Footer() {
           <div className="footer-title">What clients get here</div>
           <ul className="footer-list">
             <li>Decision-first advisory</li>
-            <li>Meaningful GTA market guidance</li>
+            <li>Meaningful GTA and Golden Horseshoe guidance</li>
             <li>Tools that reduce blind spots</li>
             <li>Interactive warehouse showcase</li>
           </ul>
@@ -37,8 +37,8 @@ export default function Footer() {
         </div>
       </div>
       <div className="container footer-bottom">
-        <span>© 2026 KOLT Realty. Conceptual marketing build.</span>
-        <span>Public office contact: info@kolt.ca · +1-416-860-3660</span>
+        <span>© 2026 KOLT Realty. Conceptual marketing build with sample brochure, inbox, and CRM routing.</span>
+        <span>Sample contact: {SITE.inquiryEmail} - {SITE.primaryPhone}</span>
       </div>
     </footer>
   );
