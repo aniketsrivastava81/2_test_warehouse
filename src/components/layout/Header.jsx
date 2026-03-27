@@ -1,8 +1,9 @@
-import { NavLink } from 'react-router-dom';
-import { ROUTES } from '../../config/routes';
 import { siteConfig } from '../../config/site';
+import { useExperience } from '../../context/ExperienceContext';
 
 export default function Header() {
+  const { hasEntered, resetExperience } = useExperience();
+
   return (
     <header className="site-header">
       <div>
@@ -10,10 +11,12 @@ export default function Header() {
         <div className="eyebrow">{siteConfig.tagline}</div>
       </div>
       <nav className="site-nav" aria-label="Primary navigation">
-        <NavLink className="nav-link" to={ROUTES.home}>Gallery</NavLink>
-        <NavLink className="nav-link" to={ROUTES.vault}>Vault</NavLink>
-        <NavLink className="nav-link" to={ROUTES.cloud}>Cotton Cloud</NavLink>
-        <NavLink className="nav-link" to={ROUTES.ar}>AR Try-On</NavLink>
+        <span className="nav-pill">Batch 1 Live</span>
+        {hasEntered ? (
+          <button type="button" className="ghost-button compact-button" onClick={resetExperience}>
+            Replay Entry
+          </button>
+        ) : null}
       </nav>
     </header>
   );

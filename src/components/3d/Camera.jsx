@@ -1,62 +1,165 @@
 import { useFrame } from '@react-three/fiber';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import * as THREE from 'three';
-import { physicsConfig } from '../../config/physics';
-import { useExperience } from '../../context/ExperienceContext';
-import { useInputManager } from '../../hooks/useInputManager';
+import { cameraConfig, movementBounds } from '../../config/physics';
 
 const presets = {
-  'sensory-void': { position: new THREE.Vector3(0, 0, 7), target: new THREE.Vector3(0, 0, 0) },
-  gallery: { position: new THREE.Vector3(0, 2.2, 8.5), target: new THREE.Vector3(0, 1.3, 0) },
-  vault: { position: new THREE.Vector3(0, 2.1, 7.6), target: new THREE.Vector3(0, 1.5, 0) },
-  cloud: { position: new THREE.Vector3(0, 2.4, 6.8), target: new THREE.Vector3(0, 1.4, 0) },
-  organic: { position: new THREE.Vector3(0, 2.4, 8.2), target: new THREE.Vector3(0, 1.4, 0) },
-  urban: { position: new THREE.Vector3(0, 2.4, 8.2), target: new THREE.Vector3(0, 1.4, 0) },
-  abstract: { position: new THREE.Vector3(0, 2.4, 8.2), target: new THREE.Vector3(0, 1.4, 0) },
-  ar: { position: new THREE.Vector3(0, 1.9, 5.6), target: new THREE.Vector3(0, 1.1, 0) },
+  'sensory-void': {
+    position: new THREE.Vector3(0, 0, 7.5),
+    yaw: 0,
+    pitch: 0,
+  },
+  gallery: {
+    position: new THREE.Vector3(0, cameraConfig.headHeight, 6.8),
+    yaw: Math.PI,
+    pitch: -0.02,
+  },
 };
 
-export default function CameraRig({ sceneKey, selectedProduct }) {
-  const offsetRef = useRef(new THREE.Vector3());
-  const { keys, pointer, isWindowFocused } = useInputManager();
-  const { comfortSettings } = useExperience();
+function clampPosition(position, sceneKey) {
+  const bounds = movementBounds[sceneKey] || movementBounds.gallery;
+  position.x = THREE.MathUtils.clamp(position.x, bounds.minX, bounds.maxX);
+  position.z = THREE.MathUtils.clamp(position.z, bounds.minZ, bounds.maxZ);
+}
 
-  const targetPreset = useMemo(() => {
-    const base = presets[sceneKey] || presets.gallery;
-    if (selectedProduct) {
-      return {
-        position: base.position.clone().add(new THREE.Vector3(1.2, 0.35, -1.8)),
-        target: new THREE.Vector3(0, 1.35, 0),
-      };
+export default function CameraRig({ sceneKey }) {
+  const positionRef = useRef(presets[sceneKey]?.position.clone() || presets.gallery.position.clone());
+  const yawRef = useRef(presets[sceneKey]?.yaw ?? 0);
+  const pitchRef = useRef(presets[sceneKey]?.pitch ?? 0);
+  const keysRef = useRef({ w: false, a: false, s: false, d: false, shift: false });
+  const dragStateRef = useRef({ active: false, x: 0, y: 0 });
+  const touchIdentifierRef = useRef(null);
+
+  const currentPreset = useMemo(() => presets[sceneKey] || presets.gallery, [sceneKey]);
+
+  useEffect(() => {
+    positionRef.current.copy(currentPreset.position);
+    yawRef.current = currentPreset.yaw;
+    pitchRef.current = currentPreset.pitch;
+  }, [currentPreset]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      const key = event.key.toLowerCase();
+      if (['w', 'a', 's', 'd', 'shift'].includes(key)) {
+        keysRef.current[key] = true;
+      }
+    };
+
+    const handleKeyUp = (event) => {
+      const key = event.key.toLowerCase();
+      if (['w', 'a', 's', 'd', 'shift'].includes(key)) {
+        keysRef.current[key] = false;
+      }
+    };
+
+    const handlePointerDown = (event) => {
+      dragStateRef.current = { active: true, x: event.clientX, y: event.clientY };
+    };
+
+    const handlePointerMove = (event) => {
+      if (!dragStateRef.current.active || sceneKey === 'sensory-void') return;
+      const deltaX = event.clientX - dragStateRef.current.x;
+      const deltaY = event.clientY - dragStateRef.current.y;
+      dragStateRef.current.x = event.clientX;
+      dragStateRef.current.y = event.clientY;
+      yawRef.current -= deltaX * cameraConfig.rotationSensitivity;
+      pitchRef.current = THREE.MathUtils.clamp(
+        pitchRef.current - deltaY * cameraConfig.rotationSensitivity,
+        -cameraConfig.pitchClamp,
+        cameraConfig.pitchClamp,
+      );
+    };
+
+    const handlePointerUp = () => {
+      dragStateRef.current.active = false;
+    };
+
+    const handleTouchStart = (event) => {
+      const touch = event.changedTouches[0];
+      if (!touch) return;
+      touchIdentifierRef.current = touch.identifier;
+      dragStateRef.current = { active: true, x: touch.clientX, y: touch.clientY };
+    };
+
+    const handleTouchMove = (event) => {
+      if (!dragStateRef.current.active || sceneKey === 'sensory-void') return;
+      const touch = Array.from(event.changedTouches).find((entry) => entry.identifier === touchIdentifierRef.current);
+      if (!touch) return;
+      const deltaX = touch.clientX - dragStateRef.current.x;
+      const deltaY = touch.clientY - dragStateRef.current.y;
+      dragStateRef.current.x = touch.clientX;
+      dragStateRef.current.y = touch.clientY;
+      yawRef.current -= deltaX * cameraConfig.rotationSensitivity;
+      pitchRef.current = THREE.MathUtils.clamp(
+        pitchRef.current - deltaY * cameraConfig.rotationSensitivity,
+        -cameraConfig.pitchClamp,
+        cameraConfig.pitchClamp,
+      );
+    };
+
+    const handleTouchEnd = () => {
+      dragStateRef.current.active = false;
+      touchIdentifierRef.current = null;
+    };
+
+    const resetInput = () => {
+      keysRef.current = { w: false, a: false, s: false, d: false, shift: false };
+      dragStateRef.current.active = false;
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('pointerdown', handlePointerDown);
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener('blur', resetInput);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('blur', resetInput);
+    };
+  }, [sceneKey]);
+
+  useFrame(({ camera }, delta) => {
+    if (sceneKey === 'sensory-void') {
+      camera.position.lerp(currentPreset.position, 1 - Math.exp(-delta * 4));
+      camera.lookAt(0, 0, 0);
+      return;
     }
-    return base;
-  }, [sceneKey, selectedProduct]);
 
-  useFrame((state, delta) => {
-    const { camera } = state;
-    const speedPreset = physicsConfig[selectedProduct ? 'wind' : 'calm'];
-    const moveSpeed = (keys.shift ? speedPreset.cameraSpeed * 1.25 : speedPreset.cameraSpeed) * (comfortSettings.reducedMotion ? 0.7 : 1);
-    const direction = new THREE.Vector3(
-      (keys.d ? 1 : 0) - (keys.a ? 1 : 0),
-      0,
-      (keys.s ? 1 : 0) - (keys.w ? 1 : 0),
-    );
+    const keys = keysRef.current;
+    const speed = cameraConfig.movementSpeed * (keys.shift ? cameraConfig.sprintMultiplier : 1);
+    const moveVector = new THREE.Vector3();
+    const forward = new THREE.Vector3(Math.sin(yawRef.current), 0, Math.cos(yawRef.current));
+    const right = new THREE.Vector3(Math.cos(yawRef.current), 0, -Math.sin(yawRef.current));
 
-    if (isWindowFocused && direction.lengthSq() > 0 && !selectedProduct && sceneKey !== 'sensory-void' && sceneKey !== 'ar') {
-      direction.normalize().multiplyScalar(moveSpeed * delta);
-      offsetRef.current.add(direction);
-      const bounds = physicsConfig.movementBounds[sceneKey] || physicsConfig.movementBounds.gallery;
-      offsetRef.current.x = THREE.MathUtils.clamp(offsetRef.current.x, -bounds.x, bounds.x);
-      offsetRef.current.z = THREE.MathUtils.clamp(offsetRef.current.z, -bounds.z, bounds.z);
+    if (keys.w) moveVector.add(forward);
+    if (keys.s) moveVector.sub(forward);
+    if (keys.d) moveVector.add(right);
+    if (keys.a) moveVector.sub(right);
+
+    if (moveVector.lengthSq() > 0) {
+      moveVector.normalize().multiplyScalar(speed * delta);
+      positionRef.current.add(moveVector);
+      clampPosition(positionRef.current, sceneKey);
     }
 
-    const lookTarget = targetPreset.target.clone().add(offsetRef.current);
-    lookTarget.x += pointer.x * comfortSettings.mouseSensitivity * 0.9;
-    lookTarget.y += pointer.y * comfortSettings.mouseSensitivity * 0.4;
-    const desiredPosition = targetPreset.position.clone().add(offsetRef.current);
-    camera.position.lerp(desiredPosition, 1 - Math.exp(-delta * 2.2 * comfortSettings.cameraSmoothing));
-    camera.lookAt(lookTarget);
+    camera.position.lerp(positionRef.current, 1 - Math.exp(-delta * 12));
+    camera.rotation.order = 'YXZ';
+    camera.rotation.y = yawRef.current;
+    camera.rotation.x = pitchRef.current;
   });
 
   return null;
@@ -64,5 +167,4 @@ export default function CameraRig({ sceneKey, selectedProduct }) {
 
 CameraRig.propTypes = {
   sceneKey: PropTypes.string.isRequired,
-  selectedProduct: PropTypes.object,
 };

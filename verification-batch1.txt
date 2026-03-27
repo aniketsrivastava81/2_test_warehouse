@@ -1,0 +1,21 @@
+Betta Sarto 3D — Batch 1 verification log
+
+1) Production build
+- Command: npm run build
+- Result: PASS
+
+2) Clean rebuild
+- Command: rm -rf dist && npm run build
+- Result: PASS
+
+3) Product catalog count
+- Command: node import check for src/config/products.js
+- Result: PASS (10 products)
+
+4) Site config import safety
+- Command: node import check for src/config/site.js
+- Result: PASS
+
+5) Preview server check
+- Command: npm run preview -- --host 127.0.0.1 --port 4174
+- Result: PASS (HTTP 200 for /)

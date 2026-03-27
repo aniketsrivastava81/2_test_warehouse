@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { products } from '../config/products';
 import { APP_STATES, canTransition } from '../utils/appState';
@@ -34,6 +34,7 @@ export function ExperienceProvider({ children }) {
   const [progress, setProgress] = useState(() => getStoredValue('betta-progress', defaultProgress));
   const [vaultInteractions, setVaultInteractions] = useState(() => getStoredValue('betta-vault-interactions', {}));
   const [comfortSettings, setComfortSettings] = useState(() => getStoredValue('betta-comfort', defaultComfort));
+  const [entryReveal, setEntryReveal] = useState({ active: false, origin: { x: 0.5, y: 0.5 }, progress: 0 });
   const { audioEnabled, setAudioEnabled, audioMessage, playSoftPulse, startAmbient, stopAmbient } = useAudioManager();
 
   useEffect(() => setStoredValue('betta-has-entered', hasEntered), [hasEntered]);
@@ -55,6 +56,50 @@ export function ExperienceProvider({ children }) {
     setHasEnteredState(value);
     if (value) setAppStateInternal(APP_STATES.gallery);
   };
+
+  const beginEntryReveal = useCallback((origin = { x: 0.5, y: 0.5 }) => {
+    setEntryReveal((current) => {
+      if (current.active || hasEntered) return current;
+      playSoftPulse(180, 0.2);
+      trackEvent('entry_reveal_started', origin);
+      return { active: true, origin, progress: 0 };
+    });
+  }, [hasEntered, playSoftPulse]);
+
+  const resetExperience = useCallback(() => {
+    setHasEnteredState(false);
+    setEntryReveal({ active: false, origin: { x: 0.5, y: 0.5 }, progress: 0 });
+    setSelectedProductId(null);
+    trackEvent('experience_reset', {});
+  }, []);
+
+  useEffect(() => {
+    if (!entryReveal.active) return undefined;
+
+    let frameId = 0;
+    const startedAt = performance.now();
+    const durationMs = 1500;
+
+    const step = (now) => {
+      const nextProgress = Math.min((now - startedAt) / durationMs, 1);
+      setEntryReveal((current) => (current.active ? { ...current, progress: nextProgress } : current));
+      if (nextProgress < 1) {
+        frameId = window.requestAnimationFrame(step);
+      }
+    };
+
+    frameId = window.requestAnimationFrame(step);
+    const revealTimer = window.setTimeout(() => {
+      setHasEnteredState(true);
+      setEntryReveal({ active: false, origin: { x: 0.5, y: 0.5 }, progress: 0 });
+      trackEvent('entry_reveal_completed', {});
+    }, durationMs);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.clearTimeout(revealTimer);
+    };
+  }, [entryReveal.active]);
 
   const setAppState = (nextState) => {
     setAppStateInternal((current) => (canTransition(current, nextState) ? nextState : current));
@@ -139,6 +184,9 @@ export function ExperienceProvider({ children }) {
     setVaultInteraction,
     comfortSettings,
     updateComfortSetting,
+    entryReveal,
+    beginEntryReveal,
+    resetExperience,
   };
 
   return <ExperienceContext.Provider value={value}>{children}</ExperienceContext.Provider>;

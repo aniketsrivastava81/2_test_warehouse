@@ -1,24 +1,20 @@
-import { useEffect, useMemo, useState } from 'react';
-import { physicsConfig } from '../config/physics';
+import { useMemo } from 'react';
+import {
+  cameraConfig,
+  entryThreadPhysics,
+  fabricSimulation,
+  gravityPresets,
+  movementBounds,
+  windForceMultipliers,
+} from '../config/physics';
 
-export function usePhysics(mode, paused = false) {
-  const [isPaused, setIsPaused] = useState(paused);
-
-  useEffect(() => {
-    const handleVisibility = () => setIsPaused(document.hidden || paused);
-    handleVisibility();
-    document.addEventListener('visibilitychange', handleVisibility);
-    window.addEventListener('blur', handleVisibility);
-    window.addEventListener('focus', handleVisibility);
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibility);
-      window.removeEventListener('blur', handleVisibility);
-      window.removeEventListener('focus', handleVisibility);
-    };
-  }, [paused]);
-
+export function usePhysics(mode = 'default', sceneKey = 'gallery') {
   return useMemo(() => ({
-    ...(physicsConfig[mode] || physicsConfig.calm),
-    isPaused,
-  }), [mode, isPaused]);
+    gravity: gravityPresets[mode] || gravityPresets.default,
+    wind: mode === 'wind' ? windForceMultipliers.dramatic : windForceMultipliers.calm,
+    fabric: fabricSimulation,
+    camera: cameraConfig,
+    thread: entryThreadPhysics,
+    bounds: movementBounds[sceneKey] || movementBounds.gallery,
+  }), [mode, sceneKey]);
 }
