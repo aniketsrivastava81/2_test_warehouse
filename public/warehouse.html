@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>GTA Industrial Warehouse — Interior View</title>
+<title>KOLT Realty · Industrial Review — Interior View</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Mono:wght@300;400&display=swap');
 
@@ -284,9 +284,14 @@ body{background:#05060a;color:#e0ddd8;font-family:'DM Mono',monospace;}
   .results-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 
+
+#koltBrandPill{position:fixed;left:18px;top:18px;z-index:1000;padding:12px 16px;border-radius:999px;background:rgba(18,18,18,.84);color:#fff;font-family:Inter,Arial,sans-serif;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;box-shadow:0 18px 40px rgba(0,0,0,.22);backdrop-filter:blur(12px)}
+#koltBrandPill b{color:#d13a3f}
+
 </style>
 </head>
 <body>
+<div id="koltBrandPill"><b>KOLT</b> Realty · Interactive warehouse intelligence</div>
 <canvas id="canvas"></canvas>
 <button id="toolbarMenuBtn" aria-label="Open controls" aria-expanded="false">☰ Controls</button>
 <div id="toolbarBackdrop"></div>
@@ -322,7 +327,7 @@ body{background:#05060a;color:#e0ddd8;font-family:'DM Mono',monospace;}
 
 <div id="ui">
   <div id="title">
-    <strong>GTA Industrial Warehouse — Interior</strong>
+    <strong>KOLT Realty · Industrial Review — Interior</strong>
     Pallet racking · bay storage · clear-span floor<br>
     <em>Greater Toronto Area · Commercial Class A</em>
   </div>
@@ -336,7 +341,7 @@ body{background:#05060a;color:#e0ddd8;font-family:'DM Mono',monospace;}
 </div>
 
 <div id="callout">
-  <span id="callout-name">GTA INDUSTRIAL WAREHOUSE — INTERIOR</span>
+  <span id="callout-name">KOLT REALTY · INDUSTRIAL REVIEW — INTERIOR</span>
   <span id="callout-sub">GREATER TORONTO AREA · COMMERCIAL CLASS A</span>
 </div>
 
@@ -1539,7 +1544,7 @@ function setPhase(p){
     'full-b':'GREEN RACK SYSTEM · SHRINK-WRAPPED TOTE STORAGE',
     clearing:'WAREHOUSE MANAGEMENT SYSTEM · INVENTORY CLEARED',
   };
-  nameEl.textContent=labels[p]||'GTA INDUSTRIAL WAREHOUSE — INTERIOR';
+  nameEl.textContent=labels[p]||'KOLT REALTY · INDUSTRIAL REVIEW — INTERIOR';
   subEl.textContent=subs[p]||'GREATER TORONTO AREA · COMMERCIAL CLASS A';
   nameEl.classList.toggle('live',p!=='empty');
   subEl.classList.toggle('live',p!=='empty');

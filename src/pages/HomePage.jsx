@@ -1,243 +1,157 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import CTASection from "../components/CTASection";
-import ListingCard from "../components/ListingCard";
-import BlogCard from "../components/BlogCard";
-import { LISTINGS, BLOG_POSTS, JOURNEY, SERVICES, TOOLS, VALUE_PILLARS } from "../data/siteData";
-import { SITE } from "../config/site";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Chip } from '@mui/material';
+import { motion } from 'framer-motion';
+import CTASection from '../components/CTASection';
+import { Reveal, Stagger } from '../components/motion/Reveal';
 
-const audienceTracks = [
+const heroImage = 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80';
+const boardroomImage = 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80';
+const warehouseImage = 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80';
+
+const pillars = [
   {
-    title: "Occupiers",
-    body: "Find space that supports movement, staffing, client experience, shipping, and next-stage growth instead of forcing expensive compromises later.",
+    title: 'See the right path faster',
+    body: 'Users should understand whether they need to lease, buy, compare, or refine before they ever start a conversation.',
   },
   {
-    title: "Investors",
-    body: "Screen opportunities through tenant logic, corridor strength, downside protection, and practical long-term hold quality before capital is deployed.",
+    title: 'Use tools that change judgment',
+    body: 'KOLT’s tools are meant to change decision quality, not just output numbers that look smart for a moment.',
   },
   {
-    title: "Owner-Users",
-    body: "Decide whether leasing, buying, or repositioning creates the strongest control, flexibility, and balance-sheet outcome for the business.",
-  },
-  {
-    title: "Landlords",
-    body: "Present assets with sharper positioning, cleaner market logic, and a leasing story that attracts the right demand faster.",
+    title: 'Move into opportunities with conviction',
+    body: 'Listings, markets, and warehouse experiences should all feel more valuable once the user has context.',
   },
 ];
 
-const proofFrames = [
-  "Shortlist logic built around use, timing, access, and image.",
-  "Market insight translated into decision-ready comparisons.",
-  "Tools and guides that make the user smarter before they inquire.",
-  "A commercial journey designed to turn attention into conviction.",
+const audiences = [
+  {
+    title: 'Occupiers',
+    body: 'Find space that works commercially on day one and still makes sense later.',
+    image: warehouseImage,
+  },
+  {
+    title: 'Owners and landlords',
+    body: 'Position assets with stronger market logic, better presentation, and clearer leasing intent.',
+    image: heroImage,
+  },
+  {
+    title: 'Investors and owner-users',
+    body: 'Pressure-test hold logic, financing posture, and downside resilience before conviction gets expensive.',
+    image: boardroomImage,
+  },
 ];
 
 export default function HomePage() {
-  const featuredListings = LISTINGS.slice(0, 3);
-  const featuredPosts = BLOG_POSTS.slice(0, 3);
-  const featuredServices = SERVICES.slice(0, 4);
-
   return (
     <>
-      <section className="hero-section hero-section-premium">
-        <div className="container hero-grid">
-          <div className="hero-copy-block hero-copy-block-premium">
-            <div className="eyebrow">KOLT Realty</div>
-            <h1>Commercial real estate for GTA users who need the right answer before the market gets expensive.</h1>
-            <p className="hero-intro">
-              KOLT Realty is built around one idea: the strongest move is rarely the loudest listing.
-              It is the result of sharper filters, cleaner comparisons, and a decision path that removes wasted time,
-              weak options, and hidden friction before the shortlist is formed.
-            </p>
-            <div className="hero-button-row">
-              <Link to="/listings" className="button button-primary">Browse Opportunities</Link>
-              <Link to="/tools" className="button button-secondary">Open Decision Tools</Link>
-              <Link to="/checklists" className="button button-ghost">View Checklists</Link>
+      <section className="page-hero slim-hero !pt-10 lg:!pt-14 overflow-hidden hero-section-premium">
+        <div className="container grid gap-6 lg:grid-cols-[1.05fr_.95fr] items-stretch">
+          <Reveal className="relative overflow-hidden rounded-[2.1rem] border border-black/5 bg-white px-7 py-8 shadow-luxe lg:px-10 lg:py-10">
+            <div className="absolute inset-0 bg-kolt-glow opacity-90" aria-hidden="true" />
+            <div className="relative z-[1]">
+              <div className="eyebrow">KOLT Realty</div>
+              <h1 className="m-0 max-w-[10.5ch] text-[clamp(3.2rem,7vw,6.4rem)] leading-[0.9] tracking-[-0.08em]">
+                The GTA commercial real estate site should already make the decision easier.
+              </h1>
+              <p className="mt-5 max-w-[60ch] text-[1.06rem] leading-8 text-black/70">
+                KOLT should feel like the place where the user becomes clearer, sharper, and more commercially confident before any outreach begins.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link to="/listings" className="button button-primary waves-effect waves-light small-button">View Opportunities</Link>
+                <Link to="/tools" className="button button-secondary waves-effect small-button">Open Tools</Link>
+              </div>
+              <Stagger className="mt-8 grid gap-3 md:grid-cols-3">
+                {pillars.map((pillar) => (
+                  <motion.article key={pillar.title} variants={{ hidden:{opacity:0,y:24}, show:{opacity:1,y:0} }} className="rounded-[1.5rem] border border-black/6 bg-[#faf7f4] px-5 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
+                    <h3 className="m-0 text-[1.15rem] leading-tight tracking-[-0.04em]">{pillar.title}</h3>
+                    <p className="mb-0 mt-3 text-[0.98rem] leading-7 text-black/66">{pillar.body}</p>
+                  </motion.article>
+                ))}
+              </Stagger>
             </div>
-            <div className="hero-proof-row">
-              {SITE.proofPoints.map((item) => (
-                <span className="proof-chip" key={item}>{item}</span>
-              ))}
-            </div>
-          </div>
+          </Reveal>
 
-          <div className="hero-visual-block hero-visual-block-premium">
-            <div className="hero-image-panel hero-image-large">
-              <img src="/images/hero-office.svg" alt="KOLT Realty commercial advisory presentation" />
-            </div>
-            <div className="hero-image-row">
-              <div className="hero-image-panel">
-                <img src="/images/hero-warehouse.svg" alt="Warehouse logistics and distribution environment" />
-              </div>
-              <div className="hero-image-panel">
-                <img src="/images/hero-retail.svg" alt="Retail frontage and customer-facing real estate environment" />
+          <Reveal delay={0.08} className="grid gap-4">
+            <div className="relative min-h-[450px] overflow-hidden rounded-[2rem] border border-white/60 bg-white shadow-luxe">
+              <img src={heroImage} alt="Modern commercial office interior" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4 rounded-[1.6rem] border border-white/20 bg-white/78 px-5 py-4 backdrop-blur-lg">
+                <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24]">KOLT advantage</div>
+                <div className="mt-2 text-2xl font-extrabold leading-tight tracking-[-0.05em] text-[#151515]">Guide users through the journey instead of listing everything at them.</div>
               </div>
             </div>
-          </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="rounded-[1.6rem] border border-black/6 bg-white px-5 py-5 shadow-[0_18px_50px_rgba(17,17,17,0.08)]">
+                <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/45">Value</div>
+                <p className="mb-0 mt-2 text-[0.98rem] leading-7 text-black/68">The site should hint that KOLT holds better checklists, better screening logic, and the missing decision framework.</p>
+              </div>
+              <div className="rounded-[1.6rem] border border-[#b01f24]/12 bg-[#f9f1ef] px-5 py-5 shadow-[0_18px_50px_rgba(176,31,36,0.08)]">
+                <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24]">Feel</div>
+                <p className="mb-0 mt-2 text-[0.98rem] leading-7 text-black/68">Alive, tactile, premium, and intentionally authored — not generic brokerage filler.</p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="section pt-8 lg:pt-10">
+        <div className="container">
+          <Reveal className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <div className="eyebrow">Who it is for</div>
+              <h2 className="m-0 max-w-[11ch] text-[clamp(2.2rem,4vw,4.2rem)] leading-[0.94] tracking-[-0.06em]">Every audience should instantly find their lane.</h2>
+            </div>
+            <p className="max-w-[44rem] text-[1rem] leading-8 text-black/68">The homepage should feel like a guided start point into services, tools, and opportunities rather than a brochure that asks the user to do all the work.</p>
+          </Reveal>
+          <Stagger className="mt-7 grid gap-6 lg:grid-cols-3">
+            {audiences.map((audience) => (
+              <motion.article key={audience.title} variants={{ hidden:{opacity:0,y:24}, show:{opacity:1,y:0} }} className="overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-luxe">
+                <div className="relative h-[270px] overflow-hidden">
+                  <img src={audience.image} alt={audience.title} className="h-full w-full object-cover transition-transform duration-700 hover:scale-[1.03]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/5 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <h3 className="m-0 text-[1.5rem] tracking-[-0.04em]">{audience.title}</h3>
+                  <p className="mb-0 mt-3 text-[0.98rem] leading-7 text-black/68">{audience.body}</p>
+                </div>
+              </motion.article>
+            ))}
+          </Stagger>
         </div>
       </section>
 
       <section className="section section-soft-borderless">
-        <div className="container section-heading-row">
-          <div>
-            <div className="eyebrow">Who this site is for</div>
-            <h2>Every path is built around the actual move being made.</h2>
-          </div>
-          <p>
-            Instead of asking users to interpret a generic brokerage website, KOLT routes them into the exact commercial lens that matches their objective.
-          </p>
-        </div>
-        <div className="pillar-grid">
-          {audienceTracks.map((item) => (
-            <article className="feature-card narrative-card" key={item.title}>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container section-heading-row">
-          <div>
-            <div className="eyebrow">The journey</div>
-            <h2>The experience is structured to move users from curiosity to commercial conviction.</h2>
-          </div>
-          <p>
-            Every section earns the next click by giving the user clearer thinking, stronger filters, and more confidence than they had before arriving.
-          </p>
-        </div>
-        <div className="journey-grid">
-          {JOURNEY.map((item) => (
-            <article key={item.step} className="journey-card journey-card-premium">
-              <span className="journey-step">{item.step}</span>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section section-soft">
-        <div className="container section-heading-row">
-          <div>
-            <div className="eyebrow">Why KOLT wins the click</div>
-            <h2>The website gives away real commercial value before it asks for a conversation.</h2>
-          </div>
-          <p>
-            That is what creates trust. The user leaves each section with a better checklist, a sharper comparison, or a more useful framework than they could get from a typical GTA listing portal.
-          </p>
-        </div>
-        <div className="pillar-grid">
-          {VALUE_PILLARS.map((item) => (
-            <article className="feature-card narrative-card" key={item.title}>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section section-dark">
-        <div className="container section-heading-row inverse">
-          <div>
-            <div className="eyebrow">What the user gets here</div>
-            <h2>KOLT is positioned as the place where the GTA market finally becomes legible.</h2>
-          </div>
-          <p>
-            The goal is not to overwhelm users with inventory. The goal is to make them feel more prepared, more selective, and more certain about the right next move.
-          </p>
-        </div>
-        <div className="proof-grid">
-          {proofFrames.map((item) => (
-            <div className="proof-frame" key={item}>{item}</div>
-          ))}
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container section-heading-row">
-          <div>
-            <div className="eyebrow">Advisory paths</div>
-            <h2>Services are framed around decisions, not generic brokerage categories.</h2>
-          </div>
-          <p>
-            Each path is designed to answer a different commercial question, reduce blind spots, and turn broad interest into a credible route forward.
-          </p>
-        </div>
-        <div className="services-grid">
-          {featuredServices.map((service) => (
-            <article className="service-card service-card-premium" key={service.slug}>
-              <h3>{service.title}</h3>
-              <p>{service.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section section-soft">
-        <div className="container section-heading-row">
-          <div>
-            <div className="eyebrow">Featured opportunities</div>
-            <h2>Shortlist-ready properties presented with commercial clarity.</h2>
-          </div>
-          <p>
-            The objective is simple: reduce browsing noise and bring better options into focus faster.
-          </p>
-        </div>
-        <div className="listing-grid">
-          {featuredListings.map((listing) => (
-            <ListingCard key={listing.slug} listing={listing} />
-          ))}
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container section-heading-row">
-          <div>
-            <div className="eyebrow">Decision support</div>
-            <h2>Users stay longer when the site helps them think better than the rest of the market.</h2>
-          </div>
-          <p>
-            These tools are not decoration. They are the practical edge that makes KOLT feel indispensable before the first outreach happens.
-          </p>
-        </div>
-        <div className="tool-preview-grid">
-          {TOOLS.slice(0, 3).map((tool) => (
-            <article className="tool-card tool-card-premium" key={tool.title}>
-              <div className="tool-icon" />
-              <h3>{tool.title}</h3>
-              <p>{tool.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section section-soft">
-        <div className="container section-heading-row">
-          <div>
-            <div className="eyebrow">Market intelligence</div>
-            <h2>Guides that make the user feel ahead of the GTA market, not behind it.</h2>
-          </div>
-          <p>
-            Every article is written to sharpen judgment, strengthen the checklist, and reinforce why this is where better commercial decisions begin.
-          </p>
-        </div>
-        <div className="insight-grid">
-          {featuredPosts.map((post) => (
-            <BlogCard key={post.slug} post={post} />
-          ))}
+        <div className="container grid gap-6 lg:grid-cols-[1fr_.94fr] items-stretch">
+          <Reveal className="rounded-[2rem] border border-black/5 bg-white p-7 shadow-luxe lg:p-10">
+            <div className="eyebrow">Connected layers</div>
+            <h2 className="m-0 max-w-[12ch] text-[clamp(2.1rem,3vw,3.6rem)] leading-[0.95] tracking-[-0.06em]">Services, tools, and warehouse experience should all feel like one authored system.</h2>
+            <p className="mt-5 max-w-[58ch] text-[1rem] leading-8 text-black/68">That means stronger section choreography, better imagery, micro motion, and a more premium content rhythm across the entire site.</p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {['Guided conversion', 'Premium white direction', 'Interactive tools', 'Warehouse brand layer'].map((chip) => (
+                <Chip key={chip} label={chip} />
+              ))}
+            </div>
+          </Reveal>
+          <Reveal delay={0.08} className="relative overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-luxe">
+            <img src={warehouseImage} alt="Industrial warehouse corridor" className="h-full min-h-[320px] w-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
+            <div className="absolute left-5 right-5 bottom-5 rounded-[1.6rem] border border-white/20 bg-white/78 px-5 py-4 backdrop-blur-lg">
+              <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24]">Interactive layer</div>
+              <p className="mb-0 mt-2 text-[0.98rem] leading-7 text-black/70">The warehouse experience is there to deepen intent, not feel like a disconnected toy.</p>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       <CTASection
-        eyebrow="Interactive showcase"
-        title="Warehouse intelligence should be experienced with context, not presented like a gimmick."
-        body="The warehouse experience remains inside the brand as a practical demonstration of how KOLT turns commercial complexity into something users can understand, test, and trust."
-        primaryLabel="Open Warehouse Demo"
-        primaryTo="/warehouse"
-        secondaryLabel="View Listing Type 2"
-        secondaryTo="/listing-type-2"
+        eyebrow="Next move"
+        title="Once the page has oriented the user, every next click should feel more valuable."
+        body="Move into services, tools, and listings with clearer decision logic and stronger commercial confidence."
+        primaryLabel="Explore Services"
+        primaryTo="/services"
+        secondaryLabel="Open Tools"
+        secondaryTo="/tools"
       />
     </>
   );
