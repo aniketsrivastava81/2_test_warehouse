@@ -1,0 +1,87 @@
+
+<div class="container">
+<div class="section-header">
+<div>
+<div class="kicker">Listings</div>
+<h1 style="margin-top:8px">Commercial Listings (Template)</h1>
+</div>
+<p>
+          This page is built to plug into an IDX/MLS feed later. For now, it uses 4 sample listings so you can validate the UX:
+          filters → map → detail page → conversion CTA.
+        </p>
+</div>
+<div class="grid grid-2" style="align-items:start">
+<section class="card soft">
+<h3>Filters</h3>
+<div class="form" style="margin-top:10px">
+<div class="field">
+<label for="q">Search</label>
+<input data-filter-q="" id="q" placeholder="Try: Beaver Creek, warehouse, Mural, Leek…" type="text"/>
+</div>
+<div class="field">
+<label for="type">Type</label>
+<select data-filter-type="" id="type">
+<option>All</option>
+<option>Office</option>
+<option>Warehouse</option>
+</select>
+</div>
+<div class="grid grid-2">
+<div class="field">
+<label for="minsq">Min SF</label>
+<input data-filter-minsq="" id="minsq" placeholder="0" type="number"/>
+</div>
+<div class="field">
+<label for="maxsq">Max SF</label>
+<input data-filter-maxsq="" id="maxsq" placeholder="99999" type="number"/>
+</div>
+</div>
+<div class="inline-callout">
+<div>
+<div class="kicker">Want higher conversion?</div>
+<div><strong>Keep filters simple.</strong> Type + SF + location is enough for TOFU/MOFU.</div>
+</div>
+<a class="btn btn-primary btn-sm" href="tools.html#footfall">Footfall tool</a>
+</div>
+</div>
+</section>
+<section class="card soft">
+<h3>Searchable map (sample)</h3>
+<p class="tiny muted">Markers update based on filters.</p>
+<div class="map-wrap">
+<div aria-label="Listings map" class="map" id="listingsMap"></div>
+</div>
+</section>
+</div>
+<section class="section tight">
+<div class="section-header">
+<div>
+<div class="kicker">Results</div>
+<h2>Listings</h2>
+</div>
+<p>Each card includes: vibe, practicality, location advantage, and lease flexibility notes.</p>
+</div>
+<div class="grid" data-listings=""></div>
+</section>
+<section class="section tight">
+<div class="card glow">
+<div class="grid grid-2" style="align-items:center">
+<div>
+<div class="kicker">Lead capture</div>
+<h2 style="margin:8px 0 10px 0">Want a shortlist tailored to your business?</h2>
+<p class="muted">Tell us your timeline + must‑haves, and we’ll bring 3–5 options—then negotiate from leverage.</p>
+<button class="btn btn-primary" data-open-leadmagnet="">Get the checklist</button>
+</div>
+<div class="card soft">
+<h3>What we’ll confirm before you sign</h3>
+<div class="table-like">
+<div class="row"><b>Total occupancy cost</b><span>rent + ops + utilities</span></div>
+<div class="row"><b>Use clause + zoning fit</b><span>avoid operational risk</span></div>
+<div class="row"><b>Parking + access</b><span>staff + deliveries</span></div>
+<div class="row"><b>Flexibility</b><span>renew, sublease, expansion</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
