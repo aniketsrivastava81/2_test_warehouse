@@ -7,6 +7,24 @@ import { Reveal } from "../components/motion/Reveal";
 
 const ALL = "All";
 
+const regionInsights = [
+  {
+    region: 'Peel',
+    title: 'Scarcity-led industrial demand',
+    body: 'Brampton and Mississauga stay central when truck movement, airport access, and industrial condo supply all matter at once.',
+  },
+  {
+    region: 'Halton',
+    title: 'Expansion and development runway',
+    body: 'Milton and western logistics growth make Halton useful for users balancing modern warehouse product with future expansion logic.',
+  },
+  {
+    region: 'York',
+    title: 'Industrial-flex and conversion upside',
+    body: 'Vaughan and north-GTA product fit owner-users, flex occupiers, and industrial condo strategies that need stronger front-end image.',
+  },
+];
+
 export default function PropertyListPage() {
   const [category, setCategory] = useState(ALL);
   const [location, setLocation] = useState(ALL);
@@ -32,29 +50,40 @@ export default function PropertyListPage() {
             <div className="relative z-[1]">
               <div className="flex flex-wrap gap-2">
                 <span className="eyebrow">Listings</span>
-                <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Market Pulse · March 2026</span>
+                <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Peel • Halton • York focus</span>
+                <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Scarcity-led inventory</span>
               </div>
-              <h1 className="m-0 mt-4 max-w-[11ch] text-[clamp(3rem,7vw,6rem)] leading-[0.92] tracking-[-0.07em]">
-                Search less. Compare better. Move with conviction.
+              <h1 className="m-0 mt-4 max-w-[10.6ch] text-[clamp(3rem,7vw,6rem)] leading-[0.92] tracking-[-0.07em]">
+                GTA industrial inventory is scarce. The wrong shortlist is expensive.
               </h1>
               <p className="mt-5 max-w-[60ch] text-[1.05rem] leading-8 text-black/70">
-                This page should feel like a serious CRE platform, not a generic gallery. Every opportunity is framed through operational fit,
-                corridor logic, and commercial usefulness before the shortlist gets emotional.
+                This page should feel less like a gallery and more like a live industrial pipeline - floor plans up front, availability framed with urgency,
+                and every card speaking the language of fit, zoning, truck access, and commercial usefulness.
               </p>
               <div className="hero-proof-row mt-6">
-                <span className="proof-chip">Curated GTA opportunities</span>
-                <span className="proof-chip">Image-led cards</span>
-                <span className="proof-chip">Fit-first filtering</span>
-                <span className="proof-chip">Direct route into tools</span>
+                <span className="proof-chip">Availability tags</span>
+                <span className="proof-chip">Floor plan download</span>
+                <span className="proof-chip">Industrial condo focus</span>
+                <span className="proof-chip">Confidential review path</span>
+              </div>
+              <div className="hero-power-bar hero-power-bar--inline mt-6">
+                {[
+                  ['Coverage', 'Peel • Halton • York'],
+                  ['Inventory lane', 'Industrial and flex-heavy'],
+                  ['Client action', 'Download plans before tours'],
+                  ['Advisor tone', 'Scarcity-first'],
+                ].map(([label, value]) => (
+                  <article key={label}><small>{label}</small><strong>{value}</strong></article>
+                ))}
               </div>
             </div>
           </Reveal>
 
           <Reveal delay={0.08} className="relative overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-luxe">
-            <img src={featured.image} alt={featured.title} className="h-full min-h-[420px] w-full object-cover" />
+            <img src={featured.image} alt={`${featured.title} featured industrial opportunity in ${featured.location}`} className="h-full min-h-[420px] w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/12 to-transparent" />
             <div className="absolute left-4 right-4 top-4 flex flex-wrap justify-between gap-2">
-              <span className="rounded-full border border-white/20 bg-white/80 px-3 py-2 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24] backdrop-blur-md">Featured listing</span>
+              <span className="listing-urgency-badge">SELLING NOW</span>
               <span className="rounded-full border border-white/20 bg-[#151515]/78 px-3 py-2 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-white backdrop-blur-md">{featured.tag}</span>
             </div>
             <div className="absolute left-4 right-4 bottom-4 rounded-[1.6rem] border border-white/20 bg-white/80 px-5 py-4 backdrop-blur-lg">
@@ -67,12 +96,25 @@ export default function PropertyListPage() {
                 <span className="rounded-full border border-black/8 bg-white px-3 py-2 text-sm text-black/68">{featured.zoning}</span>
               </div>
               <div className="mt-4 flex flex-wrap gap-3">
-                <Link to={`/listings/${featured.slug}`} className="button button-primary">View featured property</Link>
-                <Link to="/tools" className="button button-secondary">Run KOLT tools</Link>
-                <Link to="/contact#analysis-workflow" className="button button-secondary">Launch requirement brief</Link>
+                <Link to={`/listings/${featured.slug}`} className="button button-primary">Review availability</Link>
+                <a href={`/one-sheets/${featured.slug}.pdf`} className="button button-secondary" download>Download floor plan</a>
+                <Link to="/contact#analysis-workflow" className="button button-secondary">Request confidential review</Link>
               </div>
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      <section className="section pt-6 lg:pt-8">
+        <div className="container grid gap-4 md:grid-cols-3">
+          {regionInsights.map((item) => (
+            <Reveal key={item.region} className="rounded-[1.7rem] border border-black/5 bg-white p-6 shadow-[0_18px_50px_rgba(17,17,17,0.07)] institutional-card institutional-card--soft">
+              <div className="institutional-card__icon" aria-hidden="true" />
+              <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24]">{item.region} Region</div>
+              <h3 className="m-0 mt-2 text-[1.25rem] tracking-[-0.04em]">{item.title}</h3>
+              <p className="mb-0 mt-3 text-[0.98rem] leading-7 text-black/68">{item.body}</p>
+            </Reveal>
+          ))}
         </div>
       </section>
 
@@ -84,7 +126,7 @@ export default function PropertyListPage() {
               <h2>Find the right lane before the shortlist grows.</h2>
             </div>
             <p>
-              The goal is not to show the most properties. The goal is to help the right user see the right few faster.
+              The goal is not to show the most properties. The goal is to help the right user find the right few faster - with plan access and scarcity cues already in place.
             </p>
           </div>
 
@@ -129,14 +171,13 @@ export default function PropertyListPage() {
           <div className="rounded-[2rem] border border-black/5 bg-[#151515] p-7 text-white shadow-luxe lg:p-9">
             <div className="eyebrow !text-white/70">Private Vault</div>
             <h2 className="m-0 max-w-[12ch] text-[clamp(2rem,3vw,3.3rem)] leading-[0.95] tracking-[-0.06em] text-white">
-              The strongest industrial opportunities are not always public for long.
+              The strongest industrial opportunities are not public for long.
             </h2>
             <p className="mt-5 max-w-[58ch] text-[1rem] leading-8 text-white/74">
-              Create the feeling of a confidential pipeline, not a stale catalogue. This section teases off-market logic,
-              pocket opportunities, and why KOLT should feel plugged into better deal flow than the average search path.
+              Create the feeling of a confidential pipeline - off-market previews, limited-release inventory, and floor-plan access that rewards serious buyers and landlords first.
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
-              {['Off-market signals', 'Pocket opportunities', 'Shortlist before broadcast'].map((chip) => (
+              {['Off-market previews', 'Limited-release inventory', 'Floor-plan first conversion'].map((chip) => (
                 <span key={chip} className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-white/78">{chip}</span>
               ))}
             </div>
@@ -145,20 +186,20 @@ export default function PropertyListPage() {
           <div className="grid gap-4 md:grid-cols-2">
             {[
               {
-                title: 'Corridor logic',
-                body: 'Every opportunity is positioned through access, movement, and the kind of business it should serve best.',
+                title: 'Scarcity-led UX',
+                body: 'Availability tags and stronger CTA language make each opportunity feel active instead of archival.',
               },
               {
-                title: 'Shortlist discipline',
-                body: 'Users can move from broad browsing into a smaller, stronger comparison set without losing momentum.',
+                title: 'Floor-plan urgency',
+                body: 'Users can grab the one-sheet or floor plan directly from the card rather than hunting through multiple screens.',
               },
               {
                 title: 'Conversion by clarity',
-                body: 'The page naturally points users into tools, guides, and property details instead of leaving them at a dead end.',
+                body: 'The page naturally points users into confidential review, scarcity report capture, and direct analysis.',
               },
               {
                 title: 'Institutional tone',
-                body: 'Micro-copy, tags, and metric strips all speak like a serious advisory platform instead of generic retail marketing.',
+                body: 'Status language, asset descriptors, and corridor framing all read more like elite industrial advisory than retail real estate copy.',
               },
             ].map((item) => (
               <article key={item.title} className="rounded-[1.6rem] border border-black/5 bg-white p-5 shadow-[0_18px_50px_rgba(17,17,17,0.07)]">
@@ -173,11 +214,11 @@ export default function PropertyListPage() {
       <CTASection
         eyebrow="Next move"
         title="Turn the shortlist into a stronger final decision."
-        body="Move from inventory to fit testing with the tools, then use the guides to sharpen the final comparison."
+        body="Move from inventory to fit testing with the tools, then use the scarcity report or confidential review path to start the real conversation."
         primaryLabel="Open the Tools"
         primaryTo="/tools"
-        secondaryLabel="Read the Guides"
-        secondaryTo="/guides"
+        secondaryLabel="Request Scarcity Report"
+        secondaryTo="/contact#analysis-workflow"
       />
     </>
   );

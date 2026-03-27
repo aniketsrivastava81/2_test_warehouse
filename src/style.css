@@ -2588,3 +2588,30 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .storage-flow-config{display:grid;gap:.9rem;margin-bottom:1rem;} 
 @media (max-width:1080px){.premium-story-hero__grid,.premium-story-band__grid,.blog-feature-grid,.market-intel__grid,.zoning-assistant__grid,.premium-tool__grid{grid-template-columns:1fr;} .premium-story-kpis,.premium-proof-grid,.premium-path-grid,.premium-outcomes-grid,.video-testimonials__grid{grid-template-columns:repeat(2,minmax(0,1fr));} .premium-principles-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media (max-width:780px){.premium-story-hero__main,.premium-story-band__content,.market-intel,.zoning-assistant,.video-testimonials,.contact-inbox{padding:1.1rem;} .premium-story-kpis,.premium-proof-grid,.premium-path-grid,.premium-outcomes-grid,.premium-principles-grid,.market-intel__metrics,.video-testimonials__grid{grid-template-columns:1fr;} .premium-story-nav{top:66px;} .market-intel__map{min-height:300px;} .contact-inbox__header,.market-intel__header,.zoning-assistant__header,.video-testimonials__header{align-items:start;} }
+
+
+/* === PASS 3: institutional / scarcity refinements === */
+.institutional-card{position:relative;overflow:hidden;}
+.institutional-card__icon{width:14px;height:14px;border-radius:4px;background:linear-gradient(180deg,#ff7a00 0%,#b01f24 100%);box-shadow:0 8px 22px rgba(255,122,0,.28);margin-bottom:14px;}
+.institutional-card--soft{box-shadow:0 18px 50px rgba(17,17,17,.06);}
+.hero-power-bar{position:absolute;left:16px;right:16px;top:16px;display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr));z-index:2;}
+.hero-power-bar article{border:1px solid rgba(255,255,255,.16);background:rgba(15,15,15,.55);backdrop-filter:blur(14px);border-radius:1rem;padding:12px 14px;color:#fff;}
+.hero-power-bar article small{display:block;font-size:.68rem;line-height:1.2;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.72);font-weight:800;}
+.hero-power-bar article strong{display:block;margin-top:6px;font-size:.98rem;line-height:1.4;font-weight:800;}
+.hero-power-bar--inline{position:relative;left:auto;right:auto;top:auto;grid-template-columns:repeat(2,minmax(0,1fr));}
+.hero-power-bar--inline article{background:#faf7f4;border-color:rgba(17,17,17,.08);color:#151515;backdrop-filter:none;}
+.hero-power-bar--inline article small{color:rgba(17,17,17,.48);}
+.listing-urgency-badge{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(255,122,0,.92);padding:.6rem .9rem;font-size:.7rem;line-height:1;letter-spacing:.18em;text-transform:uppercase;font-weight:900;color:#fff;backdrop-filter:blur(10px);box-shadow:0 18px 45px rgba(255,122,0,.3);}
+.listing-urgency-badge--light{border-color:rgba(176,31,36,.16);background:#fff4ea;color:#b01f24;box-shadow:none;}
+.about-lead-quote{font-size:1.12rem !important;font-weight:700;color:#ffdbc1 !important;max-width:42rem;}
+.about-hero-main .premium-story-kpis article,
+.why-hero-upgrade .premium-story-kpis article{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);}
+.region-strategy-card{position:relative;}
+.region-strategy-card::after{content:"";position:absolute;right:18px;top:18px;width:34px;height:34px;border-radius:10px;background:radial-gradient(circle at 30% 30%,rgba(255,122,0,.45),rgba(176,31,36,.1));pointer-events:none;}
+@media (max-width:1100px){
+  .hero-power-bar{position:relative;left:auto;right:auto;top:auto;margin:1rem 0 0;}
+}
+@media (max-width:720px){
+  .hero-power-bar,
+  .hero-power-bar--inline{grid-template-columns:1fr;}
+}

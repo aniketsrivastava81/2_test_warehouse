@@ -31,6 +31,7 @@ export default function Header() {
               {item.label}
             </NavLink>
           ))}
+          <Link to="/contact#analysis-workflow" className="button button-secondary small-button">Scarcity Report</Link>
           <Link to="/listings" className="button button-primary small-button">View Opportunities</Link>
         </nav>
 
@@ -59,6 +60,9 @@ export default function Header() {
                 {item.label}
               </NavLink>
             ))}
+            <Link to="/contact#analysis-workflow" className="button button-secondary" onClick={() => setOpen(false)}>
+              Get Scarcity Report
+            </Link>
             <Link to="/listings" className="button button-primary" onClick={() => setOpen(false)}>
               View Opportunities
             </Link>

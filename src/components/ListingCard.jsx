@@ -2,22 +2,37 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ShortlistButton from "./ShortlistButton";
 
+function getAvailabilityLabel(listing) {
+  if (listing.status === "New") return "OFF-MARKET PREVIEW";
+  if (listing.category === "Office" || listing.assetClass === "Office") return "90% LEASED";
+  return "SELLING NOW";
+}
+
+function getAvailabilityNote(listing) {
+  if (listing.status === "New") return "Priority access available before broader marketing.";
+  if (listing.category === "Office" || listing.assetClass === "Office") return "Premium availability with limited remaining inventory.";
+  return "Active industrial inventory moving inside core GTA corridors.";
+}
+
 export default function ListingCard({ listing }) {
+  const floorPlanHref = `/one-sheets/${listing.slug}.pdf`;
+  const brochureHref = `/brochures/${listing.slug}-brochure.pdf`;
+  const availability = getAvailabilityLabel(listing);
+  const note = getAvailabilityNote(listing);
+
   return (
     <article className="group overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-luxe transition-transform duration-300 hover:-translate-y-1.5 listing-card-premium">
-      <div className="relative h-[270px] overflow-hidden listing-image-wrap">
+      <div className="relative h-[285px] overflow-hidden listing-image-wrap">
         <img
           src={listing.image}
-          alt={`${listing.title} in ${listing.location}`}
+          alt={`${listing.category} property in ${listing.location} with ${listing.loading} and ${listing.clearHeight}`}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04] listing-image"
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/72 via-black/16 to-transparent" />
 
         <div className="absolute left-4 right-4 top-4 flex flex-wrap items-center justify-between gap-2">
-          <span className="rounded-full border border-white/20 bg-white/82 px-3 py-1.5 text-[0.7rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24] backdrop-blur-md listing-status">
-            {listing.status}
-          </span>
+          <span className="listing-urgency-badge">{availability}</span>
           <span className="rounded-full border border-white/20 bg-[#151515]/78 px-3 py-1.5 text-[0.7rem] font-extrabold uppercase tracking-[0.18em] text-white backdrop-blur-md">
             {listing.tag}
           </span>
@@ -47,6 +62,10 @@ export default function ListingCard({ listing }) {
 
         <p className="mb-0 mt-5 text-[1rem] leading-7 text-black/80">{listing.teaser}</p>
 
+        <div className="mt-4 rounded-[1.2rem] border border-[#ff7a00]/20 bg-[#fff8f2] px-4 py-3 text-[0.92rem] leading-7 text-black/72">
+          <strong className="text-[#b01f24]">Inventory note:</strong> {note}
+        </div>
+
         <div className="mt-5 flex flex-wrap gap-2">
           <span className="rounded-full border border-black/10 bg-white px-3 py-2 text-sm text-black/78 shadow-[0_10px_20px_rgba(17,17,17,0.04)]">{listing.corridor}</span>
           <span className="rounded-full border border-black/10 bg-white px-3 py-2 text-sm text-black/78 shadow-[0_10px_20px_rgba(17,17,17,0.04)]">{listing.assetClass}</span>
@@ -60,8 +79,9 @@ export default function ListingCard({ listing }) {
           </div>
           <div className="flex flex-wrap gap-2">
             <ShortlistButton listing={listing} compact className="button button-secondary small-button shortlist-button" />
-            <a href={`/brochures/${listing.slug}-brochure.pdf`} className="button button-secondary inline-button small-button" download>Brochure</a>
-            <Link to={`/listings/${listing.slug}`} className="button button-primary inline-button small-button">View property</Link>
+            <a href={floorPlanHref} className="button button-secondary inline-button small-button" download>Floor plan</a>
+            <a href={brochureHref} className="button button-secondary inline-button small-button" download>Brochure</a>
+            <Link to={`/listings/${listing.slug}`} className="button button-primary inline-button small-button">Review availability</Link>
           </div>
         </div>
       </div>
