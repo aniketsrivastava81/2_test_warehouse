@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Chip } from '@mui/material';
-import { animate, stagger } from 'animejs';
 
 export default function ToolsAccessGate({ accepted, onAccept, metadataReady = true }) {
   const [checks, setChecks] = useState({
@@ -12,19 +11,6 @@ export default function ToolsAccessGate({ accepted, onAccept, metadataReady = tr
   useEffect(() => {
     if (accepted) setChecks({ tresa: true, reco: true, estimate: true });
   }, [accepted]);
-
-  useEffect(() => {
-    const targets = document.querySelectorAll('.tools-v3-pulse');
-    const instance = animate(targets, {
-      scale: [1, 1.08, 1],
-      opacity: [0.85, 1, 0.85],
-      ease: 'inOutSine',
-      duration: 1800,
-      loop: true,
-      delay: stagger(120),
-    });
-    return () => instance.pause?.();
-  }, []);
 
   const canUnlock = useMemo(() => checks.tresa && checks.reco && checks.estimate, [checks]);
   const setCheck = (key) => (event) => setChecks((state) => ({ ...state, [key]: event.target.checked }));

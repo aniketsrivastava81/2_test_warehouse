@@ -72,13 +72,30 @@ export default function ToolsPage() {
     targets.forEach((target) => target.classList.add('on'));
   }, [accepted]);
 
+  useEffect(() => {
+    if (!accepted || typeof window === 'undefined') return;
+    const hash = window.location.hash;
+    if (!hash) return;
+    const target = document.querySelector(hash);
+    if (!target) return;
+    const timer = window.setTimeout(() => {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
+    return () => window.clearTimeout(timer);
+  }, [accepted]);
+
   const toolCount = useMemo(() => 9, []);
   const chapters = [
     { label: 'Access Gate', href: '#tools-access-gate' },
-    { label: 'Pricing & Yield', href: '#tool-cap-rate' },
-    { label: 'Occupancy', href: '#tool-cam-tmi' },
-    { label: 'Finance', href: '#tool-mortgage-intelligence' },
-    { label: 'Flow & Fit', href: '#tool-storage-flow-lab' },
+    { label: 'Cap Rate', href: '#tool-cap-rate' },
+    { label: 'CAM / TMI', href: '#tool-cam-tmi' },
+    { label: 'Mortgage', href: '#tool-mortgage-intelligence' },
+    { label: 'Footfall', href: '#tool-footfall-access' },
+    { label: 'Submarkets', href: '#tool-submarket-comparison' },
+    { label: 'Warehouse Fit', href: '#tool-warehouse-fit' },
+    { label: 'Risk', href: '#tool-risk-resilience' },
+    { label: 'Premium Layer', href: '#tool-premium-warehouse' },
+    { label: 'Storage Flow', href: '#tool-storage-flow-lab' },
   ];
 
   return (
@@ -88,7 +105,7 @@ export default function ToolsPage() {
         <div className="tools-v2-orb tools-v2-orb-b" aria-hidden="true" />
         <div className="container tools-v2-hero-grid tools-v3-hero-grid">
           <div className="page-hero-inner tools-v2-hero-main tools-v2-reveal tools-v3-hero-main">
-            <div className="eyebrow">KOLT Tools</div>
+            <div className="flex flex-wrap gap-2"><div className="eyebrow">KOLT Tools</div><span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Market Pulse · March 2026</span></div>
             <h1>The GTA decision stack users do not get anywhere else.</h1>
             <p>
               The value stays dense. The gating stays strict. The visual system now feels more authored, more premium,
@@ -99,6 +116,7 @@ export default function ToolsPage() {
               <span className="proof-chip">Acknowledgement required first</span>
               <span className="proof-chip">Longer and denser content preserved</span>
               <span className="proof-chip">Premium white / editorial direction</span>
+              <span className="proof-chip">Compare CTA in every serious path</span>
             </div>
             <div className="tools-v2-kpi-row tools-v2-stagger">
               <article>
@@ -131,6 +149,10 @@ export default function ToolsPage() {
                 {chapters.map((chapter) => (
                   <a key={chapter.href} href={chapter.href}>{chapter.label}</a>
                 ))}
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <a className="button button-primary small-button" href="#tool-submarket-comparison">Compare submarkets</a>
+                <a className="button button-secondary small-button" href="#tool-storage-flow-lab">Open flow lab</a>
               </div>
             </div>
             <div className="tools-v2-rail-card tools-v2-rail-card-soft">
