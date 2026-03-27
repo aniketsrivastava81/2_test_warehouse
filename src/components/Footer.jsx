@@ -38,7 +38,7 @@ export default function Footer() {
       </div>
       <div className="container footer-bottom">
         <span>© 2026 KOLT Realty. Conceptual marketing build.</span>
-        <span>Contact details withheld pending approval.</span>
+        <span>Public office contact: info@kolt.ca · +1-416-860-3660</span>
       </div>
     </footer>
   );

@@ -69,6 +69,7 @@ export default function PropertyListPage() {
               <div className="mt-4 flex flex-wrap gap-3">
                 <Link to={`/listings/${featured.slug}`} className="button button-primary">View featured property</Link>
                 <Link to="/tools" className="button button-secondary">Run KOLT tools</Link>
+                <Link to="/contact#analysis-workflow" className="button button-secondary">Launch requirement brief</Link>
               </div>
             </div>
           </Reveal>
@@ -110,6 +111,7 @@ export default function PropertyListPage() {
               <strong>{filtered.length}</strong>
               <span>matched opportunities</span>
             </div>
+            <Link className="button button-secondary small-button" to="/contact#analysis-workflow">Request shortlist analysis</Link>
           </div>
         </div>
       </section>

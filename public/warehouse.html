@@ -282,16 +282,75 @@ body{background:#05060a;color:#e0ddd8;font-family:'DM Mono',monospace;}
   #game-hud{left:14px;right:14px;bottom:112px;}
   .overlay-title{font-size:36px;}
   .results-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  #sceneActions{left:14px;right:14px;top:auto;bottom:18px;max-width:none;justify-content:flex-start;}
+  #warehouseIntroOverlay{padding:14px;}
+  #warehouseIntroOverlay .intro-card{padding:20px;border-radius:24px;}
+  #warehouseIntroOverlay .intro-grid{grid-template-columns:1fr;}
 }
 
 
 #koltBrandPill{position:fixed;left:18px;top:18px;z-index:1000;padding:12px 16px;border-radius:999px;background:rgba(18,18,18,.84);color:#fff;font-family:Inter,Arial,sans-serif;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;box-shadow:0 18px 40px rgba(0,0,0,.22);backdrop-filter:blur(12px)}
 #koltBrandPill b{color:#d13a3f}
 
+#sceneActions{position:fixed;right:18px;top:18px;z-index:1000;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;max-width:min(52vw,620px)}
+#sceneActions a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 14px;border-radius:999px;background:rgba(255,255,255,.88);border:1px solid rgba(17,17,17,.08);color:#171717;font:700 11px/1 Inter,Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;box-shadow:0 16px 35px rgba(0,0,0,.12);backdrop-filter:blur(14px)}
+#sceneActions a.primary{background:rgba(176,31,36,.94);color:#fff;border-color:rgba(176,31,36,.35)}
+#warehouseIntroOverlay{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;padding:28px;background:linear-gradient(180deg,rgba(9,11,15,.70),rgba(9,11,15,.82));backdrop-filter:blur(14px)}
+#warehouseIntroOverlay.hidden{display:none}
+#warehouseIntroOverlay .intro-card{width:min(860px,100%);border-radius:34px;padding:28px;background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(247,243,238,.96));box-shadow:0 34px 90px rgba(0,0,0,.26);border:1px solid rgba(17,17,17,.08);color:#181818;font-family:Inter,Arial,sans-serif}
+#warehouseIntroOverlay .intro-eyebrow{display:inline-flex;padding:8px 12px;border-radius:999px;background:#171717;color:#fff;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+#warehouseIntroOverlay h2{margin:16px 0 0;font-size:clamp(32px,5vw,58px);line-height:.95;letter-spacing:-.06em;font-weight:800;color:#131313;max-width:11ch}
+#warehouseIntroOverlay p{margin:16px 0 0;max-width:64ch;font-size:16px;line-height:1.85;color:rgba(24,24,24,.78)}
+#warehouseIntroOverlay .intro-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:18px;margin-top:20px}
+#warehouseIntroOverlay .intro-panel{border-radius:24px;padding:18px;background:#fff;border:1px solid rgba(17,17,17,.08)}
+#warehouseIntroOverlay .intro-panel strong{display:block;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#b01f24}
+#warehouseIntroOverlay ul{margin:12px 0 0;padding-left:18px;color:rgba(24,24,24,.78);line-height:1.8}
+#warehouseIntroOverlay .intro-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+#warehouseIntroOverlay .intro-actions button,#warehouseIntroOverlay .intro-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 18px;border-radius:999px;border:1px solid transparent;font-weight:800;letter-spacing:.06em;text-decoration:none}
+#warehouseIntroOverlay .intro-actions button{background:#b01f24;color:#fff;box-shadow:0 18px 34px rgba(176,31,36,.25)}
+#warehouseIntroOverlay .intro-actions a{background:#fff;color:#171717;border-color:rgba(17,17,17,.1)}
+
+
 </style>
 </head>
 <body>
 <div id="koltBrandPill"><b>KOLT</b> Realty · Interactive warehouse intelligence</div>
+<div id="warehouseIntroOverlay">
+  <div class="intro-card">
+    <span class="intro-eyebrow">KOLT Realty · Warehouse Review</span>
+    <h2>Evaluate the warehouse like an operating environment.</h2>
+    <p>Use this scene to review circulation, loading, staging, and visual fit before you commit more time to tours, underwriting, or internal approvals.</p>
+    <div class="intro-grid">
+      <div class="intro-panel">
+        <strong>What to review</strong>
+        <ul>
+          <li>Interior flow, aisle logic, and pallet storage behaviour</li>
+          <li>Dock-side access, staging practicality, and exterior context</li>
+          <li>Brand-native signage, wall markers, and KOLT scene overlays</li>
+        </ul>
+      </div>
+      <div class="intro-panel">
+        <strong>Where to go next</strong>
+        <ul>
+          <li>Return to Listings once a fit looks credible</li>
+          <li>Open Tools to pressure-test cap rate or operational fit</li>
+          <li>Use Contact / Request Analysis when the brief is ready</li>
+        </ul>
+      </div>
+    </div>
+    <div class="intro-actions">
+      <button id="enterWarehouseBtn" type="button">Enter warehouse review</button>
+      <a href="/listings">View opportunities</a>
+      <a href="/contact#analysis-workflow">Request analysis</a>
+    </div>
+  </div>
+</div>
+<div id="sceneActions">
+  <a class="primary" href="/listings">Listings</a>
+  <a href="/tools">Tools</a>
+  <a href="/contact#analysis-workflow">Contact</a>
+</div>
+
 <canvas id="canvas"></canvas>
 <button id="toolbarMenuBtn" aria-label="Open controls" aria-expanded="false">☰ Controls</button>
 <div id="toolbarBackdrop"></div>
@@ -689,6 +748,7 @@ function makePalletLoad(boxMat,wrapMat,variant=0){
       }
     }
   }
+  applyPalletBrand(g, variant===0 ? "KOLT" : "KOLT", variant===0 ? "REALTY" : "LOGISTICS");
   return g;
 }
 
@@ -722,6 +782,52 @@ function makeColumnGuard(h=0.9){
     }
   });
   return g;
+}
+
+
+function roundRect(ctx,x,y,w,h,r){
+  const rr=Math.min(r,w/2,h/2);
+  ctx.beginPath();
+  ctx.moveTo(x+rr,y);
+  ctx.arcTo(x+w,y,x+w,y+h,rr);
+  ctx.arcTo(x+w,y+h,x,y+h,rr);
+  ctx.arcTo(x,y+h,x,y,rr);
+  ctx.arcTo(x,y,x+w,y,rr);
+  ctx.closePath();
+}
+function makeBrandCanvas(title,subtitle,{width=1024,height=256,bg='#111111',panel='#f7f2ea',text='#151515',accent='#b01f24',invert=false}={}){
+  const canvas=document.createElement('canvas');
+  canvas.width=width; canvas.height=height;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle=bg; ctx.fillRect(0,0,width,height);
+  ctx.fillStyle=panel; roundRect(ctx,32,32,width-64,height-64,42); ctx.fill();
+  ctx.fillStyle=accent; ctx.fillRect(56,56,18,height-112);
+  ctx.fillStyle=text;
+  ctx.font='800 78px Inter, Arial, sans-serif';
+  ctx.fillText(title,110,118);
+  ctx.font='700 34px Inter, Arial, sans-serif';
+  ctx.globalAlpha=.82;
+  ctx.fillText(subtitle,112,188);
+  ctx.globalAlpha=1;
+  const texture=new THREE.CanvasTexture(canvas);
+  texture.needsUpdate=true;
+  return texture;
+}
+function makeBrandPanel(title,subtitle,w=6,h=1.6,options={}){
+  const texture=makeBrandCanvas(title,subtitle,options);
+  const mat=new THREE.MeshBasicMaterial({map:texture,transparent:true});
+  const plane=new THREE.Mesh(new THREE.PlaneGeometry(w,h),mat);
+  plane.renderOrder=5;
+  return plane;
+}
+function applyPalletBrand(group,title='KOLT',subtitle='REALTY'){
+  const front=makeBrandPanel(title,subtitle,0.52,0.18,{width:720,height:220,bg:'#000000',panel:'#f5f0e8',accent:'#b01f24'});
+  front.position.set(0,0.64,0.52);
+  group.add(front);
+  const side=makeBrandPanel(title,subtitle,0.40,0.16,{width:720,height:220,bg:'#111111',panel:'#f5f0e8',accent:'#b01f24'});
+  side.position.set(0.52,0.64,0);
+  side.rotation.y=-Math.PI/2;
+  group.add(side);
 }
 
 // Dock door (rear wall)
@@ -1039,6 +1145,30 @@ shellGroup.add(frontWall);
 const entryOpen=box(5.5,4.2,0.28,mat({color:0x1a1e26,roughness:0.4,metalness:0.5}),0,2.1,SHELL_D/2);
 shellGroup.add(entryOpen);
 
+
+const westBrand=makeBrandPanel('KOLT REALTY','LOGISTICS / INDUSTRIAL REVIEW',7.4,1.55,{bg:'#111111',panel:'#f5f0e8',accent:'#b01f24'});
+westBrand.position.set(-SHELL_W/2+0.14,5.4,-2.6);
+westBrand.rotation.y=Math.PI/2;
+shellGroup.add(westBrand);
+
+const eastBrand=makeBrandPanel('KOLT REALTY','WAREHOUSE INTELLIGENCE',7.0,1.55,{bg:'#111111',panel:'#f5f0e8',accent:'#b01f24'});
+eastBrand.position.set(SHELL_W/2-0.14,5.2,4.8);
+eastBrand.rotation.y=-Math.PI/2;
+shellGroup.add(eastBrand);
+
+const frontInteriorSign=makeBrandPanel('KOLT REALTY','INTERACTIVE INDUSTRIAL REVIEW',8.2,1.7,{bg:'#171717',panel:'#f5f0e8',accent:'#c63439'});
+frontInteriorSign.position.set(0,5.7,SHELL_D/2-0.14);
+frontInteriorSign.rotation.y=Math.PI;
+shellGroup.add(frontInteriorSign);
+
+const rearInteriorSign=makeBrandPanel('KOLT REALTY','DOCK / STAGING / FLOW',6.6,1.45,{bg:'#171717',panel:'#f5f0e8',accent:'#c63439'});
+rearInteriorSign.position.set(0,5.2,-SHELL_D/2+0.14);
+shellGroup.add(rearInteriorSign);
+
+const frontExteriorSign=makeBrandPanel('KOLT REALTY','INDUSTRIAL OPPORTUNITY REVIEW',8.4,1.45,{bg:'#b01f24',panel:'#f6f2ea',accent:'#171717'});
+frontExteriorSign.position.set(0,5.9,SHELL_D/2+0.16);
+shellGroup.add(frontExteriorSign);
+
 // Ceiling
 const ceilMesh=box(SHELL_W,0.28,SHELL_D,M.ceiling,0,SHELL_H,0);
 ceilMesh.receiveShadow=true;shellGroup.add(ceilMesh);
@@ -1103,6 +1233,13 @@ siteGroups.ground.add(truckLane);
 const hornerAve=box(14,0.05,150,MX.asphalt,-58,-0.03,0);
 siteGroups.ground.add(hornerAve);
 const hornerMedianLine=box(0.18,0.02,150,MX.whiteMark,-58,-0.014,0);
+
+const monumentBase=box(3.8,0.65,0.6,MX.concrete,-49,0.32,22);
+siteGroups.context.add(monumentBase);
+const monumentPanel=makeBrandPanel('KOLT REALTY','WAREHOUSE EXPERIENCE',3.4,1.05,{bg:'#171717',panel:'#f5f0e8',accent:'#b01f24'});
+monumentPanel.position.set(-49,1.5,22.32);
+siteGroups.context.add(monumentPanel);
+
 siteGroups.ground.add(hornerMedianLine);
 addRoadDashes(siteGroups.ground,-56.25,-68,68,9,3.2,0.16);
 addRoadDashes(siteGroups.ground,-59.75,-68,68,9,3.2,0.16);
@@ -2236,6 +2373,17 @@ window.addEventListener('keyup',e=>{
   if(e.code==='ArrowDown') softDrop=false;
 });
 
+
+
+const introOverlay=document.getElementById('warehouseIntroOverlay');
+const enterWarehouseBtn=document.getElementById('enterWarehouseBtn');
+function hideWarehouseIntro(){
+  introOverlay.classList.add('hidden');
+}
+enterWarehouseBtn.addEventListener('click',hideWarehouseIntro);
+window.addEventListener('keydown',e=>{
+  if(e.key==='Enter' && !introOverlay.classList.contains('hidden')) hideWarehouseIntro();
+});
 
 // ─────────────────────────────────────────────────────────────────────────────
 // RESIZE

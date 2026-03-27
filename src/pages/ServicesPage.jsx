@@ -1,306 +1,419 @@
-import React, { useLayoutEffect, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Accordion, AccordionDetails, AccordionSummary, Chip } from '@mui/material';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from 'framer-motion';
-import CTASection from '../components/CTASection';
-import { Reveal, Stagger } from '../components/motion/Reveal';
-import Counter from '../components/motion/Counter';
-
-gsap.registerPlugin(ScrollTrigger);
+import React from "react";
+import { Link } from "react-router-dom";
+import { Accordion, AccordionDetails, AccordionSummary, Chip } from "@mui/material";
+import { motion } from "framer-motion";
+import CTASection from "../components/CTASection";
+import { LISTINGS } from "../data/siteData";
+import { Reveal } from "../components/motion/Reveal";
+import Counter from "../components/motion/Counter";
 
 const serviceBlocks = [
   {
-    slug: 'tenant-representation',
-    title: 'Tenant Representation',
-    intro: 'For occupiers who need space that works commercially on day one and strategically over time.',
-    summary: 'Translate operating requirements into a sharper shortlist, then negotiate from a position of operating clarity.',
-    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80',
-    lens: ['Operating-fit first', 'Occupancy-cost logic', 'Negotiation leverage'],
-    points: [
-      'Translate operating requirements into a sharper shortlist.',
-      'Compare occupancy cost, fit, capex, and access before negotiating.',
-      'Protect flexibility, timing, and leverage through a cleaner search process.',
+    slug: "tenant-representation",
+    title: "Tenant Representation",
+    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80",
+    intro: "For occupiers who need a requirement brief that reads like operations, not wishful thinking.",
+    summary: "We translate loading type, labour catchment, truck circulation, clear height, office ratio, parking, and NNN exposure into a smaller, sharper shortlist.",
+    learnMore: [
+      {
+        title: "What gets pressure-tested",
+        body: "Occupancy cost, truck-level versus drive-in loading, power, parking, racking assumptions, shipping rhythm, landlord work, inducements, and renewal flexibility all get compared before the final lane is chosen.",
+      },
+      {
+        title: "Why this matters commercially",
+        body: "The goal is not more tours. The goal is fewer, more relevant tours and stronger negotiation posture once conviction starts to form.",
+      },
     ],
+    chips: ["Loading type", "NNN exposure", "Labour access"],
+    cta: "Launch requirement brief",
   },
   {
-    slug: 'landlord-representation',
-    title: 'Landlord Representation',
-    intro: 'For owners who want assets positioned with clearer market logic and stronger leasing intent.',
-    summary: 'Refine the asset story around demand, use case, and market-fit so response quality gets better, not just larger.',
-    image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80',
-    lens: ['Leasing intent', 'Market-fit storytelling', 'Absorption quality'],
-    points: [
-      'Refine the asset story around demand, use case, and market fit.',
-      'Strengthen listing quality, response quality, and absorption strategy.',
-      'Align the space presentation with the tenant the asset should attract.',
+    slug: "landlord-representation",
+    title: "Landlord Representation",
+    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80",
+    intro: "For owners who need the asset positioned with cleaner market logic and stronger tenant targeting.",
+    summary: "We refine the presentation around corridor quality, user-fit, loading configuration, office image, and absorption logic so response quality improves — not just volume.",
+    learnMore: [
+      {
+        title: "Institutional positioning",
+        body: "CTA language, feature framing, and callouts now read like leasing intelligence: trailer access, clear height, shipping ratio, frontage, and merchandising flexibility instead of generic amenities alone.",
+      },
+      {
+        title: "How the page now helps",
+        body: "Alternating editorial sections, deeper expansion content, and stronger proof blocks help the user understand why the mandate is relevant before the first inquiry.",
+      },
     ],
+    chips: ["Absorption strategy", "Tenant targeting", "Narrative control"],
+    cta: "Request leasing strategy review",
   },
   {
-    slug: 'owner-user-acquisition',
-    title: 'Owner-User Acquisition',
-    intro: 'For businesses deciding whether ownership creates more value than another lease cycle.',
-    summary: 'Test control, equity, flexibility, and long-term occupancy economics together before conviction gets formed too early.',
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80',
-    lens: ['Balance-sheet control', 'Long-hold logic', 'Future optionality'],
-    points: [
-      'Test control, equity, flexibility, and long-term occupancy economics together.',
-      'Screen buildings for operational permanence and future optionality.',
-      'Reduce the risk of buying a property that only solves the current moment.',
+    slug: "owner-user-acquisition",
+    title: "Owner-User Acquisition",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80",
+    intro: "For operators deciding whether ownership beats another lease cycle.",
+    summary: "We weigh equity creation, capex timing, control, future flexibility, and zoning permanence together so the acquisition thesis feels earned rather than emotional.",
+    learnMore: [
+      {
+        title: "Decision lens",
+        body: "This is where lease-versus-buy tools, lender posture, occupancy cost, and exit optionality matter. The right building must solve today’s workflow and still make sense five to ten years out.",
+      },
+      {
+        title: "Best fit examples",
+        body: "Trade contractors, food users, light manufacturing, automotive, and growing service operators often need a more operational decision lens than standard marketing materials provide.",
+      },
     ],
+    chips: ["Control", "Future optionality", "Balance-sheet logic"],
+    cta: "Start acquisition analysis",
   },
   {
-    slug: 'investment-advisory',
-    title: 'Investment Advisory',
-    intro: 'For capital that needs better underwriting context before conviction is formed.',
-    summary: 'Evaluate assets through tenant logic, corridor quality, and downside resilience so the hold thesis feels earned.',
-    image: 'https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1400&q=80',
-    lens: ['Yield with context', 'Downside resilience', 'Corridor quality'],
-    points: [
-      'Evaluate assets through tenant logic, corridor quality, and downside resilience.',
-      'Compare opportunities based on durability, not just headline metrics.',
-      'Focus attention on the assets with the strongest real hold thesis.',
+    slug: "investment-advisory",
+    title: "Investment Advisory",
+    image: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1600&q=80",
+    intro: "For capital that needs underwriting context beyond headline cap rate.",
+    summary: "We frame opportunities through tenant quality, corridor durability, lease structure, cap rate posture, rollover risk, and last-mile relevance so the downside case is easier to see early.",
+    learnMore: [
+      {
+        title: "CRE language that matters",
+        body: "Cap rate compression, covenant strength, lease rollover, free-and-clear upside, and replacement-cost context are not side notes. They shape conviction, bidding behaviour, and hold strategy.",
+      },
+      {
+        title: "How we present assets now",
+        body: "Calls to action now use institutional language like Request Confidential Offering Memorandum and Request Underwriting Pack to fit investor expectations more naturally.",
+      },
     ],
+    chips: ["Cap rate context", "Lease quality", "Downside resilience"],
+    cta: "Request underwriting pack",
   },
   {
-    slug: 'development-land',
-    title: 'Development Land Advisory',
-    intro: 'For groups assessing land, repositioning, and future-use opportunities across the GTA.',
-    summary: 'Bring discipline to opportunities that often look better than they are by sequencing corridor strength, access, and future-use logic.',
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80',
-    lens: ['Corridor strength', 'Timing risk', 'Use-case alignment'],
-    points: [
-      'Prioritize corridor strength, access logic, and location context early.',
-      'Screen opportunities through timing, use-case alignment, and long-range value.',
-      'Bring discipline to opportunities that often look better than they are.',
+    slug: "development-land",
+    title: "Development Land Advisory",
+    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80",
+    intro: "For groups assessing land, zoning posture, servicing context, and future employment use.",
+    summary: "We structure the land story around planning context, access, frontage, servicing, entitlement complexity, and employment land logic so the real upside is easier to compare.",
+    learnMore: [
+      {
+        title: "Employment land lens",
+        body: "The right context is more than acreage. Zoning posture, servicing risk, municipal tone, corridor adjacency, and future-use alignment determine whether the land is actionable or just theoretically attractive.",
+      },
+      {
+        title: "Developer relevance",
+        body: "Developers need a faster signal on what is truly buildable, what is strategically land-banked, and what is likely to stall in diligence. That is the lens this section now adopts.",
+      },
     ],
+    chips: ["Zoning context", "Servicing", "Employment land"],
+    cta: "Review land strategy",
   },
   {
-    slug: 'portfolio-positioning',
-    title: 'Portfolio Positioning',
-    intro: 'For clients reassessing what to hold, upgrade, lease, sell, or redeploy.',
-    summary: 'Turn scattered property decisions into one coherent portfolio strategy with timing, capital allocation, and asset-role clarity.',
-    image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80',
-    lens: ['Asset-role clarity', 'Capital allocation', 'Hold/sell timing'],
-    points: [
-      'View each property through timing, capital allocation, and strategic role.',
-      'Identify where asset performance and portfolio intent are no longer aligned.',
-      'Turn scattered property decisions into a more coherent portfolio strategy.',
+    slug: "portfolio-positioning",
+    title: "Portfolio Positioning",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80",
+    intro: "For clients reassessing what to hold, market, improve, lease, or redeploy across multiple assets.",
+    summary: "We look at tenant mix, corridor quality, redevelopment optionality, leasing posture, capex prioritization, and timing so portfolio decisions do not get made asset by asset in isolation.",
+    learnMore: [
+      {
+        title: "What gets surfaced",
+        body: "Where the portfolio is overexposed to one tenant type, where a capex event could unlock rent, where disposition makes more sense than hold, and where leasing strategy should shift immediately.",
+      },
+      {
+        title: "Why the page needed rebuilding",
+        body: "This lane needed to read like strategic advisory, not a small card in a grid. The new alternating chapters and proof modules make the positioning feel much more senior and deliberate.",
+      },
     ],
+    chips: ["Portfolio review", "Redeployment", "Strategic timing"],
+    cta: "Book portfolio strategy session",
   },
 ];
 
-const accordionRows = [
+const personas = [
   {
-    title: 'How the service page increases conversion',
-    body: 'Each path explains the commercial upside before any outreach. That removes ambiguity and makes the next click into listings, tools, and markets feel more valuable.'
+    title: "Investors",
+    body: "Focused on yield durability, covenant quality, cap rate posture, rollover timing, and downside resilience across GTA corridors.",
+    bullets: ["Request underwriting pack", "Compare cap rate against tenant quality", "Assess hold thesis versus exit timing"],
   },
   {
-    title: 'Why this feels different from a generic brokerage site',
-    body: 'The page behaves more like an advisory narrative than a flat brochure. It frames the user’s decision, shows proof of thinking, and then advances them into the next relevant layer.'
+    title: "Owner-users",
+    body: "Focused on shipping practicality, power, image, circulation, control, capex, and whether ownership creates a more durable operating platform.",
+    bullets: ["Run lease-vs-buy logic", "Check loading and clear height", "Protect expansion optionality"],
   },
   {
-    title: 'What a visitor should feel by the bottom of the page',
-    body: 'They should feel seen, oriented, and commercially sharper. The site should already be helping them think better before they ever request anything from KOLT.'
-  }
+    title: "Developers",
+    body: "Focused on zoning, servicing, site context, entitlement friction, employment land logic, and where the upside is actually executable.",
+    bullets: ["Assess employment land viability", "Test frontage and access logic", "Compare entitlement complexity"],
+  },
+];
+
+const caseExamples = [
+  {
+    title: "Last-mile industrial search",
+    body: "A regional operator needed truck-level shipping, 28-foot clear height, and tighter last-mile access. The search narrowed from broad GTA inventory into a smaller logistics-fit lane first.",
+    tag: "Loading + logistics",
+  },
+  {
+    title: "Investor underwriting reset",
+    body: "A private investor liked the asking cap rate, but the real decision hinged on lease rollover concentration and corridor durability. The frame shifted from headline yield to hold quality.",
+    tag: "Cap rate + rollover",
+  },
+  {
+    title: "Employment land screen",
+    body: "A development group needed a faster read on zoning context, servicing posture, and municipal friction. The land conversation moved from acreage to executable utility.",
+    tag: "Zoning + land use",
+  },
+];
+
+const publicTrackRecord = [
+  {
+    metric: "2021 transactions closed",
+    value: "41",
+    note: "Publicly reported commercial closings in 2021.",
+  },
+  {
+    metric: "2021 dollar volume",
+    value: "$37.5M",
+    note: "Publicly reported 2021 commercial transaction volume.",
+  },
+  {
+    metric: "2022 pipeline snapshot",
+    value: "58 pending / $184M+",
+    note: "Publicly reported pending volume snapshot from 2022.",
+  },
+];
+
+const representedPlaces = [
+  "2074–2084 Steeles Ave E · Brampton",
+  "286 Rutherford Road South · Brampton",
+  "11–13 Edvac Drive · Brampton",
+  "4 Alfred Kuehne Boulevard · Brampton",
+  "89–111 Orenda Road · Brampton",
+  "5775 Atlantic Drive · Mississauga",
+  "177 Lombard Street · Winnipeg",
+  "2283 St. Laurent Boulevard · Ottawa",
+];
+
+const voicePlaceholders = [
+  "Reserved for approved occupier testimonial copy.",
+  "Reserved for approved owner-user testimonial copy.",
+  "Reserved for approved investor testimonial copy.",
 ];
 
 export default function ServicesPage() {
-  const rootRef = useRef(null);
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.service-story-card',
-        { autoAlpha: 0, y: 48, scale: 0.98 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.9,
-          ease: 'power3.out',
-          stagger: 0.12,
-          scrollTrigger: {
-            trigger: '.services-story-shell',
-            start: 'top 72%',
-          },
-        }
-      );
-
-      ScrollTrigger.matchMedia({
-        '(min-width: 1024px)': function () {
-          ScrollTrigger.create({
-            trigger: '.services-story-shell',
-            start: 'top 120',
-            end: 'bottom bottom-=120',
-            pin: '.services-premium-rail',
-            pinSpacing: false,
-          });
-        }
-      });
-    }, rootRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  useEffect(() => {
-    const elems = document.querySelectorAll('.tooltipped');
-    const M = window.M;
-    if (!M) return undefined;
-    const instances = M.Tooltip.init(elems, {
-      enterDelay: 120,
-      exitDelay: 0,
-      margin: 10,
-      transitionMovement: 8,
-      opacity: 1,
-    });
-    return () => instances.forEach((instance) => instance.destroy());
-  }, []);
+  const inventorySqft = LISTINGS.reduce((total, listing) => total + (listing.sqft || 0), 0);
+  const assetClasses = new Set(LISTINGS.map((listing) => listing.assetClass)).size;
+  const activeNodes = new Set(LISTINGS.map((listing) => listing.location)).size;
 
   return (
-    <div ref={rootRef} className="services-premium-page">
-      <section className="page-hero slim-hero !pt-10 lg:!pt-14 overflow-hidden">
-        <div className="container grid gap-6 lg:grid-cols-[1.08fr_.92fr] items-stretch">
+    <div className="services-premium-page services-premium-page-v2">
+      <section className="page-hero slim-hero page-hero-premium !pt-10 lg:!pt-14 overflow-hidden">
+        <div className="container grid gap-6 lg:grid-cols-[1.02fr_.98fr] items-stretch">
           <Reveal className="relative overflow-hidden rounded-[2rem] border border-black/5 bg-white px-7 py-8 shadow-luxe lg:px-10 lg:py-10">
             <div className="absolute inset-0 bg-kolt-glow opacity-80" aria-hidden="true" />
             <div className="relative z-[1]">
-              <div className="eyebrow">Services</div>
-              <h1 className="max-w-[10.5ch] text-[clamp(3rem,7vw,6.2rem)] leading-[0.92] tracking-[-0.07em] m-0">Advisory paths that feel tailored before a call ever happens.</h1>
-              <p className="mt-5 max-w-[58ch] text-[1.06rem] leading-8 text-black/70">
-                The services page should not read like a brochure. It should help visitors recognize their situation instantly,
-                understand the value of the right path, and feel that KOLT has already reduced the complexity of the next move.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link to="/listings" className="button button-primary waves-effect waves-light small-button">View Opportunities</Link>
-                <Link to="/tools" className="button button-secondary waves-effect small-button">Open Tools</Link>
+              <div className="flex flex-wrap gap-2">
+                <span className="eyebrow">Services</span>
+                <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/60">Market Pulse · March 2026</span>
               </div>
-              <Stagger className="mt-8 grid gap-3 md:grid-cols-3">
-                {[
-                  ['Paths', 6, 'decision-led paths'],
-                  ['Coverage', 4, 'core GTA lenses'],
-                  ['Goal', 100, '% clarity before outreach']
-                ].map(([label, value, suffix]) => (
-                  <motion.article key={label} variants={{ hidden:{opacity:0,y:24}, show:{opacity:1,y:0} }} className="rounded-[1.4rem] border border-black/6 bg-[#faf7f4] px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-                    <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/45">{label}</div>
-                    <div className="mt-2 text-[1.75rem] font-extrabold tracking-[-0.06em] text-[#151515]">
-                      <Counter value={Number(value)} suffix={label === 'Goal' ? '%' : ''} />
-                    </div>
-                    <div className="mt-1 text-sm text-black/58">{suffix}</div>
-                  </motion.article>
-                ))}
-              </Stagger>
+              <h1 className="m-0 mt-4 max-w-[10.5ch] text-[clamp(3rem,7vw,6.2rem)] leading-[0.92] tracking-[-0.07em]">
+                Advisory paths that read like commercial strategy, not brochure filler.
+              </h1>
+              <p className="mt-5 max-w-[60ch] text-[1.04rem] leading-8 text-black/80">
+                The services page now works like an editorial CRE narrative: stronger hierarchy, alternating image-and-text chapters, deeper expansion content, sharper jargon, and a clearer route into the right mandate.
+              </p>
+              <div className="hero-proof-row mt-6">
+                <span className="proof-chip">Alternating story-led sections</span>
+                <span className="proof-chip">Institutional CTA language</span>
+                <span className="proof-chip">Who we serve</span>
+                <span className="proof-chip">Proof + case examples</span>
+              </div>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link to="/listings" className="button button-primary">Request Confidential Offering Memorandum</Link>
+                <Link to="/contact#analysis-workflow" className="button button-secondary">Launch requirement brief</Link>
+              </div>
             </div>
           </Reveal>
 
           <Reveal delay={0.08} className="grid gap-4">
             <div className="relative min-h-[420px] overflow-hidden rounded-[2rem] border border-white/60 bg-white shadow-luxe">
-              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80" alt="Commercial advisory meeting table" className="h-full w-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 rounded-[1.6rem] border border-white/20 bg-white/75 px-5 py-4 backdrop-blur-lg">
-                <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24]">Client lens</div>
-                <div className="mt-2 text-2xl font-extrabold leading-tight tracking-[-0.05em] text-[#151515]">Commercial confidence grows fastest when the path feels unmistakably relevant.</div>
+              <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1500&q=80" alt="Commercial real estate strategy session" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4 rounded-[1.6rem] border border-white/20 bg-white/78 px-5 py-4 backdrop-blur-lg">
+                <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24]">Why this rebuild matters</div>
+                <div className="mt-2 text-2xl font-extrabold leading-tight tracking-[-0.05em] text-[#151515]">Less static grid. More authored decision support.</div>
               </div>
             </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-[1.6rem] border border-black/6 bg-white px-5 py-5 shadow-[0_18px_50px_rgba(17,17,17,0.08)]">
-                <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/45">Live feel</div>
-                <p className="mb-0 mt-2 text-[0.98rem] leading-7 text-black/70">Framer-led hover lift, GSAP scroll timing, MUI chips, Tailwind spacing, and Materialize wave CTAs are all used here to break the static feel.</p>
-              </div>
-              <div className="rounded-[1.6rem] border border-[#b01f24]/12 bg-[#f9f1ef] px-5 py-5 shadow-[0_18px_50px_rgba(176,31,36,0.08)]">
-                <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24]">Design target</div>
-                <p className="mb-0 mt-2 text-[0.98rem] leading-7 text-black/70">Less boxy, more editorial. More layered, more tactile, more obviously designed by a human.</p>
-              </div>
+            <div className="services-proof-strip">
+              {[
+                ["Active mandates", LISTINGS.length, "opportunities in current build"],
+                ["Current inventory", inventorySqft, "SF showcased across live listings"],
+                ["Asset classes", assetClasses, "industrial, office, retail, land, mixed-use"],
+                ["GTA nodes", activeNodes, "markets represented in current inventory"],
+              ].map(([label, value, note]) => (
+                <article key={label} className="services-proof-stat">
+                  <small>{label}</small>
+                  <strong><Counter value={Number(value)} separator={label === "Current inventory"} suffix={label === "Current inventory" ? " SF" : ""} /></strong>
+                  <span>{note}</span>
+                </article>
+              ))}
             </div>
           </Reveal>
         </div>
       </section>
 
       <section className="section pt-8 lg:pt-10">
-        <div className="container services-story-shell grid gap-7 lg:grid-cols-[360px_minmax(0,1fr)] items-start">
-          <aside className="services-premium-rail rounded-[2rem] border border-black/5 bg-white/90 p-6 shadow-luxe backdrop-blur-md">
-            <div className="eyebrow">Advisory map</div>
-            <h2 className="mt-0 max-w-[12ch] text-[clamp(2rem,3vw,3rem)] leading-[0.96] tracking-[-0.06em]">The site should guide the user into the right lane instantly.</h2>
-            <p className="text-black/68 leading-8">Each service chapter below is designed as a high-conviction scene: image-led, benefit-led, and motion-led, without losing the exact content you asked to preserve.</p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {serviceBlocks.map((service) => (
-                <Chip key={service.slug} label={service.title} size="small" className="tooltipped" data-tooltip={service.summary} />
-              ))}
-            </div>
-            <div className="mt-6 rounded-[1.5rem] bg-[#151515] p-5 text-white">
-              <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-white/55">What changes</div>
-              <p className="mb-0 mt-3 text-[0.98rem] leading-7 text-white/74">The whole page stops behaving like six repeated cards and starts behaving like a carefully-authored advisory story.</p>
-            </div>
-          </aside>
-
-          <div className="grid gap-6">
-            {serviceBlocks.map((service, index) => (
-              <motion.article
-                key={service.slug}
-                whileHover={{ y: -6 }}
-                transition={{ duration: 0.28, ease: 'easeOut' }}
-                className={`service-story-card relative overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-luxe ${index % 2 === 0 ? '' : 'lg:-ml-4'}`}
-              >
-                <div className="grid gap-0 lg:grid-cols-[1.08fr_.92fr]">
-                  <div className={`relative order-2 p-6 lg:p-8 ${index % 2 ? 'lg:order-2' : 'lg:order-1'}`}>
-                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#b01f24]/45 to-transparent" />
-                    <div className="eyebrow">Service {index + 1}</div>
-                    <h2 className="mb-3 mt-2 text-[clamp(2rem,3.2vw,3.6rem)] leading-[0.95] tracking-[-0.07em]">{service.title}</h2>
-                    <p className="text-[1.04rem] leading-8 text-black/68">{service.intro}</p>
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {service.lens.map((tag) => <Chip key={tag} label={tag} />)}
-                    </div>
-                    <div className="mt-5 rounded-[1.5rem] bg-[#f6f0ea] p-5 text-[1rem] leading-8 text-black/70">{service.summary}</div>
-                    <div className="mt-5 grid gap-3">
-                      {service.points.map((point) => (
-                        <div key={point} className="rounded-[1.3rem] border border-black/6 bg-white px-4 py-4 text-[0.98rem] leading-7 text-black/72 shadow-[0_10px_30px_rgba(17,17,17,0.05)]">
-                          {point}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className={`relative min-h-[360px] overflow-hidden ${index % 2 ? 'lg:order-1' : 'lg:order-2'}`}>
-                    <img src={service.image} alt={service.title} className="h-full w-full object-cover transition-transform duration-700 hover:scale-[1.03]" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-transparent" />
-                    <div className="absolute left-4 right-4 top-4 flex justify-between gap-3">
-                      <div className="rounded-full border border-white/25 bg-white/74 px-3 py-2 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24] backdrop-blur-md">{service.slug.replaceAll('-', ' ')}</div>
-                      <div className="rounded-full border border-white/25 bg-[#151515]/76 px-3 py-2 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-white backdrop-blur-md">KOLT Lens</div>
-                    </div>
-                    <div className="absolute bottom-4 left-4 right-4 rounded-[1.4rem] border border-white/20 bg-white/78 px-4 py-4 backdrop-blur-lg">
-                      <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/45">Why it matters</div>
-                      <p className="mb-0 mt-2 text-[0.96rem] leading-7 text-black/72">The user should understand the value of this path at a glance and feel the next click getting easier.</p>
-                    </div>
-                  </div>
+        <div className="container grid gap-7">
+          {serviceBlocks.map((service, index) => (
+            <motion.article
+              key={service.slug}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, ease: "easeOut" }}
+              className={`service-story-card service-story-card--editorial ${index % 2 === 1 ? "is-reversed" : ""}`}
+            >
+              <div className="service-story-card__visual">
+                <img src={service.image} alt={service.title} />
+                <div className="service-story-card__visual-overlay" />
+                <div className="service-story-card__badge-row">
+                  <span>{service.slug.replaceAll("-", " ")}</span>
+                  <span>KOLT Lens</span>
                 </div>
-              </motion.article>
+              </div>
+              <div className="service-story-card__content">
+                <div className="eyebrow">Service {index + 1}</div>
+                <h2>{service.title}</h2>
+                <p className="service-story-card__intro">{service.intro}</p>
+                <div className="service-story-card__summary">{service.summary}</div>
+                <div className="service-story-card__chips">
+                  {service.chips.map((chip) => <Chip key={chip} label={chip} />)}
+                </div>
+                <div className="service-story-card__learnmore">
+                  {service.learnMore.map((row) => (
+                    <Accordion key={row.title} disableGutters>
+                      <AccordionSummary expandIcon={<span className="text-lg font-bold">+</span>}>
+                        <div className="text-[1rem] font-extrabold tracking-[-0.03em]">{row.title}</div>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <p className="m-0 text-[0.98rem] leading-7 text-black/78">{row.body}</p>
+                      </AccordionDetails>
+                    </Accordion>
+                  ))}
+                </div>
+                <div className="service-story-card__actions">
+                  <Link className="button button-primary small-button" to="/contact#analysis-workflow">{service.cta}</Link>
+                  <Link className="button button-secondary small-button" to="/tools">Pressure-test this path</Link>
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section section-soft-borderless">
+        <div className="container">
+          <div className="section-heading-row">
+            <div>
+              <div className="eyebrow">Who we serve</div>
+              <h2>Three commercial lenses. Three very different decision patterns.</h2>
+            </div>
+            <p>
+              Investors, owner-users, and developers do not evaluate the same asset the same way. The page now says that clearly.
+            </p>
+          </div>
+          <div className="services-persona-grid">
+            {personas.map((persona) => (
+              <article key={persona.title} className="services-persona-card">
+                <h3>{persona.title}</h3>
+                <p>{persona.body}</p>
+                <ul>
+                  {persona.bullets.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section section-soft-borderless pt-2">
-        <div className="container grid gap-4 lg:grid-cols-3">
-          {accordionRows.map((row) => (
-            <Accordion key={row.title} disableGutters>
-              <AccordionSummary expandIcon={<span className="text-lg font-bold">+</span>}>
-                <div className="text-[1.02rem] font-extrabold tracking-[-0.03em]">{row.title}</div>
-              </AccordionSummary>
-              <AccordionDetails>
-                <p className="m-0 text-[0.98rem] leading-7 text-black/68">{row.body}</p>
-              </AccordionDetails>
-            </Accordion>
-          ))}
+      <section className="section">
+        <div className="container grid gap-6 lg:grid-cols-[.92fr_1.08fr] items-start">
+          <div className="services-proof-panel">
+            <div className="eyebrow">Proof + trust</div>
+            <h2>Give the page enough commercial proof that the advisory tone feels earned.</h2>
+            <p>
+              This pass adds a proper proof layer: live-inventory scale metrics, public track-record snapshots, represented markets, mandate-style examples, and testimonial-ready slots awaiting approved client quote language.
+            </p>
+            <div className="services-proof-panel__stats">
+              <article>
+                <small>Current active listings</small>
+                <strong>{LISTINGS.length}</strong>
+              </article>
+              <article>
+                <small>Current inventory</small>
+                <strong>{inventorySqft.toLocaleString()} SF</strong>
+              </article>
+              <article>
+                <small>Markets currently represented</small>
+                <strong>{activeNodes}</strong>
+              </article>
+            </div>
+            <div className="services-proof-panel__stats mt-4">
+              {publicTrackRecord.map((item) => (
+                <article key={item.metric}>
+                  <small>{item.metric}</small>
+                  <strong>{item.value}</strong>
+                  <span>{item.note}</span>
+                </article>
+              ))}
+            </div>
+            <div className="services-proof-panel__represented mt-4">
+              <div className="text-[0.74rem] font-extrabold uppercase tracking-[0.16em] text-black/55">Selected publicly referenced properties / markets</div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {representedPlaces.map((place) => (
+                  <span key={place} className="proof-chip">{place}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {voicePlaceholders.map((quote, index) => (
+              <blockquote key={quote} className="services-voice-card">
+                <span>Client voice slot {index + 1}</span>
+                <p>“{quote}”</p>
+                <footer>Pending approved testimonial</footer>
+              </blockquote>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section section-soft-borderless">
+        <div className="container">
+          <div className="section-heading-row">
+            <div>
+              <div className="eyebrow">Case-style examples</div>
+              <h2>Give the user a glimpse of how the mandate gets framed in the real world.</h2>
+            </div>
+            <p>
+              These are not fictional transaction claims. They are advisory-style examples designed to show how KOLT would structure the conversation.
+            </p>
+          </div>
+          <div className="services-case-grid">
+            {caseExamples.map((item) => (
+              <article key={item.title} className="services-case-card">
+                <span>{item.tag}</span>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
       <CTASection
         eyebrow="Next move"
-        title="Once the right service path is clear, the rest of the site becomes dramatically more valuable."
-        body="Continue into listings, tools, and market guidance built to support the same decision from every angle."
-        primaryLabel="Browse Listings"
+        title="Use the rebuilt services page to move naturally into listings, tools, and contact."
+        body="The service story now sets up the rest of the site properly: institutional language, cleaner mandate fit, better proof, and better next actions."
+        primaryLabel="Browse listings"
         primaryTo="/listings"
-        secondaryLabel="Explore Tools"
-        secondaryTo="/tools"
+        secondaryLabel="Launch requirement brief"
+        secondaryTo="/contact#analysis-workflow"
       />
     </div>
   );

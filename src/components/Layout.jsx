@@ -3,6 +3,8 @@ import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import RouteSeo from "./RouteSeo";
+import FloatingInquiryButton from "./FloatingInquiryButton";
+import ShortlistTray from "./ShortlistTray";
 
 export default function Layout() {
   const location = useLocation();
@@ -13,12 +15,15 @@ export default function Layout() {
 
   return (
     <div className="site-shell">
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <RouteSeo />
       <Header />
-      <main>
+      <main id="main-content">
         <Outlet />
       </main>
       <Footer />
+      <ShortlistTray />
+      <FloatingInquiryButton />
     </div>
   );
 }

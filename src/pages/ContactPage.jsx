@@ -1,84 +1,110 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import MultiStepLeadForm from "../components/MultiStepLeadForm";
+import { SITE } from "../config/site";
 
-const nextSteps = [
+const contactChapters = [
   {
-    title: "Explore live opportunities",
-    body: "Review active industrial, office, retail, and land opportunities before direct contact goes live.",
-    to: "/listings",
-    label: "View listings",
+    title: "Call the brokerage",
+    body: "Use the public office line when the next move is already clear and you want a faster conversation.",
+    href: `tel:${SITE.primaryPhone.replace(/[^\d+]/g, "")}`,
+    label: SITE.primaryPhone,
   },
   {
-    title: "Use the decision tools",
-    body: "Pressure-test fit, occupancy cost, and operational logic before entering the next conversation.",
-    to: "/tools",
+    title: "Email the team",
+    body: "Use email when the requirement needs attachments, a property list, or a more detailed written brief.",
+    href: `mailto:${SITE.primaryEmail}`,
+    label: SITE.primaryEmail,
+  },
+  {
+    title: "Pressure-test first",
+    body: "Not ready to inquire yet? Move into the tools and build a stronger requirement before outreach.",
+    href: "/tools",
     label: "Open tools",
-  },
-  {
-    title: "Read the market guides",
-    body: "Use KOLT's frameworks to sharpen search criteria, timing, and negotiation posture across the GTA.",
-    to: "/guides",
-    label: "Read guides",
+    internal: true,
   },
 ];
 
 export default function ContactPage() {
   return (
     <>
-      <section className="page-hero slim-hero contact-hold-page contact-hold-hero">
-        <div className="container page-hero-inner article-width contact-hold-shell">
-          <div className="eyebrow">Contact</div>
-          <h1>Direct contact details are being held back until approval is complete.</h1>
-          <p>
-            The page stays active so the journey stays intact. Until then, the site is structured to let users learn,
-            screen, and narrow options without friction.
-          </p>
-          <div className="contact-status-band">
-            <span>Approval-safe page</span>
-            <span>Live route preserved</span>
-            <span>No public contact details yet</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="section section-soft-borderless">
-        <div className="container">
-          <div className="section-heading-row">
-            <div>
-              <div className="eyebrow">What users should do now</div>
-              <h2>Move forward with the parts of the journey that already create value.</h2>
+      <section className="page-hero slim-hero page-hero-premium !pt-10 lg:!pt-14 overflow-hidden">
+        <div className="container grid gap-6 lg:grid-cols-[1.02fr_.98fr] items-stretch">
+          <div className="rounded-[2rem] border border-black/5 bg-white px-7 py-8 shadow-luxe lg:px-10 lg:py-10">
+            <div className="flex flex-wrap gap-2">
+              <span className="eyebrow">Contact</span>
+              <span className="rounded-full border border-black/10 bg-[#faf7f4] px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/60">Strategy-led outreach</span>
             </div>
-            <p>
-              Everything below is designed to reduce uncertainty so users arrive at the eventual conversation sharper,
-              better filtered, and easier to convert.
+            <h1 className="m-0 mt-4 max-w-[11ch] text-[clamp(3rem,6vw,5.6rem)] leading-[0.92] tracking-[-0.07em]">
+              Capture the requirement cleanly before the conversation begins.
+            </h1>
+            <p className="mt-5 max-w-[58ch] text-[1.04rem] leading-8 text-black/78">
+              This contact flow now behaves more like a commercial requirement brief: asset type, corridor, timing, and constraints first — contact second.
             </p>
+            <div className="hero-proof-row mt-6">
+              <span className="proof-chip">Two-step inquiry</span>
+              <span className="proof-chip">Phone + email routing</span>
+              <span className="proof-chip">Shortlist-aware workflow</span>
+              <span className="proof-chip">WhatsApp-ready draft</span>
+            </div>
           </div>
 
-          <div className="contact-next-grid">
-            {nextSteps.map((item) => (
-              <article key={item.title} className="contact-next-card">
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-                <Link className="button button-secondary" to={item.to}>
-                  {item.label}
+          <aside className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-luxe lg:p-8">
+            <div className="eyebrow">Public contact details</div>
+            <div className="contact-direct-card mt-4">
+              <div>
+                <small>Office</small>
+                <strong>{SITE.primaryPhone}</strong>
+              </div>
+              <div>
+                <small>Email</small>
+                <strong>{SITE.primaryEmail}</strong>
+              </div>
+              <div>
+                <small>Address</small>
+                <strong>{SITE.officeAddress}</strong>
+              </div>
+            </div>
+            <div className="mt-5 grid gap-3">
+              {contactChapters.map((item) => item.internal ? (
+                <Link key={item.title} className="contact-direct-link" to={item.href}>
+                  <span>{item.title}</span>
+                  <strong>{item.label}</strong>
+                  <p>{item.body}</p>
                 </Link>
-              </article>
-            ))}
-          </div>
+              ) : (
+                <a key={item.title} className="contact-direct-link" href={item.href}>
+                  <span>{item.title}</span>
+                  <strong>{item.label}</strong>
+                  <p>{item.body}</p>
+                </a>
+              ))}
+            </div>
+          </aside>
         </div>
       </section>
 
-      <section className="section">
-        <div className="container">
-          <div className="contact-hold-panel">
-            <div>
-              <div className="eyebrow">What this page communicates</div>
-              <h2>The site is ready. The contact layer is simply waiting for the green light.</h2>
-            </div>
-            <div className="contact-hold-copy">
-              <p>Users still get brand trust, structured guidance, and meaningful decision support right now.</p>
-              <p>No dead end. No broken experience. No unapproved information exposed.</p>
-            </div>
+      <section className="section section-soft-borderless" id="analysis-workflow">
+        <div className="container grid gap-6 lg:grid-cols-[1.04fr_.96fr] items-start">
+          <MultiStepLeadForm source="contact-page" context="Direct contact page inquiry" />
+          <div className="grid gap-4">
+            <article className="contact-story-panel">
+              <div className="eyebrow">Analysis workflow</div>
+              <h2>Make the next outreach feel earned, not generic.</h2>
+              <p>
+                The stronger conversion pattern is now: save a shortlist, run the tools, then package the requirement brief. That sequence gives KOLT far more context than a blank contact form ever could.
+              </p>
+            </article>
+            <article className="contact-story-panel contact-story-panel--dark">
+              <div className="eyebrow">Institutional language</div>
+              <h2>Use the same tone serious CRE conversations already expect.</h2>
+              <ul>
+                <li>Request Confidential Offering Memorandum</li>
+                <li>Launch Requirement Brief</li>
+                <li>Pressure-test cap rate, NNN exposure, and loading type</li>
+                <li>Screen corridor fit, last-mile access, and employment land context</li>
+              </ul>
+            </article>
           </div>
         </div>
       </section>

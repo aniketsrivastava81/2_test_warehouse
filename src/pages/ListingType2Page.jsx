@@ -4,8 +4,8 @@ import CTASection from "../components/CTASection";
 
 const showcasePoints = [
   "High-impact presentation for premium industrial conversations",
-  "More memorable than static decks or stitched screenshots",
-  "Built to hold attention longer and deepen intent",
+  "Styled to feel native to the KOLT site rather than dropped in",
+  "Exit links and next-step CTAs stay visible around the experience",
 ];
 
 const useCases = [
@@ -31,8 +31,7 @@ export default function ListingType2Page() {
           <div className="eyebrow">Interactive Showcase</div>
           <h1>Present the opportunity like it matters before the first call even happens.</h1>
           <p>
-            This route is the elevated presentation layer: immersive, branded, and built to make serious industrial
-            interest feel more immediate.
+            This route now uses a more site-native frame, stronger introductory copy, and a cleaner return path into listings, tools, and contact.
           </p>
           <div className="warehouse-hero-points showcase-points">
             {showcasePoints.map((point) => (
@@ -44,24 +43,40 @@ export default function ListingType2Page() {
 
       <section className="section warehouse-shell-section">
         <div className="container">
-          <div className="warehouse-intro-panel">
+          <div className="warehouse-preflight-panel">
             <div>
               <div className="eyebrow">Immersive layer</div>
-              <h2>Use movement, context, and interaction to make the opportunity harder to ignore.</h2>
+              <h2>Use movement, context, and branded framing to make the opportunity harder to ignore.</h2>
             </div>
-            <p>
-              This page is designed to sit above the normal listing flow and deliver a more premium presentation when the
-              moment calls for it.
-            </p>
+            <div className="warehouse-preflight-panel__notes">
+              <p>This page is designed to sit above the standard listing flow and then return users into opportunities, tools, or analysis without friction.</p>
+              <div className="warehouse-preflight-panel__actions">
+                <Link className="button button-primary small-button" to="/listings">View opportunities</Link>
+                <Link className="button button-secondary small-button" to="/contact#analysis-workflow">Launch requirement brief</Link>
+              </div>
+            </div>
           </div>
 
-          <div className="warehouse-frame-wrap frame-large warehouse-frame-premium">
-            <iframe
-              className="warehouse-frame"
-              title="KOLT Listing Type 2 warehouse animation and game"
-              src="/warehouse-game/index.html"
-              loading="eager"
-            />
+          <div className="warehouse-frame-shell">
+            <div className="warehouse-frame-shell__topbar">
+              <div>
+                <span>Listing Type 2 · premium showcase</span>
+                <strong>Styled, framed, and routed like the main KOLT site</strong>
+              </div>
+              <div className="warehouse-frame-shell__toplinks">
+                <Link to="/listings">Listings</Link>
+                <Link to="/tools">Tools</Link>
+                <Link to="/contact#analysis-workflow">Contact</Link>
+              </div>
+            </div>
+            <div className="warehouse-frame-wrap frame-large warehouse-frame-premium warehouse-frame-premium-v2">
+              <iframe
+                className="warehouse-frame"
+                title="KOLT Listing Type 2 warehouse animation and game"
+                src="/warehouse-game/index.html"
+                loading="eager"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -78,7 +93,7 @@ export default function ListingType2Page() {
       </section>
 
       <section className="section">
-        <div className="container warehouse-bridge-panel">
+        <div className="container warehouse-bridge-panel warehouse-bridge-panel-v2">
           <div>
             <div className="eyebrow">Return to the journey</div>
             <h2>Even the premium layer should route users back into active decision-making.</h2>
@@ -86,6 +101,7 @@ export default function ListingType2Page() {
           <div className="warehouse-bridge-actions">
             <Link className="button button-primary" to="/listings">View opportunities</Link>
             <Link className="button button-secondary" to="/tools">Open tools</Link>
+            <Link className="button button-secondary" to="/contact#analysis-workflow">Request analysis</Link>
           </div>
         </div>
       </section>
