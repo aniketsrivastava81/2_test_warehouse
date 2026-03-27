@@ -1,6 +1,4 @@
 import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
-import CTASection from '../components/CTASection';
 import ToolsAccessGate from '../components/tools/ToolsAccessGate';
 import CapRateTool from '../components/tools/CapRateTool';
 import CamEstimatorTool from '../components/tools/CamEstimatorTool';
@@ -11,12 +9,14 @@ import EquipmentCompatibilityTool from '../components/tools/EquipmentCompatibili
 import RiskResilienceTool from '../components/tools/RiskResilienceTool';
 import PremiumWarehouseTool from '../components/tools/PremiumWarehouseTool';
 import StorageFlowLabTool from '../components/tools/StorageFlowLabTool';
+import CTASection from '../components/CTASection';
+import ArchiveToolsEmbed from '../components/ArchiveToolsEmbed';
 
 const STORAGE_KEY = 'kolt_tools_gate_signed';
 
 function useMeta() {
   useEffect(() => {
-    document.title = 'KOLT Realty Tools | GTA Commercial Real Estate Decision Tools';
+    document.title = 'KOLT Realty Tools | Full GTA Commercial Real Estate Tool Stack';
     const ensureMeta = (name, content, attr = 'name') => {
       let element = document.head.querySelector(`meta[${attr}='${name}']`);
       if (!element) {
@@ -26,10 +26,10 @@ function useMeta() {
       }
       element.setAttribute('content', content);
     };
-    ensureMeta('description', 'KOLT Realty tools for cap rate, CAM and TMI budgeting, mortgage intelligence, warehouse fit, submarket comparison, and industrial decision support across the GTA.');
-    ensureMeta('keywords', 'KOLT Realty, GTA commercial real estate tools, cap rate calculator, CAM TMI budget, mortgage DSCR LTV tool, warehouse sprinkler suppression checker, submarket comparison GTA, industrial warehouse fit, owner user acquisition tool');
+    ensureMeta('description', 'KOLT Realty tools for cap rate, CAM and TMI budgeting, mortgage intelligence, warehouse fit, submarket comparison, risk screening, storage flow, and legacy underwriting calculators across the GTA.');
+    ensureMeta('keywords', 'KOLT Realty, GTA commercial real estate tools, cap rate calculator, CAM TMI budget, mortgage DSCR LTV tool, warehouse fit, industrial decision support, submarket comparison GTA, legacy underwriting tools');
     ensureMeta('og:title', 'KOLT Realty Tools', 'property');
-    ensureMeta('og:description', 'Decision tools for commercial and industrial real estate users across the GTA.', 'property');
+    ensureMeta('og:description', 'Core decision tools plus the legacy underwriting suite for GTA commercial and industrial real estate.', 'property');
   }, []);
 }
 
@@ -65,7 +65,6 @@ export default function ToolsPage() {
     return () => observer.disconnect();
   }, [accepted]);
 
-
   useLayoutEffect(() => {
     if (!accepted || typeof window === 'undefined') return;
     const targets = document.querySelectorAll('.tools-v2-intro, .tools-v2-stack, .tools-v2-stack > *');
@@ -84,7 +83,7 @@ export default function ToolsPage() {
     return () => window.clearTimeout(timer);
   }, [accepted]);
 
-  const toolCount = useMemo(() => 9, []);
+  const counts = useMemo(() => ({ core: 10, archive: 19, total: 29 }), []);
   const chapters = [
     { label: 'Access Gate', href: '#tools-access-gate' },
     { label: 'Cap Rate', href: '#tool-cap-rate' },
@@ -96,53 +95,54 @@ export default function ToolsPage() {
     { label: 'Risk', href: '#tool-risk-resilience' },
     { label: 'Premium Layer', href: '#tool-premium-warehouse' },
     { label: 'Storage Flow', href: '#tool-storage-flow-lab' },
+    { label: 'Archive Suite', href: '#tool-legacy-suite' },
   ];
 
   return (
     <>
-      <section className="page-hero slim-hero page-hero-premium tools-v2-hero tools-v2-stage !pt-10 lg:!pt-14">
+      <section className="page-hero slim-hero page-hero-premium tools-v2-hero tools-v2-stage tools-v4-hero !pt-10 lg:!pt-14">
         <div className="tools-v2-orb tools-v2-orb-a" aria-hidden="true" />
         <div className="tools-v2-orb tools-v2-orb-b" aria-hidden="true" />
-        <div className="container tools-v2-hero-grid tools-v3-hero-grid">
-          <div className="page-hero-inner tools-v2-hero-main tools-v2-reveal tools-v3-hero-main">
-            <div className="flex flex-wrap gap-2"><div className="eyebrow">KOLT Tools</div><span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Market Pulse · March 2026</span></div>
-            <h1>The GTA decision stack users do not get anywhere else.</h1>
+        <div className="container tools-v2-hero-grid tools-v3-hero-grid tools-v4-hero-grid">
+          <div className="page-hero-inner tools-v2-hero-main tools-v2-reveal tools-v3-hero-main tools-v4-hero-main">
+            <div className="flex flex-wrap gap-2"><div className="eyebrow">KOLT Tools</div><span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Main stack refreshed</span></div>
+            <h1>The full KOLT tool stack now lives inside the app instead of beside it.</h1>
             <p>
-              The value stays dense. The gating stays strict. The visual system now feels more authored, more premium,
-              and much closer to the original white-surface elegance you asked to preserve.
+              The working front-stack logic stays intact. The remade tools file is used as the structural cue,
+              and the deeper archive calculators now sit inside the same website flow instead of getting left behind.
             </p>
             <div className="hero-proof-row tools-v2-proof-row">
-              <span className="proof-chip">9 tools total</span>
-              <span className="proof-chip">Acknowledgement required first</span>
-              <span className="proof-chip">Longer and denser content preserved</span>
-              <span className="proof-chip">Premium white / editorial direction</span>
-              <span className="proof-chip">Compare CTA in every serious path</span>
+              <span className="proof-chip">{counts.core} core tools</span>
+              <span className="proof-chip">{counts.archive} archive tools</span>
+              <span className="proof-chip">{counts.total} total decision tools</span>
+              <span className="proof-chip">Gate still required first</span>
+              <span className="proof-chip">Working logic preserved</span>
             </div>
             <div className="tools-v2-kpi-row tools-v2-stagger">
               <article>
-                <small>Journey</small>
-                <strong>Gate → tools → compare → act</strong>
+                <small>Front stack</small>
+                <strong>Fast shortlist logic for live opportunities</strong>
               </article>
               <article>
-                <small>Positioning</small>
-                <strong>KOLT as the interpretation layer</strong>
+                <small>Archive suite</small>
+                <strong>Deeper underwriting after the first pass</strong>
               </article>
               <article>
-                <small>UX standard</small>
-                <strong>Alive, layered, tactile, and commercially useful</strong>
+                <small>Result</small>
+                <strong>One route for screening, comparison, and diligence</strong>
               </article>
             </div>
           </div>
 
-          <aside className="tools-v2-hero-rail tools-v2-reveal tools-v3-hero-rail">
-            <motion.div whileHover={{ y: -6 }} className="tools-v2-rail-card tools-v2-rail-card-accent overflow-hidden">
+          <aside className="tools-v2-hero-rail tools-v2-reveal tools-v3-hero-rail tools-v4-hero-rail">
+            <div className="tools-v2-rail-card tools-v2-rail-card-accent overflow-hidden">
               <div className="tools-v3-rail-photo">
                 <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80" alt="Warehouse team reviewing operations" />
               </div>
-              <span className="tools-v2-mini-tag">What changes</span>
-              <h2>Same content. Better atmosphere. Better pacing.</h2>
-              <p>Nothing gets removed. The page simply stops looking assembled and starts looking designed.</p>
-            </motion.div>
+              <span className="tools-v2-mini-tag">What changed this pass</span>
+              <h2>Old fragments removed. Remade structure absorbed. Main page now carries the full stack.</h2>
+              <p>The front-facing tools stay native to the app. The additional legacy calculators are brought in as a dedicated second-layer suite.</p>
+            </div>
             <div className="tools-v2-rail-card">
               <span className="tools-v2-mini-tag">Quick map</span>
               <div className="tools-v2-anchor-list">
@@ -152,15 +152,15 @@ export default function ToolsPage() {
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 <a className="button button-primary small-button" href="#tool-submarket-comparison">Compare submarkets</a>
-                <a className="button button-secondary small-button" href="#tool-storage-flow-lab">Open flow lab</a>
+                <a className="button button-secondary small-button" href="#tool-legacy-suite">Open archive suite</a>
               </div>
             </div>
             <div className="tools-v2-rail-card tools-v2-rail-card-soft">
-              <span className="tools-v2-mini-tag">Visual direction</span>
+              <span className="tools-v2-mini-tag">Logic stance</span>
               <ul className="tools-v2-bullet-list">
-                <li>Paper-like white surfaces with warmer luxury contrast</li>
-                <li>Editorial spacing, quieter shadows, stronger emphasis moments</li>
-                <li>Gentle motion and premium state changes without changing the page identity</li>
+                <li>Core calculators remain the first-pass experience</li>
+                <li>Archive tools stay available for heavier second-pass diligence</li>
+                <li>The page now feels like a full decision environment, not a partial tool dump</li>
               </ul>
             </div>
           </aside>
@@ -168,7 +168,7 @@ export default function ToolsPage() {
       </section>
 
       <section className="section section-soft-borderless tools-v2-stage">
-        <div className="container tools-v2-page">
+        <div className="container tools-v2-page tools-v4-page">
           <ToolsAccessGate accepted={accepted} onAccept={() => setAccepted(true)} metadataReady />
 
           {!accepted ? (
@@ -176,22 +176,22 @@ export default function ToolsPage() {
               <span className="tools-v2-tag">Locked until acceptance</span>
               <h2>The tool stack stays hidden until the acknowledgement is accepted.</h2>
               <p>
-                Tick all acknowledgements above and press <b>Accept and unlock tools</b>. Only then will the full set of 9 tools become visible here.
+                Tick all acknowledgements above and press <b>Accept and unlock tools</b>. Only then will the full {counts.total}-tool environment become visible here.
               </p>
             </section>
           ) : (
             <>
-              <section className="tools-v2-intro tools-v2-card tools-v2-reveal tools-v3-intro">
+              <section className="tools-v2-intro tools-v2-card tools-v2-reveal tools-v3-intro tools-v4-intro">
                 <div>
                   <span className="tools-v2-mini-tag">Unlocked environment</span>
-                  <h2>The tools are live. Every section below stays content-heavy and comparison-led.</h2>
+                  <h2>The core tools are live first. The archive suite sits underneath for the heavier work.</h2>
                 </div>
                 <p>
-                  Use the calculators in sequence, then compare outputs against live opportunities. The objective is not raw numbers alone.
-                  It is better judgment, better screening, and a stronger reason to keep moving through KOLT.
+                  Start with the fast filters below. Once a property survives that first pass, move into the archive suite for deeper financing,
+                  lease, occupancy, disposition, and capital-stack analysis without leaving the website.
                 </p>
               </section>
-              <div className="tools-v2-stack tools-v2-stagger tools-v3-stack">
+              <div className="tools-v2-stack tools-v2-stagger tools-v3-stack tools-v4-stack">
                 <CapRateTool />
                 <CamEstimatorTool />
                 <LeaseVsBuyTool />
@@ -201,6 +201,7 @@ export default function ToolsPage() {
                 <RiskResilienceTool />
                 <PremiumWarehouseTool />
                 <StorageFlowLabTool />
+                <ArchiveToolsEmbed />
               </div>
             </>
           )}
@@ -210,8 +211,8 @@ export default function ToolsPage() {
       {accepted && (
         <CTASection
           eyebrow="Next move"
-          title={`Use the ${toolCount}-tool stack against live opportunities.`}
-          body="Run the tools, pressure-test the shortlist, then move into listings and market pages with much stronger decision clarity."
+          title={`Use the full ${counts.total}-tool stack against live opportunities.`}
+          body="Run the core screen first, then move into the archive suite when the shortlist deserves deeper underwriting and stronger conviction."
           primaryLabel="Browse Listings"
           primaryTo="/listings"
           secondaryLabel="Explore Markets"

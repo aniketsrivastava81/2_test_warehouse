@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KOLT Realty | Legacy Tools Suite</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+        :root {
+            --kolt-red: #d32f2f; 
+            --bg-light: #f4f4f4;
+            --card-white: #ffffff;
+            --text-dark: #121212;
+            --text-gray: #555;
+            --border: #ddd;
+            --shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            padding: 40px 20px;
+            line-height: 1.5;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* HEADER */
+        .dashboard-header {
+            background: var(--card-white);
+            padding: 30px 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .brand-info h1 { font-size: 1.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
+        .brand-info p { color: var(--kolt-red); font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* TABS */
+        .nav-tabs {
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 18px 25px;
+            background: #e8e8e8;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
+            font-size: 0.75rem;
+            font-weight: 800;
+            cursor: pointer;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-btn.active {
+            background: var(--card-white);
+            color: var(--kolt-red);
+            border-top: 4px solid var(--kolt-red);
+            padding-top: 15px;
+        }
+
+
+        .tab-group {
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 0.68rem;
+            font-weight: 900;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: #8a8a8a;
+            white-space: nowrap;
+        }
+
+        .note-box {
+            background: #fcfcfc;
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-size: 0.78rem;
+            color: #666;
+            margin-top: 14px;
+            line-height: 1.5;
+        }
+
+        /* MAIN ENGINE AREA */
+        .engine-shell {
+            background: var(--card-white);
+            border: 1px solid var(--border);
+            border-radius: 0 12px 12px 12px;
+            padding: 50px;
+            box-shadow: var(--shadow);
+            min-height: 550px;
+        }
+
+        .tool-panel { display: none; grid-template-columns: 1fr 1fr; gap: 60px; }
+        .tool-panel.active { display: grid; }
+
+        /* INPUTS */
+        .input-sidebar h2 { font-size: 1.1rem; margin-bottom: 30px; text-transform: uppercase; border-left: 4px solid var(--kolt-red); padding-left: 15px; }
+        
+        .control-group { margin-bottom: 30px; }
+        .control-group label { display: block; font-weight: 700; font-size: 0.8rem; margin-bottom: 12px; color: #333; text-transform: uppercase; }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            background: #eee;
+            border-radius: 10px;
+            outline: none;
+            accent-color: var(--kolt-red);
+            cursor: pointer;
+        }
+
+        input[type="number"], input[type="text"], select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .range-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: #888; font-weight: 600; margin-top: 8px; }
+        .current-val { color: var(--kolt-red); font-weight: 800; float: right; }
+
+        /* VISUALIZATION */
+        .data-display h2 { font-size: 1.1rem; margin-bottom: 30px; text-transform: uppercase; text-align: right; color: var(--text-gray); }
+        
+        .metric-row { margin-bottom: 22px; }
+        .metric-info { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; }
+        
+        .bar-container { background: #f0f0f0; height: 14px; border-radius: 2px; overflow: hidden; }
+        .bar-fill { height: 100%; background: var(--kolt-red); border-radius: 2px; transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+        .result-box {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .result-box h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+        }
+
+        .result-box .value {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--kolt-red);
+        }
+
+        /* FOOTER ACTION */
+        .panel-footer {
+            grid-column: span 2;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .disclaimer { font-size: 0.75rem; color: #999; max-width: 65%; line-height: 1.4; }
+
+        .cta-primary {
+            background: var(--kolt-red);
+            color: #fff;
+            padding: 16px 35px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.2);
+        }
+
+        .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(211, 47, 47, 0.3); }
+
+        @media (max-width: 950px) {
+            .tool-panel { grid-template-columns: 1fr; gap: 40px; }
+            .panel-footer { grid-column: span 1; flex-direction: column; text-align: center; gap: 25px; }
+            .disclaimer { max-width: 100%; }
+        }
+    
+        .tab-btn[disabled] {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .tab-btn.is-locked::after {
+            content: " · locked";
+            font-weight: 700;
+            color: #999;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .summary-grid.three {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .metric-card {
+            background: #fbfbfb;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .metric-card h4 {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            color: #777;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .metric-card .big {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--text-dark);
+        }
+
+        .metric-card .sub {
+            font-size: 0.76rem;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        .check-grid, .meta-list, .pass-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .check-row, .meta-item, .pass-item {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fcfcfc;
+            padding: 12px 14px;
+        }
+
+        .check-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .check-row input[type="checkbox"] {
+            margin-top: 3px;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--kolt-red);
+        }
+
+        .check-row strong {
+            display: block;
+            font-size: 0.83rem;
+            margin-bottom: 4px;
+        }
+
+        .check-row p {
+            font-size: 0.76rem;
+            color: #666;
+        }
+
+        .meta-list {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin-bottom: 16px;
+        }
+
+        .meta-item small {
+            display: block;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 6px;
+        }
+
+        .meta-item strong {
+            font-size: 0.96rem;
+        }
+
+        .download-row, .flow-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .cta-secondary {
+            background: #fff;
+            color: var(--text-dark);
+            padding: 12px 18px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            font-weight: 800;
+            font-size: 0.77rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            cursor: pointer;
+        }
+
+        .cta-secondary:hover {
+            transform: translateY(-1px);
+        }
+
+        .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .mini-table th,
+        .mini-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .mini-table th {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+            color: #777;
+            background: #fafafa;
+        }
+
+        .mini-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            border: 1px solid transparent;
+        }
+
+        .status-ok {
+            background: #eef9f2;
+            color: #236b40;
+            border-color: #cfe8d8;
+        }
+
+        .status-watch {
+            background: #fff8eb;
+            color: #8b5d00;
+            border-color: #f0dfad;
+        }
+
+        .status-bad {
+            background: #fff1f1;
+            color: #9d2e2e;
+            border-color: #efcccc;
+        }
+
+        .decision-box {
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--kolt-red);
+            border-radius: 10px;
+            padding: 14px 16px;
+            background: #fbfbfb;
+            margin-top: 14px;
+        }
+
+        .decision-box h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #888;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .decision-box p {
+            font-size: 0.82rem;
+            color: #4f4f4f;
+        }
+
+        .compare-wrap {
+            display: grid;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .compare-row {
+            display: grid;
+            grid-template-columns: 108px 1fr 46px 1fr 108px;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .compare-row .bar-container {
+            height: 12px;
+        }
+
+        .compare-row .bar-fill.alt {
+            background: #444;
+        }
+
+        .pass-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin-top: 16px;
+        }
+
+        .pass-item.good {
+            background: #eef9f2;
+            border-color: #d5eadb;
+        }
+
+        .pass-item.bad {
+            background: #fff3f3;
+            border-color: #f1d4d4;
+        }
+
+        .pass-item strong {
+            display: block;
+            font-size: 0.82rem;
+            margin-bottom: 6px;
+        }
+
+        .pass-item span {
+            font-size: 0.76rem;
+            color: #666;
+        }
+
+        .ring {
+            width: 126px;
+            height: 126px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            margin-bottom: 18px;
+            background: conic-gradient(var(--kolt-red) 0deg, #eee 0deg);
+        }
+
+        .ring-inner {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            background: white;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+
+        .ring-inner strong {
+            display: block;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .ring-inner span {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            color: #777;
+            letter-spacing: 0.9px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .lane-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin: 12px 0 18px;
+        }
+
+        .lane-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fbfbfb;
+            padding: 12px;
+        }
+
+        .lane-card h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+        }
+
+        .lane-card .lane-count {
+            font-size: 1.2rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            color: var(--kolt-red);
+        }
+
+        .stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            min-height: 54px;
+            align-content: flex-start;
+        }
+
+        .pallet {
+            width: 18px;
+            height: 14px;
+            border-radius: 3px;
+            background: var(--kolt-red);
+            box-shadow: inset 0 -2px 0 rgba(0,0,0,0.12);
+        }
+
+        .pallet.is-dim {
+            opacity: 0.22;
+        }
+
+        .inline-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .inline-label span:last-child {
+            color: var(--kolt-red);
+            font-weight: 800;
+        }
+
+        @media (max-width: 950px) {
+            .summary-grid,
+            .summary-grid.three,
+            .meta-list,
+            .pass-grid,
+            .lane-grid,
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .compare-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+<style>
+  body {
+    padding: 24px 0 40px;
+    background: linear-gradient(180deg, #f7f3ee 0%, #f3eee8 100%);
+  }
+  .container { max-width: 1320px; padding: 0 20px; }
+  .dashboard-header {
+    margin-bottom: 18px;
+    border-radius: 24px;
+    box-shadow: 0 16px 44px rgba(17,17,17,0.08);
+  }
+  .engine-shell {
+    border-radius: 0 0 24px 24px;
+    padding: 38px;
+  }
+  .nav-tabs {
+    margin-top: 10px;
+    gap: 6px;
+    padding-bottom: 0;
+  }
+  .tab-group {
+    padding-left: 0;
+  }
+  .tab-btn {
+    border-radius: 999px 999px 0 0;
+  }
+  .note-box { margin-top: 18px; }
+  @media (max-width: 950px) {
+    body { padding-top: 14px; }
+    .engine-shell { padding: 20px; }
+    .dashboard-header { padding: 22px 20px; border-radius: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+<header class="dashboard-header">
+    <div class="brand-info">
+        <p>Legacy and Advanced Decision Tools</p>
+        <h1>KOLT ARCHIVE SUITE</h1>
+    </div>
+    <div style="text-align: right;">
+        <div style="font-weight: 900; font-size: 1.1rem; color: #333;">SECOND-LAYER ANALYSIS</div>
+        <div style="color: var(--kolt-red); font-size: 0.7rem; font-weight: 800; text-transform: uppercase;">For deeper screening after the front stack</div>
+    </div>
+</header>
+<nav class="nav-tabs">
+  <span class="tab-group">Archive / Legacy Tools</span>
+  <button class="tab-btn active" onclick="openTab(event, 'condo')">11 Condo Conversion</button>
+<button class="tab-btn" onclick="openTab(event, 'dscr')">12 DSCR</button>
+<button class="tab-btn" onclick="openTab(event, 'irr')">13 IRR</button>
+<button class="tab-btn" onclick="openTab(event, 'cashOnCash')">14 Cash-on-Cash</button>
+<button class="tab-btn" onclick="openTab(event, 'lease')">15 Lease Audit / NOI</button>
+<button class="tab-btn" onclick="openTab(event, 'camRec')">16 CAM Reconciliation</button>
+<button class="tab-btn" onclick="openTab(event, 'markToMarket')">17 Mark-to-Market</button>
+<button class="tab-btn" onclick="openTab(event, 'occupancy')">18 Occupancy Cost Ratio</button>
+<button class="tab-btn" onclick="openTab(event, 'breakeven')">19 Breakeven</button>
+<button class="tab-btn" onclick="openTab(event, 'exit')">20 Exit Velocity</button>
+<button class="tab-btn" onclick="openTab(event, 'holdPeriod')">21 Hold Period</button>
+<button class="tab-btn" onclick="openTab(event, 'disposition')">22 Disposition</button>
+<button class="tab-btn" onclick="openTab(event, 'site')">23 Site Selection</button>
+<button class="tab-btn" onclick="openTab(event, 'landValue')">24 Land Residual Value</button>
+<button class="tab-btn" onclick="openTab(event, 'parking')">25 Parking Ratio</button>
+<button class="tab-btn" onclick="openTab(event, 'capital')">26 Capital Stack</button>
+<button class="tab-btn" onclick="openTab(event, 'loanConst')">27 Loan Constants</button>
+<button class="tab-btn" onclick="openTab(event, 'refinance')">28 Refinance</button>
+<button class="tab-btn" onclick="openTab(event, 'equityMultiple')">29 Equity Multiple</button>
+</nav>
+<div class="engine-shell">
+  <div class="tool-panel active" id="condo">
+<div class="input-sidebar">
+<h2>Conversion Variables</h2>
+<div class="control-group">
+<label>Acquisition Basis ($/SQ FT) <span class="current-val" id="acqVal">$340</span></label>
+<input max="600" min="200" oninput="runCondoMath()" type="range" value="340"/>
+<div class="range-labels"><span>$200</span><span>$600</span></div>
+</div>
+<div class="control-group">
+<label>Hard/Soft Conversion Costs <span class="current-val" id="costVal">$125</span></label>
+<input max="250" min="50" oninput="runCondoMath()" type="range" value="125"/>
+<div class="range-labels"><span>$50</span><span>$250</span></div>
+</div>
+<div class="control-group">
+<label>Projected Sale Velocity (Months) <span class="current-val" id="timeVal">14 MO</span></label>
+<input max="36" min="4" oninput="runCondoMath()" type="range" value="14"/>
+<div class="range-labels"><span>4 MO</span><span>36 MO</span></div>
+</div>
+</div>
+<div class="data-display">
+<h2>Institutional Yield Metrics</h2>
+<div class="metric-row">
+<div class="metric-info"><span>Projected Capital Return</span><span id="met1">72%</span></div>
+<div class="bar-container"><div class="bar-fill" id="bar1" style="width: 72%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Zoning Matrix Confidence</span><span id="met2">58%</span></div>
+<div class="bar-container"><div class="bar-fill" id="bar2" style="width: 58%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>GTA Industrial Demand Index</span><span id="met3">91%</span></div>
+<div class="bar-container"><div class="bar-fill" id="bar3" style="width: 91%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Yield analysis accounts for municipal land-use benchmarks and current construction inflation rates in Peel/Halton regions.</p>
+<a class="cta-primary" href="#">Download Offering Memo</a>
+</div>
+</div><div class="tool-panel" id="dscr">
+<div class="input-sidebar">
+<h2>Debt Service Coverage</h2>
+<div class="control-group">
+<label>Net Operating Income (NOI)</label>
+<input id="dscrNOI" oninput="calcDSCR()" type="number" value="600000"/>
+</div>
+<div class="control-group">
+<label>Annual Debt Service</label>
+<input id="dscrDebt" oninput="calcDSCR()" type="number" value="450000"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Coverage Analysis</h2>
+<div class="result-box">
+<h3>DSCR Ratio</h3>
+<div class="value" id="dscrResult">1.33x</div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Lender Confidence Level</span><span id="dscrMet1">92%</span></div>
+<div class="bar-container"><div class="bar-fill" id="dscrBar1" style="width: 92%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Refinance Viability</span><span id="dscrMet2">88%</span></div>
+<div class="bar-container"><div class="bar-fill" id="dscrBar2" style="width: 88%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*DSCR benchmarks based on CMHC and institutional lender requirements for industrial assets.</p>
+<a class="cta-primary" href="#">Optimize Debt Structure</a>
+</div>
+</div><div class="tool-panel" id="irr">
+<div class="input-sidebar">
+<h2>IRR Projection Inputs</h2>
+<div class="control-group">
+<label>Initial Investment</label>
+<input id="irrInitial" oninput="calcIRR()" type="number" value="5000000"/>
+</div>
+<div class="control-group">
+<label>Year 1 Cash Flow</label>
+<input id="irrY1" oninput="calcIRR()" type="number" value="400000"/>
+</div>
+<div class="control-group">
+<label>Year 2 Cash Flow</label>
+<input id="irrY2" oninput="calcIRR()" type="number" value="450000"/>
+</div>
+<div class="control-group">
+<label>Year 3 Cash Flow</label>
+<input id="irrY3" oninput="calcIRR()" type="number" value="500000"/>
+</div>
+<div class="control-group">
+<label>Exit Value (Year 3)</label>
+<input id="irrExit" oninput="calcIRR()" type="number" value="6500000"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Return Metrics</h2>
+<div class="result-box">
+<h3>Internal Rate of Return</h3>
+<div class="value" id="irrResult">12.5%</div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Institutional Target Achievement</span><span id="irrMet1">95%</span></div>
+<div class="bar-container"><div class="bar-fill" id="irrBar1" style="width: 95%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Risk-Adjusted Performance</span><span id="irrMet2">82%</span></div>
+<div class="bar-container"><div class="bar-fill" id="irrBar2" style="width: 82%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*IRR calculated using simplified 3-year hold model. Full discounted cash flow available on request.</p>
+<a class="cta-primary" href="#">Generate Full DCF Model</a>
+</div>
+</div><div class="tool-panel" id="cashOnCash">
+<div class="input-sidebar">
+<h2>Cash Return Variables</h2>
+<div class="control-group">
+<label>Annual Pre-Tax Cash Flow</label>
+<input id="cocCashFlow" oninput="calcCashOnCash()" type="number" value="350000"/>
+</div>
+<div class="control-group">
+<label>Total Cash Invested</label>
+<input id="cocInvested" oninput="calcCashOnCash()" type="number" value="2500000"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Cash Yield Analysis</h2>
+<div class="result-box">
+<h3>Cash-on-Cash Return</h3>
+<div class="value" id="cocResult">14.0%</div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Equity Efficiency Score</span><span id="cocMet1">88%</span></div>
+<div class="bar-container"><div class="bar-fill" id="cocBar1" style="width: 88%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Market Competitiveness</span><span id="cocMet2">76%</span></div>
+<div class="bar-container"><div class="bar-fill" id="cocBar2" style="width: 76%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Cash-on-cash return reflects pre-tax annual distributions against total equity deployed.</p>
+<a class="cta-primary" href="#">Request Return Analysis</a>
+</div>
+</div><div class="tool-panel" id="lease">
+<div class="input-sidebar">
+<h2>Lease Optimization</h2>
+<div class="control-group">
+<label>Current Recovery Gap (%) <span class="current-val" id="gapVal">15%</span></label>
+<input max="40" min="0" oninput="runLeaseMath()" type="range" value="15"/>
+<div class="range-labels"><span>0%</span><span>40%</span></div>
+</div>
+<div class="control-group">
+<label>Lease Expiry Density (Years) <span class="current-val" id="expVal">3 YR</span></label>
+<input max="10" min="1" oninput="runLeaseMath()" type="range" value="3"/>
+<div class="range-labels"><span>1 YR</span><span>10 YR</span></div>
+</div>
+</div>
+<div class="data-display">
+<h2>NOI Protection Analysis</h2>
+<div class="metric-row">
+<div class="metric-info"><span>Recoverable Leakage Score</span><span id="leaseMet1">65%</span></div>
+<div class="bar-container"><div class="bar-fill" id="leaseBar1" style="width: 65%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Mark-to-Market Upside</span><span id="leaseMet2">42%</span></div>
+<div class="bar-container"><div class="bar-fill" id="leaseBar2" style="width: 42%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Audit evaluates NNN structures, CAM reconciliations, and immediate mark-to-market lease opportunities.</p>
+<a class="cta-primary" href="#">Request Full Lease Audit</a>
+</div>
+</div><div class="tool-panel" id="camRec">
+<div class="input-sidebar">
+<h2>CAM Analysis Inputs</h2>
+<div class="control-group">
+<label>Total CAM Expenses</label>
+<input id="camExpenses" oninput="calcCAM()" type="number" value="250000"/>
+</div>
+<div class="control-group">
+<label>Tenant Recoverable Share (%)</label>
+<input id="camShare" max="100" min="0" oninput="calcCAM()" type="number" value="85"/>
+</div>
+<div class="control-group">
+<label>Actual Collections YTD</label>
+<input id="camCollected" oninput="calcCAM()" type="number" value="200000"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Recovery Performance</h2>
+<div class="result-box">
+<h3>Recovery Gap</h3>
+<div class="value" id="camGapResult">$12,500</div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Collection Efficiency</span><span id="camMet1">94%</span></div>
+<div class="bar-container"><div class="bar-fill" id="camBar1" style="width: 94%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Lease Compliance Rate</span><span id="camMet2">88%</span></div>
+<div class="bar-container"><div class="bar-fill" id="camBar2" style="width: 88%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*CAM reconciliation identifies expense recovery gaps and lease administration issues.</p>
+<a class="cta-primary" href="#">Schedule CAM Audit</a>
+</div>
+</div><div class="tool-panel" id="markToMarket">
+<div class="input-sidebar">
+<h2>Lease Comparison</h2>
+<div class="control-group">
+<label>Current In-Place Rent ($/SF)</label>
+<input id="mtmCurrent" oninput="calcMarkToMarket()" step="0.25" type="number" value="12.50"/>
+</div>
+<div class="control-group">
+<label>Market Rent ($/SF)</label>
+<input id="mtmMarket" oninput="calcMarkToMarket()" step="0.25" type="number" value="16.00"/>
+</div>
+<div class="control-group">
+<label>Leasable Area (SF)</label>
+<input id="mtmArea" oninput="calcMarkToMarket()" type="number" value="50000"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Upside Potential</h2>
+<div class="result-box">
+<h3>Annual Revenue Upside</h3>
+<div class="value" id="mtmUpsideResult">$175,000</div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Rent Growth Opportunity</span><span id="mtmMet1">28%</span></div>
+<div class="bar-container"><div class="bar-fill" id="mtmBar1" style="width: 28%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Value Creation Score</span><span id="mtmMet2">82%</span></div>
+<div class="bar-container"><div class="bar-fill" id="mtmBar2" style="width: 82%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Mark-to-market analysis based on current GTA industrial rental comps and market velocity.</p>
+<a class="cta-primary" href="#">Generate Lease Strategy</a>
+</div>
+</div><div class="tool-panel" id="occupancy">
+<div class="input-sidebar">
+<h2>Tenant Cost Analysis</h2>
+<div class="control-group">
+<label>Annual Base Rent</label>
+<input id="occRent" oninput="calcOccupancy()" type="number" value="500000"/>
+</div>
+<div class="control-group">
+<label>Annual Operating Expenses</label>
+<input id="occOpex" oninput="calcOccupancy()" type="number" value="150000"/>
+</div>
+<div class="control-group">
+<label>Tenant Annual Revenue</label>
+<input id="occRevenue" oninput="calcOccupancy()" type="number" value="5000000"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Occupancy Metrics</h2>
+<div class="result-box">
+<h3>Occupancy Cost Ratio</h3>
+<div class="value" id="occRatioResult">13.0%</div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Tenant Retention Probability</span><span id="occMet1">75%</span></div>
+<div class="bar-container"><div class="bar-fill" id="occBar1" style="width: 75%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Rent Increase Capacity</span><span id="occMet2">55%</span></div>
+<div class="bar-container"><div class="bar-fill" id="occBar2" style="width: 55%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Occupancy cost ratio assesses tenant financial health and lease renewal likelihood.</p>
+<a class="cta-primary" href="#">Tenant Credit Analysis</a>
+</div>
+</div><div class="tool-panel" id="breakeven">
+<div class="input-sidebar">
+<h2>Breakeven Variables</h2>
+<div class="control-group">
+<label>Fixed Operating Costs</label>
+<input id="beFixed" oninput="calcBreakeven()" type="number" value="300000"/>
+</div>
+<div class="control-group">
+<label>Variable Cost per SF</label>
+<input id="beVariable" oninput="calcBreakeven()" step="0.25" type="number" value="2.50"/>
+</div>
+<div class="control-group">
+<label>Rental Rate per SF</label>
+<input id="beRent" oninput="calcBreakeven()" step="0.25" type="number" value="14.00"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Breakeven Analysis</h2>
+<div class="result-box">
+<h3>Breakeven Occupancy</h3>
+<div class="value" id="beOccResult">26,087 SF</div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Margin of Safety</span><span id="beMet1">68%</span></div>
+<div class="bar-container"><div class="bar-fill" id="beBar1" style="width: 68%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Operating Leverage</span><span id="beMet2">72%</span></div>
+<div class="bar-container"><div class="bar-fill" id="beBar2" style="width: 72%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Breakeven analysis determines minimum occupancy required to cover all operating costs.</p>
+<a class="cta-primary" href="#">Risk Assessment Report</a>
+</div>
+</div><div class="tool-panel" id="exit">
+<div class="input-sidebar">
+<h2>Disposition Strategy</h2>
+<div class="control-group">
+<label>Target Exit Cap Rate (%) <span class="current-val" id="capVal">4.5%</span></label>
+<input max="8" min="3" oninput="runExitMath()" step="0.1" type="range" value="4.5"/>
+<div class="range-labels"><span>3%</span><span>8%</span></div>
+</div>
+<div class="control-group">
+<label>In-Place NOI ($ / SQ FT) <span class="current-val" id="noiVal">$18.50</span></label>
+<input max="30" min="10" oninput="runExitMath()" type="range" value="18.50"/>
+<div class="range-labels"><span>$10</span><span>$30</span></div>
+</div>
+</div>
+<div class="data-display">
+<h2>Liquidity Forecasting</h2>
+<div class="metric-row">
+<div class="metric-info"><span>Investor Appetite Score</span><span id="exitMet1">88%</span></div>
+<div class="bar-container"><div class="bar-fill" id="exitBar1" style="width: 88%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Estimated Disposal Velocity</span><span id="exitMet2">72%</span></div>
+<div class="bar-container"><div class="bar-fill" id="exitBar2" style="width: 72%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Exit modeling based on current institutional absorption rates for small-bay and mid-box industrial assets.</p>
+<a class="cta-primary" href="#">Request Exit Audit</a>
+</div>
+</div><div class="tool-panel" id="holdPeriod">
+<div class="input-sidebar">
+<h2>Hold Period Inputs</h2>
+<div class="control-group">
+<label>Target Return (%)</label>
+<input id="hpReturn" oninput="calcHoldPeriod()" step="0.5" type="number" value="18"/>
+</div>
+<div class="control-group">
+<label>Annual NOI Growth (%)</label>
+<input id="hpGrowth" oninput="calcHoldPeriod()" step="0.25" type="number" value="3.5"/>
+</div>
+<div class="control-group">
+<label>Entry Cap Rate (%)</label>
+<input id="hpEntryCap" oninput="calcHoldPeriod()" step="0.1" type="number" value="5.5"/>
+</div>
+<div class="control-group">
+<label>Exit Cap Rate (%)</label>
+<input id="hpExitCap" oninput="calcHoldPeriod()" step="0.1" type="number" value="5.0"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Hold Period Analysis</h2>
+<div class="result-box">
+<h3>Optimal Hold Period</h3>
+<div class="value" id="hpResult">4.2 Years</div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Value Creation Trajectory</span><span id="hpMet1">88%</span></div>
+<div class="bar-container"><div class="bar-fill" id="hpBar1" style="width: 88%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Exit Timing Confidence</span><span id="hpMet2">76%</span></div>
+<div class="bar-container"><div class="bar-fill" id="hpBar2" style="width: 76%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Hold period optimized for target returns accounting for NOI growth and cap rate compression.</p>
+<a class="cta-primary" href="#">Generate Exit Timeline</a>
+</div>
+</div><div class="tool-panel" id="disposition">
+<div class="input-sidebar">
+<h2>Disposition Parameters</h2>
+<div class="control-group">
+<label>Property Type</label>
+<select id="dispType" onchange="calcDisposition()">
+<option value="small-bay">Small-Bay Industrial</option>
+<option value="mid-box">Mid-Box Warehouse</option>
+<option value="big-box">Big-Box Distribution</option>
+<option value="flex">Flex/Office-Industrial</option>
+</select>
+</div>
+<div class="control-group">
+<label>Stabilized Occupancy (%)</label>
+<input id="dispOcc" max="100" min="0" oninput="calcDisposition()" type="number" value="95"/>
+</div>
+<div class="control-group">
+<label>Average Lease Term (Years)</label>
+<input id="dispTerm" oninput="calcDisposition()" step="0.5" type="number" value="5.5"/>
+</div>
+<div class="control-group">
+<label>Market Depth Score (1-10)</label>
+<input id="dispDepth" max="10" min="1" oninput="calcDisposition()" type="number" value="8"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Market Positioning</h2>
+<div class="metric-row">
+<div class="metric-info"><span>Institutional Buyer Appeal</span><span id="dispMet1">92%</span></div>
+<div class="bar-container"><div class="bar-fill" id="dispBar1" style="width: 92%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Sale Velocity Forecast</span><span id="dispMet2">85%</span></div>
+<div class="bar-container"><div class="bar-fill" id="dispBar2" style="width: 85%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Marketing Readiness</span><span id="dispMet3">78%</span></div>
+<div class="bar-container"><div class="bar-fill" id="dispBar3" style="width: 78%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Disposition strategy considers lease rollover risk, tenant credit, and current buyer appetite.</p>
+<a class="cta-primary" href="#">Launch Marketing Campaign</a>
+</div>
+</div><div class="tool-panel" id="site">
+<div class="input-sidebar">
+<h2>Logistics Scouting</h2>
+<div class="control-group">
+<label>Highway Proximity (KM) <span class="current-val" id="distVal">3.5 KM</span></label>
+<input max="20" min="0.5" oninput="runSiteMath()" step="0.5" type="range" value="3.5"/>
+<div class="range-labels"><span>0.5 KM</span><span>20 KM</span></div>
+</div>
+<div class="control-group">
+<label>Labor Access Index <span class="current-val" id="laborVal">High</span></label>
+<input max="100" min="1" oninput="runSiteMath()" type="range" value="80"/>
+<div class="range-labels"><span>Low</span><span>Critical</span></div>
+</div>
+</div>
+<div class="data-display">
+<h2>Site Intelligence</h2>
+<div class="metric-row">
+<div class="metric-info"><span>Last-Mile Efficiency</span><span id="siteMet1">92%</span></div>
+<div class="bar-container"><div class="bar-fill" id="siteBar1" style="width: 92%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Zoning Flexibility (E2/E3)</span><span id="siteMet2">60%</span></div>
+<div class="bar-container"><div class="bar-fill" id="siteBar2" style="width: 60%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Selection metrics leverage transit infrastructure maps and municipal employment land data.</p>
+<a class="cta-primary" href="#">View Land-Use Map</a>
+</div>
+</div><div class="tool-panel" id="landValue">
+<div class="input-sidebar">
+<h2>Development Economics</h2>
+<div class="control-group">
+<label>Stabilized NOI</label>
+<input id="lvNOI" oninput="calcLandValue()" type="number" value="1200000"/>
+</div>
+<div class="control-group">
+<label>Stabilized Cap Rate (%)</label>
+<input id="lvCap" oninput="calcLandValue()" step="0.1" type="number" value="5.5"/>
+</div>
+<div class="control-group">
+<label>Total Development Cost</label>
+<input id="lvDevCost" oninput="calcLandValue()" type="number" value="18000000"/>
+</div>
+<div class="control-group">
+<label>Developer Profit (%)</label>
+<input id="lvProfit" oninput="calcLandValue()" step="1" type="number" value="15"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Land Valuation</h2>
+<div class="result-box">
+<h3>Maximum Land Value</h3>
+<div class="value" id="lvResult">$3,127,273</div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Development Feasibility</span><span id="lvMet1">82%</span></div>
+<div class="bar-container"><div class="bar-fill" id="lvBar1" style="width: 82%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Market Competitiveness</span><span id="lvMet2">75%</span></div>
+<div class="bar-container"><div class="bar-fill" id="lvBar2" style="width: 75%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Residual land value derived from stabilized value less development costs and target profit.</p>
+<a class="cta-primary" href="#">Request Feasibility Study</a>
+</div>
+</div><div class="tool-panel" id="parking">
+<div class="input-sidebar">
+<h2>Parking Requirements</h2>
+<div class="control-group">
+<label>Building GLA (SF)</label>
+<input id="parkGLA" oninput="calcParking()" type="number" value="100000"/>
+</div>
+<div class="control-group">
+<label>Use Type</label>
+<select id="parkType" onchange="calcParking()">
+<option value="warehouse">Warehouse/Distribution</option>
+<option value="manufacturing">Manufacturing</option>
+<option value="flex">Flex Space</option>
+<option value="office-ind">Office-Industrial</option>
+</select>
+</div>
+<div class="control-group">
+<label>Employee Density Override</label>
+<input id="parkDensity" oninput="calcParking()" placeholder="Leave 0 for default" type="number" value="0"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Parking Analysis</h2>
+<div class="result-box">
+<h3>Required Stalls</h3>
+<div class="value" id="parkResult">50 Stalls</div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Zoning Compliance</span><span id="parkMet1">100%</span></div>
+<div class="bar-container"><div class="bar-fill" id="parkBar1" style="width: 100%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Site Coverage Efficiency</span><span id="parkMet2">85%</span></div>
+<div class="bar-container"><div class="bar-fill" id="parkBar2" style="width: 85%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Parking ratios based on GTA municipal by-laws and industrial use classifications.</p>
+<a class="cta-primary" href="#">Site Plan Consultation</a>
+</div>
+</div><div class="tool-panel" id="capital">
+<div class="input-sidebar">
+<h2>Financial Structure</h2>
+<div class="control-group">
+<label>Target LTV (%) <span class="current-val" id="ltvVal">65%</span></label>
+<input max="85" min="50" oninput="runCapMath()" type="range" value="65"/>
+<div class="range-labels"><span>50%</span><span>85%</span></div>
+</div>
+<div class="control-group">
+<label>Debt Service Coverage (DSCR) <span class="current-val" id="dscrVal">1.25x</span></label>
+<input max="2.5" min="1.0" oninput="runCapMath()" step="0.05" type="range" value="1.25"/>
+<div class="range-labels"><span>1.0x</span><span>2.5x</span></div>
+</div>
+</div>
+<div class="data-display">
+<h2>Stack Viability Analysis</h2>
+<div class="metric-row">
+<div class="metric-info"><span>Lender Confidence</span><span id="capitalMet1">78%</span></div>
+<div class="bar-container"><div class="bar-fill" id="capitalBar1" style="width: 78%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Equity ROE Potential</span><span id="capitalMet2">19.2%</span></div>
+<div class="bar-container"><div class="bar-fill" id="capitalBar2" style="width: 68%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Capital models adjusted for BoC prime rate forecasts and institutional vs. private debt availability.</p>
+<a class="cta-primary" href="#">Optimize Capital Stack</a>
+</div>
+</div><div class="tool-panel" id="loanConst">
+<div class="input-sidebar">
+<h2>Loan Terms</h2>
+<div class="control-group">
+<label>Loan Amount</label>
+<input id="lcAmount" oninput="calcLoanConstant()" type="number" value="5000000"/>
+</div>
+<div class="control-group">
+<label>Interest Rate (%)</label>
+<input id="lcRate" oninput="calcLoanConstant()" step="0.125" type="number" value="5.5"/>
+</div>
+<div class="control-group">
+<label>Amortization Period (Years)</label>
+<input id="lcAmort" oninput="calcLoanConstant()" type="number" value="25"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Debt Service Metrics</h2>
+<div class="result-box">
+<h3>Loan Constant</h3>
+<div class="value" id="lcResult">7.38%</div>
+</div>
+<div class="result-box">
+<h3>Annual Debt Service</h3>
+<div class="value" id="lcADSResult">$368,800</div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Payment Stability Index</span><span id="lcMet1">95%</span></div>
+<div class="bar-container"><div class="bar-fill" id="lcBar1" style="width: 95%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Loan constant represents annual debt service as percentage of loan principal.</p>
+<a class="cta-primary" href="#">Request Loan Quote</a>
+</div>
+</div><div class="tool-panel" id="refinance">
+<div class="input-sidebar">
+<h2>Refinance Comparison</h2>
+<div class="control-group">
+<label>Current Loan Balance</label>
+<input id="refBalance" oninput="calcRefinance()" type="number" value="4000000"/>
+</div>
+<div class="control-group">
+<label>Current Interest Rate (%)</label>
+<input id="refCurrentRate" oninput="calcRefinance()" step="0.125" type="number" value="6.5"/>
+</div>
+<div class="control-group">
+<label>New Interest Rate (%)</label>
+<input id="refNewRate" oninput="calcRefinance()" step="0.125" type="number" value="5.25"/>
+</div>
+<div class="control-group">
+<label>Property NOI</label>
+<input id="refNOI" oninput="calcRefinance()" type="number" value="450000"/>
+</div>
+<div class="control-group">
+<label>Refinance Costs (%)</label>
+<input id="refCosts" oninput="calcRefinance()" step="0.25" type="number" value="2.5"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Refinance Benefits</h2>
+<div class="result-box">
+<h3>Annual Savings</h3>
+<div class="value" id="refSavingsResult">$50,000</div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Cash Flow Improvement</span><span id="refMet1">85%</span></div>
+<div class="bar-container"><div class="bar-fill" id="refBar1" style="width: 85%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>DSCR Enhancement</span><span id="refMet2">78%</span></div>
+<div class="bar-container"><div class="bar-fill" id="refBar2" style="width: 78%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Refinance analysis includes closing costs and evaluates cash flow improvement vs. current terms.</p>
+<a class="cta-primary" href="#">Start Refinance Process</a>
+</div>
+</div><div class="tool-panel" id="equityMultiple">
+<div class="input-sidebar">
+<h2>Investment Returns</h2>
+<div class="control-group">
+<label>Initial Equity Investment</label>
+<input id="emInitial" oninput="calcEquityMultiple()" type="number" value="2500000"/>
+</div>
+<div class="control-group">
+<label>Total Cash Distributions</label>
+<input id="emDistributions" oninput="calcEquityMultiple()" type="number" value="800000"/>
+</div>
+<div class="control-group">
+<label>Net Sale Proceeds</label>
+<input id="emSaleProceeds" oninput="calcEquityMultiple()" type="number" value="3700000"/>
+</div>
+</div>
+<div class="data-display">
+<h2>Return Metrics</h2>
+<div class="result-box">
+<h3>Equity Multiple</h3>
+<div class="value" id="emResult">1.80x</div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Return Target Achievement</span><span id="emMet1">90%</span></div>
+<div class="bar-container"><div class="bar-fill" id="emBar1" style="width: 90%;"></div></div>
+</div>
+<div class="metric-row">
+<div class="metric-info"><span>Capital Efficiency Score</span><span id="emMet2">85%</span></div>
+<div class="bar-container"><div class="bar-fill" id="emBar2" style="width: 85%;"></div></div>
+</div>
+</div>
+<div class="panel-footer">
+<p class="disclaimer">*Equity multiple measures total return as multiple of initial equity invested.</p>
+<a class="cta-primary" href="#">Generate LP Report</a>
+</div>
+</div>
+</div>
+</div>
+<script>
+    // CORE NAVIGATION ENGINE
+    function openTab(evt, tabName) {
+        var i, panels, buttons;
+        panels = document.getElementsByClassName("tool-panel");
+        for (i = 0; i < panels.length; i++) {
+            panels[i].classList.remove("active");
+        }
+        buttons = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove("active");
+        }
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    // TAB 01: CONDO MATH (EXISTING)
+    function runCondoMath() {
+        const acq = document.querySelectorAll('#condo input[type="range"]')[0].value;
+        const cost = document.querySelectorAll('#condo input[type="range"]')[1].value;
+        const time = document.querySelectorAll('#condo input[type="range"]')[2].value;
+
+        document.getElementById('acqVal').innerText = "$" + acq;
+        document.getElementById('costVal').innerText = "$" + cost;
+        document.getElementById('timeVal').innerText = time + " MO";
+
+        let yield = 100 - (acq / 12) - (cost / 15);
+        let zoning = (time * 2.5);
+        
+        document.getElementById('bar1').style.width = Math.max(10, yield) + "%";
+        document.getElementById('met1').innerText = Math.round(Math.max(10, yield)) + "%";
+        document.getElementById('bar2').style.width = Math.min(100, zoning) + "%";
+        document.getElementById('met2').innerText = Math.round(Math.min(100, zoning)) + "%";
+    }
+
+
+
+    function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+    }
+
+    function gradeFromScore(score) {
+        if (score >= 92) return "A+";
+        if (score >= 84) return "A";
+        if (score >= 76) return "A-";
+        if (score >= 68) return "B+";
+        if (score >= 60) return "B";
+        if (score >= 52) return "B-";
+        if (score >= 44) return "C+";
+        return "C";
+    }
+
+    function money(val) {
+        return "$" + Number(val).toLocaleString('en-US', {maximumFractionDigits: 0});
+    }
+
+    // FRONT TOOL 01: ACCESS GATE
+    function calcAccessGate() {
+        const highway = parseFloat(document.getElementById('agHighway').value) || 0;
+        const lanes = parseFloat(document.getElementById('agLanes').value) || 0;
+        const radius = parseFloat(document.getElementById('agRadius').value) || 0;
+        const trailer = parseFloat(document.getElementById('agTrailer').value) || 0;
+        const security = parseFloat(document.getElementById('agSecurity').value) || 0;
+
+        const approach = clamp(100 - (highway * 7) + (radius - 100) * 0.35, 20, 100);
+        const queue = clamp(45 + lanes * 14 + trailer * 1.2 - highway * 2.5, 20, 100);
+        const resilience = clamp(40 + (security / 24) * 40 + lanes * 6, 20, 100);
+        const total = (approach * 0.4) + (queue * 0.35) + (resilience * 0.25);
+
+        document.getElementById('agGrade').innerText = gradeFromScore(total);
+        document.getElementById('agMet1').innerText = Math.round(approach) + "%";
+        document.getElementById('agBar1').style.width = approach + "%";
+        document.getElementById('agMet2').innerText = Math.round(queue) + "%";
+        document.getElementById('agBar2').style.width = queue + "%";
+        document.getElementById('agMet3').innerText = Math.round(resilience) + "%";
+        document.getElementById('agBar3').style.width = resilience + "%";
+
+        let note = "Balanced approach lane design with decent trailer relief.";
+        if (total >= 84) note = "Fast highway pull, wide turning geometry, and enough trailer buffer for a premium first impression.";
+        else if (total < 60) note = "Arrival sequence needs work: the gate reads constrained, especially under peak truck stacking.";
+        document.getElementById('agNote').innerText = note;
+    }
+
+    // FRONT TOOL 03: CAM / TMI
+    function calcCamTmi() {
+        const area = parseFloat(document.getElementById('ctArea').value) || 0;
+        const base = parseFloat(document.getElementById('ctBase').value) || 0;
+        const cam = parseFloat(document.getElementById('ctCam').value) || 0;
+        const tmi = parseFloat(document.getElementById('ctTmi').value) || 0;
+        const recover = parseFloat(document.getElementById('ctRecover').value) || 0;
+
+        const annual = area * (base + cam + tmi);
+        const monthly = annual / 12;
+        const transparency = clamp(55 + recover * 0.35 - ((cam + tmi) * 2.5), 30, 100);
+
+        document.getElementById('ctAnnual').innerText = money(annual);
+        document.getElementById('ctMonthly').innerText = money(monthly);
+        document.getElementById('ctMet1').innerText = Math.round(recover) + "%";
+        document.getElementById('ctBar1').style.width = recover + "%";
+        document.getElementById('ctMet2').innerText = Math.round(transparency) + "%";
+        document.getElementById('ctBar2').style.width = transparency + "%";
+    }
+
+    // FRONT TOOL 04: MORTGAGE
+    function calcMortgage() {
+        const principal = parseFloat(document.getElementById('mgPrincipal').value) || 0;
+        const rate = parseFloat(document.getElementById('mgRate').value) || 0;
+        const amort = parseFloat(document.getElementById('mgAmort').value) || 25;
+        const noi = parseFloat(document.getElementById('mgNoi').value) || 0;
+
+        const monthlyRate = (rate / 100) / 12;
+        const payments = amort * 12;
+        const monthly = principal * (monthlyRate * Math.pow(1 + monthlyRate, payments)) / (Math.pow(1 + monthlyRate, payments) - 1);
+        const annualDebt = monthly * 12;
+        const dscr = noi / annualDebt;
+
+        const comfort = clamp(dscr * 55, 10, 100);
+        const stress = clamp(100 - ((rate - 4.5) * 14), 15, 100);
+
+        document.getElementById('mgMonthly').innerText = money(monthly);
+        document.getElementById('mgDscr').innerText = dscr.toFixed(2) + "x";
+        document.getElementById('mgMet1').innerText = Math.round(comfort) + "%";
+        document.getElementById('mgBar1').style.width = comfort + "%";
+        document.getElementById('mgMet2').innerText = Math.round(stress) + "%";
+        document.getElementById('mgBar2').style.width = stress + "%";
+    }
+
+    // FRONT TOOL 05: FOOTFALL
+    function calcFootfall() {
+        const staff = parseFloat(document.getElementById('ffStaff').value) || 0;
+        const visitors = parseFloat(document.getElementById('ffVisitors').value) || 0;
+        const trucks = parseFloat(document.getElementById('ffTrucks').value) || 0;
+        const shifts = parseFloat(document.getElementById('ffShifts').value) || 1;
+
+        const index = Math.round(staff + (visitors * 1.4) + (trucks * 1.7) + (shifts * 8));
+        const activation = clamp(index * 0.62, 10, 100);
+        const publicSignal = clamp((visitors * 3.2) + (staff * 0.45), 5, 100);
+        const pulse = clamp((trucks * 1.8) + (shifts * 18), 10, 100);
+
+        document.getElementById('ffIndex').innerText = index.toLocaleString('en-US');
+        document.getElementById('ffMet1').innerText = Math.round(activation) + "%";
+        document.getElementById('ffBar1').style.width = activation + "%";
+        document.getElementById('ffMet2').innerText = Math.round(publicSignal) + "%";
+        document.getElementById('ffBar2').style.width = publicSignal + "%";
+        document.getElementById('ffMet3').innerText = Math.round(pulse) + "%";
+        document.getElementById('ffBar3').style.width = pulse + "%";
+    }
+
+    // FRONT TOOL 06: SUBMARKETS
+    function calcSubmarkets() {
+        const market = document.getElementById('smMarket').value;
+        const area = parseFloat(document.getElementById('smArea').value) || 0;
+        const clear = parseFloat(document.getElementById('smClear').value) || 0;
+        const highway = parseFloat(document.getElementById('smHighway').value) || 0;
+
+        const base = {
+            'mississauga': { rent: 16.2, demand: 86, copy: 'Mississauga performs best when proximity, clear height, and size all stay balanced around mid- to large-bay logistics.' },
+            'brampton': { rent: 15.6, demand: 83, copy: 'Brampton favours throughput-heavy users that value truck access and wider industrial inventory depth.' },
+            'vaughan': { rent: 16.5, demand: 82, copy: 'Vaughan carries strong premium signalling when the building reads clean, modern, and well-served by highways.' },
+            'milton': { rent: 15.2, demand: 78, copy: 'Milton rewards bigger-format logistics plays that can stretch for land efficiency and longer-term scale.' },
+            'durham': { rent: 14.4, demand: 72, copy: 'Durham improves when cost sensitivity outranks image sensitivity and highway reach still works.' },
+            'toronto-west': { rent: 16.9, demand: 87, copy: 'Toronto West reads best for scarce infill positioning where time-to-market matters more than land abundance.' }
+        }[market];
+
+        const logisticsFit = clamp(base.demand + (clear - 28) * 1.6 - highway * 3 + (area / 100000) * 6, 20, 100);
+        const low = (base.rent + (clear - 30) * 0.08 - highway * 0.06).toFixed(2);
+        const high = (parseFloat(low) + 0.9).toFixed(2);
+
+        document.getElementById('smRentBand').innerText = `$${low}–$${high}`;
+        document.getElementById('smMet1').innerText = Math.round(base.demand) + "%";
+        document.getElementById('smBar1').style.width = base.demand + "%";
+        document.getElementById('smMet2').innerText = Math.round(logisticsFit) + "%";
+        document.getElementById('smBar2').style.width = logisticsFit + "%";
+        document.getElementById('smNote').innerText = base.copy;
+    }
+
+    // FRONT TOOL 07: WAREHOUSE FIT
+    function calcWarehouseFit() {
+        const profile = document.getElementById('wfProfile').value;
+        const area = parseFloat(document.getElementById('wfArea').value) || 0;
+        const clear = parseFloat(document.getElementById('wfClear').value) || 0;
+        const docks = parseFloat(document.getElementById('wfDocks').value) || 0;
+        const office = parseFloat(document.getElementById('wfOffice').value) || 0;
+
+        const profileBonus = {
+            '3pl': 10,
+            'manufacturing': 4,
+            'showroom': -2,
+            'cold': 2
+        }[profile] || 0;
+
+        const fit = clamp(45 + profileBonus + (clear - 24) * 2.8 + docks * 2.2 + (area / 10000) * 1.5 - office * 0.8, 10, 100);
+        const adaptation = clamp(100 - fit + office * 0.6, 5, 100);
+
+        document.getElementById('wfGrade').innerText = gradeFromScore(fit);
+        document.getElementById('wfMet1').innerText = Math.round(fit) + "%";
+        document.getElementById('wfBar1').style.width = fit + "%";
+        document.getElementById('wfMet2').innerText = Math.round(adaptation) + "%";
+        document.getElementById('wfBar2').style.width = adaptation + "%";
+
+        let note = "Usable shell, but some operating traits still need adjustment.";
+        if (fit >= 84) note = "Strong fit for regional distribution with only minor front-office calibration.";
+        else if (fit < 60) note = "The building works, but conversion burden will be obvious to a serious operator.";
+        document.getElementById('wfNote').innerText = note;
+    }
+
+    // FRONT TOOL 08: RISK
+    function calcRiskTool() {
+        const vacancy = parseFloat(document.getElementById('rkVacancy').value) || 0;
+        const rollover = parseFloat(document.getElementById('rkRollover').value) || 0;
+        const concentration = parseFloat(document.getElementById('rkConcentration').value) || 0;
+        const cap = parseFloat(document.getElementById('rkCap').value) || 0;
+
+        const riskScore = clamp(vacancy * 1.8 + rollover * 0.9 + concentration * 0.7 + cap * 0.18, 0, 100);
+        const stability = clamp(100 - (vacancy * 2.1 + rollover * 0.7), 5, 100);
+        const capital = clamp(100 - cap * 0.9, 5, 100);
+        const diversity = clamp(100 - concentration * 1.0, 5, 100);
+
+        document.getElementById('rkScore').innerText = `${Math.round(riskScore)} / 100`;
+        document.getElementById('rkMet1').innerText = Math.round(stability) + "%";
+        document.getElementById('rkBar1').style.width = stability + "%";
+        document.getElementById('rkMet2').innerText = Math.round(capital) + "%";
+        document.getElementById('rkBar2').style.width = capital + "%";
+        document.getElementById('rkMet3').innerText = Math.round(diversity) + "%";
+        document.getElementById('rkBar3').style.width = diversity + "%";
+
+        let note = "Low-risk posture with broad protection against leasing and capital shocks.";
+        if (riskScore > 60) note = "Risk stack is heavy: too much income or capital sensitivity is concentrated in one direction.";
+        else if (riskScore > 35) note = "Manageable risk profile with most pressure coming from rollover clustering rather than vacancy.";
+        document.getElementById('rkNote').innerText = note;
+    }
+
+    // FRONT TOOL 09: PREMIUM LAYER
+    function calcPremiumLayer() {
+        const facade = parseFloat(document.getElementById('plFacade').value) || 0;
+        const lobby = parseFloat(document.getElementById('plLobby').value) || 0;
+        const signage = parseFloat(document.getElementById('plSignage').value) || 0;
+        const landscape = parseFloat(document.getElementById('plLandscape').value) || 0;
+
+        const branding = clamp((facade * 8) + (signage * 2), 10, 100);
+        const firstImpression = clamp((lobby * 7) + (landscape * 4.5) + (facade * 2), 10, 100);
+        const uplift = (((facade + lobby + signage + landscape) / 4) - 5) * 2.7;
+
+        document.getElementById('plUplift').innerText = (uplift >= 0 ? "+" : "") + uplift.toFixed(1) + "%";
+        document.getElementById('plMet1').innerText = Math.round(branding) + "%";
+        document.getElementById('plBar1').style.width = branding + "%";
+        document.getElementById('plMet2').innerText = Math.round(firstImpression) + "%";
+        document.getElementById('plBar2').style.width = firstImpression + "%";
+
+        let note = "The building reads functional before it reads premium.";
+        if (uplift >= 8) note = "The building reads as premium when the arrival sequence and office edge feel deliberate, not generic.";
+        else if (uplift < 3) note = "There is still room to layer in more polish before the asset looks clearly above market baseline.";
+        document.getElementById('plNote').innerText = note;
+    }
+
+    // FRONT TOOL 10: STORAGE FLOW
+    function calcStorageFlow() {
+        const pallets = parseFloat(document.getElementById('sfPallets').value) || 0;
+        const aisle = parseFloat(document.getElementById('sfAisle').value) || 0;
+        const docks = parseFloat(document.getElementById('sfDocks').value) || 0;
+        const turns = parseFloat(document.getElementById('sfTurns').value) || 0;
+        const shifts = parseFloat(document.getElementById('sfShifts').value) || 1;
+
+        const throughput = Math.round(pallets * turns);
+        const flow = clamp((aisle * 5.5) + docks * 4 + shifts * 10 - Math.max(0, (turns - 3) * 8), 10, 100);
+        const dockPressure = clamp((throughput / Math.max(docks, 1)) / 20, 5, 100);
+        const balance = clamp(100 - Math.max(0, (turns - shifts * 1.3) * 18), 10, 100);
+
+        document.getElementById('sfThroughput').innerText = throughput.toLocaleString('en-US');
+        document.getElementById('sfMet1').innerText = Math.round(flow) + "%";
+        document.getElementById('sfBar1').style.width = flow + "%";
+        document.getElementById('sfMet2').innerText = Math.round(dockPressure) + "%";
+        document.getElementById('sfBar2').style.width = dockPressure + "%";
+        document.getElementById('sfMet3').innerText = Math.round(balance) + "%";
+        document.getElementById('sfBar3').style.width = balance + "%";
+
+        let note = "Flow is serviceable, but peaks may still feel compressed.";
+        if (flow >= 80 && dockPressure <= 70) note = "Healthy flow profile with enough dock support to avoid choke points during normal weekly turns.";
+        else if (dockPressure > 80) note = "Dock pressure is the main constraint; internal storage may work better than outbound rhythm suggests.";
+        document.getElementById('sfNote').innerText = note;
+    }
+
+
+    // TAB 02: CAP RATE CALCULATOR
+    function calcCapRate() {
+        const noi = parseFloat(document.getElementById('capNOI').value) || 0;
+        const value = parseFloat(document.getElementById('capValue').value) || 1;
+        const capRate = (noi / value) * 100;
+        
+        document.getElementById('capRateResult').innerText = capRate.toFixed(2) + "%";
+        
+        const comp = Math.min(100, capRate * 17);
+        const risk = Math.min(100, capRate * 15.6);
+        
+        document.getElementById('capMet1').innerText = Math.round(comp) + "%";
+        document.getElementById('capBar1').style.width = comp + "%";
+        document.getElementById('capMet2').innerText = Math.round(risk) + "%";
+        document.getElementById('capBar2').style.width = risk + "%";
+    }
+
+    // TAB 03: DSCR CALCULATOR
+    function calcDSCR() {
+        const noi = parseFloat(document.getElementById('dscrNOI').value) || 0;
+        const debt = parseFloat(document.getElementById('dscrDebt').value) || 1;
+        const dscr = noi / debt;
+        
+        document.getElementById('dscrResult').innerText = dscr.toFixed(2) + "x";
+        
+        const confidence = Math.min(100, dscr * 69);
+        const viability = Math.min(100, dscr * 66);
+        
+        document.getElementById('dscrMet1').innerText = Math.round(confidence) + "%";
+        document.getElementById('dscrBar1').style.width = confidence + "%";
+        document.getElementById('dscrMet2').innerText = Math.round(viability) + "%";
+        document.getElementById('dscrBar2').style.width = viability + "%";
+    }
+
+    // TAB 04: IRR CALCULATOR (SIMPLIFIED)
+    function calcIRR() {
+        const initial = parseFloat(document.getElementById('irrInitial').value) || 0;
+        const y1 = parseFloat(document.getElementById('irrY1').value) || 0;
+        const y2 = parseFloat(document.getElementById('irrY2').value) || 0;
+        const y3 = parseFloat(document.getElementById('irrY3').value) || 0;
+        const exitVal = parseFloat(document.getElementById('irrExit').value) || 0;
+        
+        // Simplified IRR approximation
+        const totalReturn = y1 + y2 + y3 + exitVal;
+        const avgReturn = (totalReturn - initial) / initial / 3 * 100;
+        
+        document.getElementById('irrResult').innerText = avgReturn.toFixed(1) + "%";
+        
+        const achievement = Math.min(100, avgReturn * 7.6);
+        const risk = Math.min(100, avgReturn * 6.6);
+        
+        document.getElementById('irrMet1').innerText = Math.round(achievement) + "%";
+        document.getElementById('irrBar1').style.width = achievement + "%";
+        document.getElementById('irrMet2').innerText = Math.round(risk) + "%";
+        document.getElementById('irrBar2').style.width = risk + "%";
+    }
+
+    // TAB 05: CASH-ON-CASH RETURN
+    function calcCashOnCash() {
+        const cashFlow = parseFloat(document.getElementById('cocCashFlow').value) || 0;
+        const invested = parseFloat(document.getElementById('cocInvested').value) || 1;
+        const coc = (cashFlow / invested) * 100;
+        
+        document.getElementById('cocResult').innerText = coc.toFixed(1) + "%";
+        
+        const efficiency = Math.min(100, coc * 6.3);
+        const comp = Math.min(100, coc * 5.4);
+        
+        document.getElementById('cocMet1').innerText = Math.round(efficiency) + "%";
+        document.getElementById('cocBar1').style.width = efficiency + "%";
+        document.getElementById('cocMet2').innerText = Math.round(comp) + "%";
+        document.getElementById('cocBar2').style.width = comp + "%";
+    }
+
+    // TAB 06: LEASE AUDIT (EXISTING)
+    function runLeaseMath() {
+        const gap = document.querySelectorAll('#lease input[type="range"]')[0].value;
+        const exp = document.querySelectorAll('#lease input[type="range"]')[1].value;
+        document.getElementById('gapVal').innerText = gap + "%";
+        document.getElementById('expVal').innerText = exp + " YR";
+
+        let leakage = (gap * 2.5);
+        let upside = (gap * 1.5) + (exp * 5);
+        document.getElementById('leaseBar1').style.width = Math.min(100, leakage) + "%";
+        document.getElementById('leaseMet1').innerText = Math.round(leakage) + "%";
+        document.getElementById('leaseBar2').style.width = Math.min(100, upside) + "%";
+        document.getElementById('leaseMet2').innerText = Math.round(upside) + "%";
+    }
+
+    // TAB 07: CAM RECONCILIATION
+    function calcCAM() {
+        const expenses = parseFloat(document.getElementById('camExpenses').value) || 0;
+        const share = parseFloat(document.getElementById('camShare').value) || 0;
+        const collected = parseFloat(document.getElementById('camCollected').value) || 0;
+        
+        const recoverable = expenses * (share / 100);
+        const gap = recoverable - collected;
+        
+        document.getElementById('camGapResult').innerText = "$" + gap.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+        
+        const efficiency = Math.min(100, (collected / recoverable) * 100);
+        const compliance = Math.max(60, efficiency - 6);
+        
+        document.getElementById('camMet1').innerText = Math.round(efficiency) + "%";
+        document.getElementById('camBar1').style.width = efficiency + "%";
+        document.getElementById('camMet2').innerText = Math.round(compliance) + "%";
+        document.getElementById('camBar2').style.width = compliance + "%";
+    }
+
+    // TAB 08: MARK-TO-MARKET
+    function calcMarkToMarket() {
+        const current = parseFloat(document.getElementById('mtmCurrent').value) || 0;
+        const market = parseFloat(document.getElementById('mtmMarket').value) || 0;
+        const area = parseFloat(document.getElementById('mtmArea').value) || 0;
+        
+        const upside = (market - current) * area;
+        const growthPct = ((market - current) / current) * 100;
+        
+        document.getElementById('mtmUpsideResult').innerText = "$" + upside.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+        
+        document.getElementById('mtmMet1').innerText = Math.round(growthPct) + "%";
+        document.getElementById('mtmBar1').style.width = Math.min(100, growthPct) + "%";
+        
+        const value = Math.min(100, growthPct * 2.9);
+        document.getElementById('mtmMet2').innerText = Math.round(value) + "%";
+        document.getElementById('mtmBar2').style.width = value + "%";
+    }
+
+    // TAB 09: OCCUPANCY COST RATIO
+    function calcOccupancy() {
+        const rent = parseFloat(document.getElementById('occRent').value) || 0;
+        const opex = parseFloat(document.getElementById('occOpex').value) || 0;
+        const revenue = parseFloat(document.getElementById('occRevenue').value) || 1;
+        
+        const ratio = ((rent + opex) / revenue) * 100;
+        
+        document.getElementById('occRatioResult').innerText = ratio.toFixed(1) + "%";
+        
+        const retention = Math.max(30, Math.min(100, 100 - (ratio * 1.9)));
+        const capacity = Math.max(20, Math.min(100, 100 - (ratio * 2.3)));
+        
+        document.getElementById('occMet1').innerText = Math.round(retention) + "%";
+        document.getElementById('occBar1').style.width = retention + "%";
+        document.getElementById('occMet2').innerText = Math.round(capacity) + "%";
+        document.getElementById('occBar2').style.width = capacity + "%";
+    }
+
+    // TAB 10: BREAKEVEN ANALYSIS
+    function calcBreakeven() {
+        const fixed = parseFloat(document.getElementById('beFixed').value) || 0;
+        const variable = parseFloat(document.getElementById('beVariable').value) || 0;
+        const rent = parseFloat(document.getElementById('beRent').value) || 1;
+        
+        const beOcc = fixed / (rent - variable);
+        
+        document.getElementById('beOccResult').innerText = beOcc.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + " SF";
+        
+        const margin = Math.min(100, (1 - beOcc / 100000) * 100);
+        const leverage = Math.min(100, ((rent - variable) / rent) * 100);
+        
+        document.getElementById('beMet1').innerText = Math.round(margin) + "%";
+        document.getElementById('beBar1').style.width = margin + "%";
+        document.getElementById('beMet2').innerText = Math.round(leverage) + "%";
+        document.getElementById('beBar2').style.width = leverage + "%";
+    }
+
+    // TAB 11: EXIT VELOCITY (EXISTING)
+    function runExitMath() {
+        const cap = document.querySelectorAll('#exit input[type="range"]')[0].value;
+        const noi = document.querySelectorAll('#exit input[type="range"]')[1].value;
+        document.getElementById('capVal').innerText = cap + "%";
+        document.getElementById('noiVal').innerText = "$" + noi;
+
+        let appetite = 110 - (cap * 12);
+        let velocity = 100 - (cap * 8);
+        document.getElementById('exitBar1').style.width = Math.max(10, appetite) + "%";
+        document.getElementById('exitMet1').innerText = Math.round(appetite) + "%";
+        document.getElementById('exitBar2').style.width = Math.max(10, velocity) + "%";
+        document.getElementById('exitMet2').innerText = Math.round(velocity) + "%";
+    }
+
+    // TAB 12: HOLD PERIOD ANALYSIS
+    function calcHoldPeriod() {
+        const targetReturn = parseFloat(document.getElementById('hpReturn').value) || 15;
+        const noiGrowth = parseFloat(document.getElementById('hpGrowth').value) || 3;
+        const entryCap = parseFloat(document.getElementById('hpEntryCap').value) || 5.5;
+        const exitCap = parseFloat(document.getElementById('hpExitCap').value) || 5.0;
+        
+        // Simplified hold period calculation
+        const capCompression = entryCap - exitCap;
+        const holdPeriod = targetReturn / (noiGrowth + (capCompression * 1.5));
+        
+        document.getElementById('hpResult').innerText = holdPeriod.toFixed(1) + " Years";
+        
+        const trajectory = Math.min(100, noiGrowth * 25);
+        const confidence = Math.min(100, (1 / exitCap) * 40);
+        
+        document.getElementById('hpMet1').innerText = Math.round(trajectory) + "%";
+        document.getElementById('hpBar1').style.width = trajectory + "%";
+        document.getElementById('hpMet2').innerText = Math.round(confidence) + "%";
+        document.getElementById('hpBar2').style.width = confidence + "%";
+    }
+
+    // TAB 13: DISPOSITION STRATEGY
+    function calcDisposition() {
+        const type = document.getElementById('dispType').value;
+        const occ = parseFloat(document.getElementById('dispOcc').value) || 0;
+        const term = parseFloat(document.getElementById('dispTerm').value) || 0;
+        const depth = parseFloat(document.getElementById('dispDepth').value) || 5;
+        
+        const typeMultiplier = {
+            'small-bay': 0.9,
+            'mid-box': 1.0,
+            'big-box': 1.1,
+            'flex': 0.85
+        }[type] || 1.0;
+        
+        const appeal = Math.min(100, occ * typeMultiplier + term * 2 + depth * 1.5);
+        const velocity = Math.min(100, depth * 10 + (occ - 50));
+        const readiness = Math.min(100, term * 14 + occ * 0.2);
+        
+        document.getElementById('dispMet1').innerText = Math.round(appeal) + "%";
+        document.getElementById('dispBar1').style.width = appeal + "%";
+        document.getElementById('dispMet2').innerText = Math.round(velocity) + "%";
+        document.getElementById('dispBar2').style.width = velocity + "%";
+        document.getElementById('dispMet3').innerText = Math.round(readiness) + "%";
+        document.getElementById('dispBar3').style.width = readiness + "%";
+    }
+
+    // TAB 14: SITE SELECTION (EXISTING)
+    function runSiteMath() {
+        const dist = document.querySelectorAll('#site input[type="range"]')[0].value;
+        const labor = document.querySelectorAll('#site input[type="range"]')[1].value;
+        document.getElementById('distVal').innerText = dist + " KM";
+        document.getElementById('laborVal').innerText = labor > 70 ? "Critical" : "Adequate";
+
+        let efficiency = 100 - (dist * 4.5);
+        document.getElementById('siteBar1').style.width = Math.max(10, efficiency) + "%";
+        document.getElementById('siteMet1').innerText = Math.round(efficiency) + "%";
+    }
+
+    // TAB 15: LAND RESIDUAL VALUE
+    function calcLandValue() {
+        const noi = parseFloat(document.getElementById('lvNOI').value) || 0;
+        const cap = parseFloat(document.getElementById('lvCap').value) || 5.5;
+        const devCost = parseFloat(document.getElementById('lvDevCost').value) || 0;
+        const profit = parseFloat(document.getElementById('lvProfit').value) || 15;
+        
+        const stabilizedValue = noi / (cap / 100);
+        const landValue = stabilizedValue - devCost - (stabilizedValue * (profit / 100));
+        
+        document.getElementById('lvResult').innerText = "$" + landValue.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+        
+        const feasibility = Math.min(100, Math.max(0, (landValue / devCost) * 200));
+        const comp = Math.min(100, (noi / devCost) * 1000);
+        
+        document.getElementById('lvMet1').innerText = Math.round(feasibility) + "%";
+        document.getElementById('lvBar1').style.width = feasibility + "%";
+        document.getElementById('lvMet2').innerText = Math.round(comp) + "%";
+        document.getElementById('lvBar2').style.width = comp + "%";
+    }
+
+    // TAB 16: PARKING RATIO CALCULATOR
+    function calcParking() {
+        const gla = parseFloat(document.getElementById('parkGLA').value) || 0;
+        const type = document.getElementById('parkType').value;
+        const density = parseFloat(document.getElementById('parkDensity').value) || 0;
+        
+        const ratios = {
+            'warehouse': 0.5,
+            'manufacturing': 1.0,
+            'flex': 2.5,
+            'office-ind': 3.5
+        };
+        
+        const ratio = density > 0 ? density / 1000 : ratios[type];
+        const stalls = Math.ceil(gla * ratio / 1000);
+        
+        document.getElementById('parkResult').innerText = stalls + " Stalls";
+        
+        document.getElementById('parkMet1').innerText = "100%";
+        document.getElementById('parkBar1').style.width = "100%";
+        
+        const efficiency = Math.min(100, 100 - (stalls / gla * 10000));
+        document.getElementById('parkMet2').innerText = Math.round(efficiency) + "%";
+        document.getElementById('parkBar2').style.width = efficiency + "%";
+    }
+
+    // TAB 17: CAPITAL STACK (EXISTING)
+    function runCapMath() {
+        const ltv = document.querySelectorAll('#capital input[type="range"]')[0].value;
+        const dscr = document.querySelectorAll('#capital input[type="range"]')[1].value;
+        document.getElementById('ltvVal').innerText = ltv + "%";
+        document.getElementById('dscrVal').innerText = dscr + "x";
+
+        let confidence = (dscr * 40) - (ltv / 4);
+        let roe = (ltv / 3.5) + (dscr * 2);
+        document.getElementById('capitalBar1').style.width = Math.min(100, confidence) + "%";
+        document.getElementById('capitalMet1').innerText = Math.round(confidence) + "%";
+        document.getElementById('capitalBar2').style.width = Math.min(100, roe * 3) + "%";
+        document.getElementById('capitalMet2').innerText = roe.toFixed(1) + "%";
+    }
+
+    // TAB 18: LOAN CONSTANTS
+    function calcLoanConstant() {
+        const amount = parseFloat(document.getElementById('lcAmount').value) || 0;
+        const rate = parseFloat(document.getElementById('lcRate').value) || 0;
+        const amort = parseFloat(document.getElementById('lcAmort').value) || 25;
+        
+        const monthlyRate = (rate / 100) / 12;
+        const numPayments = amort * 12;
+        const monthlyPayment = amount * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1);
+        const annualDebt = monthlyPayment * 12;
+        const loanConstant = (annualDebt / amount) * 100;
+        
+        document.getElementById('lcResult').innerText = loanConstant.toFixed(2) + "%";
+        document.getElementById('lcADSResult').innerText = "$" + annualDebt.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+        
+        const stability = Math.min(100, 100 - (rate * 3));
+        document.getElementById('lcMet1').innerText = Math.round(stability) + "%";
+        document.getElementById('lcBar1').style.width = stability + "%";
+    }
+
+    // TAB 19: REFINANCE ANALYSIS
+    function calcRefinance() {
+        const balance = parseFloat(document.getElementById('refBalance').value) || 0;
+        const currentRate = parseFloat(document.getElementById('refCurrentRate').value) || 0;
+        const newRate = parseFloat(document.getElementById('refNewRate').value) || 0;
+        const noi = parseFloat(document.getElementById('refNOI').value) || 0;
+        const costs = parseFloat(document.getElementById('refCosts').value) || 2.5;
+        
+        const currentPayment = balance * (currentRate / 100) * 1.1; // Simplified
+        const newPayment = balance * (newRate / 100) * 1.1;
+        const savings = currentPayment - newPayment;
+        
+        document.getElementById('refSavingsResult').innerText = "$" + savings.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+        
+        const improvement = Math.min(100, (savings / currentPayment) * 400);
+        const dscrBoost = Math.min(100, (noi / newPayment) * 50);
+        
+        document.getElementById('refMet1').innerText = Math.round(improvement) + "%";
+        document.getElementById('refBar1').style.width = improvement + "%";
+        document.getElementById('refMet2').innerText = Math.round(dscrBoost) + "%";
+        document.getElementById('refBar2').style.width = dscrBoost + "%";
+    }
+
+    // TAB 20: EQUITY MULTIPLE
+    function calcEquityMultiple() {
+        const initial = parseFloat(document.getElementById('emInitial').value) || 1;
+        const distributions = parseFloat(document.getElementById('emDistributions').value) || 0;
+        const saleProceeds = parseFloat(document.getElementById('emSaleProceeds').value) || 0;
+        
+        const totalReturn = distributions + saleProceeds;
+        const multiple = totalReturn / initial;
+        
+        document.getElementById('emResult').innerText = multiple.toFixed(2) + "x";
+        
+        const achievement = Math.min(100, multiple * 50);
+        const efficiency = Math.min(100, multiple * 47);
+        
+        document.getElementById('emMet1').innerText = Math.round(achievement) + "%";
+        document.getElementById('emBar1').style.width = achievement + "%";
+        document.getElementById('emMet2').innerText = Math.round(efficiency) + "%";
+        document.getElementById('emBar2').style.width = efficiency + "%";
+    }
+
+    // Initialize calculations on load
+    window.onload = function() {
+        runCondoMath();
+        calcDSCR();
+        calcIRR();
+        calcCashOnCash();
+        runLeaseMath();
+        calcCAM();
+        calcMarkToMarket();
+        calcOccupancy();
+        calcBreakeven();
+        runExitMath();
+        calcHoldPeriod();
+        calcDisposition();
+        runSiteMath();
+        calcLandValue();
+        calcParking();
+        runCapMath();
+        calcLoanConstant();
+        calcRefinance();
+        calcEquityMultiple();
+    };
+</script>
+</body>
+</html>
