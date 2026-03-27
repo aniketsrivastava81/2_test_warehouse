@@ -2284,3 +2284,18 @@ p {
   .tools-v3-rail-photo { height:160px; }
   .tools-v3-side-image { height:150px; }
 }
+
+
+/* cross-site refinement patch */
+.listing-card-premium .listing-image-wrap{position:relative; overflow:hidden; border-radius:1.55rem 1.55rem 0 0; min-height:250px; background:#f4efe9;}
+.listing-card-premium .listing-image{width:100%; height:100%; min-height:250px; object-fit:cover; display:block; transition:transform .8s cubic-bezier(.22,1,.36,1), filter .5s ease;}
+.listing-card-premium:hover .listing-image{transform:scale(1.04); filter:saturate(1.06) contrast(1.02);}
+.listing-card-premium .listing-image-wrap::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(12,10,8,0.03), rgba(12,10,8,0.36)); pointer-events:none;}
+.listing-card-premium .listing-status{position:absolute; top:16px; left:16px; z-index:2;}
+.listing-card-premium{overflow:hidden;}
+.tools-v2-stack, .tools-v2-intro{opacity:1 !important; transform:none !important; filter:none !important;}
+.tools-v2-stack > *{opacity:1 !important; transform:none !important;}
+.services-premium-page .service-story-card, .services-premium-page .service-feature-card, .services-premium-page .services-process-step, .services-premium-page .services-outcome-card{border-radius:2rem; overflow:hidden;}
+.services-premium-page .service-story-card img, .services-premium-page .services-image-panel img{transition:transform .9s cubic-bezier(.22,1,.36,1);}
+.services-premium-page .service-story-card:hover img, .services-premium-page .services-image-panel:hover img{transform:scale(1.045);}
+.warehouse-frame-premium{border-radius:2rem; box-shadow:0 40px 90px rgba(17,17,17,0.18); border:1px solid rgba(17,17,17,0.06);}

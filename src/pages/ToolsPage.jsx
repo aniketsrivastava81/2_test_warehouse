@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import CTASection from '../components/CTASection';
 import ToolsAccessGate from '../components/tools/ToolsAccessGate';
@@ -65,12 +65,19 @@ export default function ToolsPage() {
     return () => observer.disconnect();
   }, [accepted]);
 
+
+  useLayoutEffect(() => {
+    if (!accepted || typeof window === 'undefined') return;
+    const targets = document.querySelectorAll('.tools-v2-intro, .tools-v2-stack, .tools-v2-stack > *');
+    targets.forEach((target) => target.classList.add('on'));
+  }, [accepted]);
+
   const toolCount = useMemo(() => 9, []);
   const chapters = [
     { label: 'Access Gate', href: '#tools-access-gate' },
     { label: 'Pricing & Yield', href: '#tool-cap-rate' },
     { label: 'Occupancy', href: '#tool-cam-tmi' },
-    { label: 'Finance', href: '#tool-lease-vs-buy' },
+    { label: 'Finance', href: '#tool-mortgage-intelligence' },
     { label: 'Flow & Fit', href: '#tool-storage-flow-lab' },
   ];
 
