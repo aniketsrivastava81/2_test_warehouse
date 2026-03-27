@@ -1,74 +1,75 @@
-# Betta Sarto 3D Experience
+# Megha Mehta React Migration
 
-A complete React + Vite immersive showroom for Betta Sarto premium cotton t-shirts.
+This is a Vite + React commercial real-estate demo project prepared for Vercel deployment.
 
-## Included experience
+## Live app structure
+These are the main website files that should be treated as the live marketing app:
+- `src/main.jsx`
+- `src/App.jsx`
+- `src/components/Layout.jsx`
+- `src/components/Header.jsx`
+- `src/components/Footer.jsx`
+- `src/components/LeadMagnetModal.jsx`
+- `src/components/MobileStickyCTA.jsx`
+- `src/pages/HomePage.jsx`
+- `src/pages/ServicesPage.jsx`
+- `src/pages/AboutPage.jsx`
+- `src/pages/ContactPage.jsx`
+- `src/pages/PropertyListPage.jsx`
+- `src/pages/PropertyDetailPage.jsx`
+- `src/pages/ToolsPage.jsx`
+- `src/pages/BlogPage.jsx`
+- `src/pages/BlogPostPage.jsx`
+- `src/pages/WarehousePage.jsx`
+- `src/data/siteData.js`
+- `src/config/site.js`
 
-- Sensory Void entry with tear-through reveal
-- Main gallery with discoverable shirts, vault door, and portal gates
-- Drape/Wind mode toggle and flashlight inspection mode
-- Vault unlock ritual with scan, dial, and code paths
-- Cotton Cloud deep-dive with ripples, whispers, and sculptable cloud drift
-- Three themed worlds with puzzles, resets, and progression tracking
-- AR try-on route with live camera overlay, capture flow, and color scavenger hunt
-- Comfort settings, persistent progress, audio toggle, mobile sticky CTA, analytics hooks
-- Post-processing, dev FPS HUD, SPA routing, production verification script
+## Legacy / secondary files
+These are present for reference or older experiments and should not be treated as the main website unless intentionally revived later:
+- `src/main.js`
+- `src/core/*`
+- `src/game/*`
+- `src/world/*`
+- `src/input/*`
+- `src/fx/*`
+- `src/ui/*`
+- `src/lib/*`
+- `src/legacy/*`
+- `index_old.html`
+- `dist/*`
 
-## Routes
+## Included routes
+- `/` — homepage
+- `/services` — services
+- `/about` — advisor-style about page
+- `/contact` — contact + lead form
+- `/listings` — searchable listings + map
+- `/listings/:slug` — listing detail page
+- `/tools` — commercial tools page
+- `/guides` — blog/guides index
+- `/guides/:slug` — guide detail page
+- `/warehouse` — warehouse + 3D pallet game page
 
-- `/`
-- `/vault`
-- `/cotton-cloud`
-- `/journey/organic-oasis`
-- `/journey/urban-canvas`
-- `/journey/abstract-dreamscape`
-- `/ar`
+Legacy redirects remain in place for older paths like `/blog`, `/property-list`, and `/property-details`.
 
-## Commands
-
+## Run locally
 ```bash
 npm install
 npm run dev
-npm run build
-npm run preview
-npm run verify
 ```
 
-## Browser / device QA matrix
-
-### Desktop
-- Chrome latest
-- Edge latest
-- Firefox latest
-- Safari 17+
-
-### Mobile
-- iPhone 12 or newer
-- Pixel 5 or newer
-- iPad Safari
-
-## Expected graceful degradations
-
-- Mobile disables heavy post-processing and reduces particles
-- Missing camera permission keeps AR panel usable with fallback messaging
-- Missing external assets fall back to procedural garment materials
-- Audio autoplay denial falls back silently with UI notice
-
-## Post-launch observation plan
-
-Track these analytics events after launch:
-
-- `scene_view`
-- `product_focus`
-- `add_to_cart`
-- `vault_unlock`
-- `puzzle_solved`
-- `ar_launch`
-- `ar_capture`
-- `lead_submit`
-- `comfort_settings_change`
+## Deployment note
+`vercel.json` includes a rewrite to `index.html` so React Router routes work correctly on Vercel.
 
 ## Notes
+- Lead capture, shortlist requests, and tour/contact requests store demo data in `localStorage`.
+- Listings and guides content live in `src/data/siteData.js`.
+- The warehouse page remains isolated as a secondary demo experience.
+- No `package-lock.json` is included in this folder.
 
-- The project uses procedural geometry so it runs without external GLB dependencies.
-- The verify script checks that the built app and required source files exist before deployment.
+
+## Legacy warehouse code note
+
+The live marketing website runs from `src/main.jsx` and the React pages/components referenced by `src/App.jsx`.
+The older standalone warehouse/game code under `src/main.js`, `src/core/*`, `src/game/*`, `src/world/*`, `src/input/*`, `src/fx/*`, `src/ui/*`, and `src/style.css` is reference-only unless the warehouse experience is rebuilt natively later.
+Do not edit those files for normal website/page work.
