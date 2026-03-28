@@ -79,9 +79,7 @@ export default function MarketIntelligenceHub() {
 
       <div className="market-intel__scenario-bar" role="tablist" aria-label="Market scenario">
         {Object.entries(SCENARIOS).map(([key, item]) => (
-          <button
-            key={key}
-            type="button"
+          <button type="button" key={key}
             className={scenarioKey === key ? "is-active" : ""}
             onClick={() => setScenarioKey(key)}
           >
@@ -96,9 +94,7 @@ export default function MarketIntelligenceHub() {
           <div className="market-intel__map" role="img" aria-label="Illustrated GTA hotspot map with clickable region markers">
             <div className="market-intel__map-shape" />
             {DOTS.map((dot) => (
-              <button
-                key={dot.key}
-                type="button"
+              <button type="button" key={dot.key}
                 className={`market-intel__dot ${regionKey === dot.key ? "is-active" : ""}`}
                 style={{ left: `${dot.x}%`, top: `${dot.y}%` }}
                 onClick={() => setRegionKey(dot.key)}

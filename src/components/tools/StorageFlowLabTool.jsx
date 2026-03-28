@@ -50,11 +50,11 @@ export default function StorageFlowLabTool() {
           <div className="storage-flow-config">
             <label>
               <span>Orders per hour ({ordersPerHour})</span>
-              <input type="range" min="8" max="60" value={ordersPerHour} onChange={(e) => setOrdersPerHour(Number(e.target.value))} />
+              <input id="sfl-orders" type="range" min="8" max="60" value={ordersPerHour} onChange={(e) => setOrdersPerHour(Number(e.target.value))} />
             </label>
             <label>
               <span>Floor team ({teamSize})</span>
-              <input type="range" min="2" max="14" value={teamSize} onChange={(e) => setTeamSize(Number(e.target.value))} />
+              <input id="sfl-team" type="range" min="2" max="14" value={teamSize} onChange={(e) => setTeamSize(Number(e.target.value))} />
             </label>
           </div>
 

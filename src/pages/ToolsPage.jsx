@@ -6,6 +6,7 @@ import LeaseVsBuyTool from '../components/tools/LeaseVsBuyTool';
 import FootfallTool from '../components/tools/FootfallTool';
 import SubmarketComparator from '../components/tools/SubmarketComparator';
 import EquipmentCompatibilityTool from '../components/tools/EquipmentCompatibilityTool';
+import HomeValuationTool from '../components/tools/HomeValuationTool';
 import RiskResilienceTool from '../components/tools/RiskResilienceTool';
 import PremiumWarehouseTool from '../components/tools/PremiumWarehouseTool';
 import StorageFlowLabTool from '../components/tools/StorageFlowLabTool';
@@ -83,7 +84,7 @@ export default function ToolsPage() {
     return () => window.clearTimeout(timer);
   }, [accepted]);
 
-  const counts = useMemo(() => ({ core: 10, archive: 19, total: 29 }), []);
+  const counts = useMemo(() => ({ core: 11, archive: 19, total: 30 }), []);
   const chapters = [
     { label: 'Access Gate', href: '#tools-access-gate' },
     { label: 'Cap Rate', href: '#tool-cap-rate' },
@@ -95,6 +96,7 @@ export default function ToolsPage() {
     { label: 'Risk', href: '#tool-risk-resilience' },
     { label: 'Premium Layer', href: '#tool-premium-warehouse' },
     { label: 'Storage Flow', href: '#tool-storage-flow-lab' },
+    { label: 'Home Valuation', href: '#tool-home-valuation' },
     { label: 'Archive Suite', href: '#tool-legacy-suite' },
   ];
 
@@ -153,6 +155,9 @@ export default function ToolsPage() {
               <div className="mt-4 flex flex-wrap gap-2">
                 <a className="button button-primary small-button" href="#tool-submarket-comparison">Compare submarkets</a>
                 <a className="button button-secondary small-button" href="#tool-legacy-suite">Open archive suite</a>
+                <a className="button button-secondary small-button" href="/amenities">Amenity finder</a>
+                <a className="button button-secondary small-button" href="/commute">Commute analysis</a>
+                <a className="button button-secondary small-button" href="/schedule">Schedule</a>
               </div>
             </div>
             <div className="tools-v2-rail-card tools-v2-rail-card-soft">

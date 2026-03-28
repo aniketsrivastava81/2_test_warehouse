@@ -34,13 +34,7 @@ export default function FloatingInquiryButton() {
           <div className="floating-inquiry__meta">Sample phone: {SITE.primaryPhone} - sample inbox: {SITE.inquiryEmail}</div>
         </div>
       ) : null}
-      <button
-        type="button"
-        className="floating-inquiry__toggle"
-        onClick={() => setOpen((value) => !value)}
-        aria-expanded={open}
-        aria-label="Open quick inquiry options"
-      >
+      <button type="button" className="floating-inquiry__toggle" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-label="Open quick inquiry options">
         <span aria-hidden="true">✆</span>
         <span>Quick inquiry</span>
       </button>

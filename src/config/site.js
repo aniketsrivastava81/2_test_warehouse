@@ -22,6 +22,7 @@ export const SITE = {
   officeAddress: "100 King Street West, Suite 5600, Toronto, ON M5X 1C9",
   leadMagnetTitle: "2026 GTA Industrial Scarcity Report",
   socialProfiles: [],
+  googleCalendarEmbedUrl: 'https://calendar.google.com/calendar/appointments/schedules/YOUR_GOOGLE_CALENDAR_SCHEDULING_LINK?gv=true',
   whatsappShareText: "I am reviewing KOLT Realty opportunities and would like a quick commercial real estate follow-up.",
   sampleCrmLabel: "KOLT Sample CRM Inbox",
   serviceAreas: ["Toronto","North York","Etobicoke","Scarborough","Vaughan","Richmond Hill","Markham","Mississauga","Brampton","Milton","Burlington","Oakville"],
@@ -40,6 +41,10 @@ export const SITE = {
     { label: "Checklists", href: "/checklists" },
     { label: "Warehouse Demo", href: "/warehouse" },
     { label: "Interactive Showcase", href: "/listing-type-2" },
+    { label: "Schedule", href: "/schedule" },
+    { label: "Amenity Finder", href: "/amenities" },
+    { label: "Commute Analysis", href: "/commute" },
+    { label: "Privacy", href: "/privacy" },
     { label: "Contact", href: "/contact" },
   ],
   proofPoints: [

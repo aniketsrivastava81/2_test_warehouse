@@ -56,7 +56,7 @@ export class HUD {
           <li>Random Megha Mehta Real Estate branded wraps</li>
         </ul>
       `,
-      actions: `<button class="button" data-action="start">Start the shift</button>`
+      actions: `<button type="button" class="button" data-action="start">Start the shift</button>`
     });
 
     this.endOverlay = this.createOverlay({
@@ -72,9 +72,9 @@ export class HUD {
         </div>
       `,
       actions: `
-        <button class="button" data-action="continue" hidden>Continue</button>
-        <button class="button" data-action="restart">Restart full run</button>
-        <button class="button button--secondary" data-action="close">Close</button>
+        <button type="button" class="button" data-action="continue" hidden>Continue</button>
+        <button type="button" class="button" data-action="restart">Restart full run</button>
+        <button type="button" class="button button--secondary" data-action="close">Close</button>
       `
     });
     this.endOverlay.hidden = true;

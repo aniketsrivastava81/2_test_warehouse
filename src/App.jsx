@@ -16,6 +16,10 @@ import MarketsPage from "./pages/MarketsPage";
 import AssetClassesPage from "./pages/AssetClassesPage";
 import WhyKoltPage from "./pages/WhyKoltPage";
 import ChecklistsPage from "./pages/ChecklistsPage";
+import SchedulePage from "./pages/SchedulePage";
+import PrivacyPage from "./pages/PrivacyPage";
+import AmenityFinderPage from "./pages/AmenityFinderPage";
+import CommuteAnalysisPage from "./pages/CommuteAnalysisPage";
 
 export default function App() {
   return (
@@ -36,6 +40,10 @@ export default function App() {
         <Route path="/asset-classes" element={<AssetClassesPage />} />
         <Route path="/why-kolt" element={<WhyKoltPage />} />
         <Route path="/checklists" element={<ChecklistsPage />} />
+        <Route path="/schedule" element={<SchedulePage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/amenities" element={<AmenityFinderPage />} />
+        <Route path="/commute" element={<CommuteAnalysisPage />} />
 
         <Route path="/blog" element={<Navigate to="/guides" replace />} />
         <Route path="/blog/:slug" element={<Navigate to="/guides" replace />} />
@@ -46,6 +54,8 @@ export default function App() {
         <Route path="/propertylist.html" element={<Navigate to="/listings" replace />} />
         <Route path="/propertydetail.html" element={<Navigate to="/listings" replace />} />
         <Route path="/tools.html" element={<Navigate to="/tools" replace />} />
+        <Route path="/schedule.html" element={<Navigate to="/schedule" replace />} />
+        <Route path="/privacy.html" element={<Navigate to="/privacy" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

@@ -133,19 +133,19 @@ export default function PropertyListPage() {
           <div className="listing-filter-panel">
             <label>
               <span>Asset type</span>
-              <select value={category} onChange={(e) => setCategory(e.target.value)}>
+              <select id="pl-category" value={category} onChange={(e) => setCategory(e.target.value)}>
                 {categories.map((item) => <option key={item} value={item}>{item}</option>)}
               </select>
             </label>
             <label>
               <span>Location</span>
-              <select value={location} onChange={(e) => setLocation(e.target.value)}>
+              <select id="pl-location" value={location} onChange={(e) => setLocation(e.target.value)}>
                 {locations.map((item) => <option key={item} value={item}>{item}</option>)}
               </select>
             </label>
             <label>
               <span>Status</span>
-              <select value={status} onChange={(e) => setStatus(e.target.value)}>
+              <select id="pl-status" value={status} onChange={(e) => setStatus(e.target.value)}>
                 {statuses.map((item) => <option key={item} value={item}>{item}</option>)}
               </select>
             </label>

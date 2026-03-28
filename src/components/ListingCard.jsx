@@ -23,12 +23,7 @@ export default function ListingCard({ listing }) {
   return (
     <article className="group overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-luxe transition-transform duration-300 hover:-translate-y-1.5 listing-card-premium">
       <div className="relative h-[285px] overflow-hidden listing-image-wrap">
-        <img
-          src={listing.image}
-          alt={`${listing.category} property in ${listing.location} with ${listing.loading} and ${listing.clearHeight}`}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04] listing-image"
-          loading="lazy"
-        />
+        <img src={listing.image} alt={`${listing.category} property in ${listing.location} with ${listing.loading} and ${listing.clearHeight}`} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04] listing-image" loading="lazy" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/72 via-black/16 to-transparent" />
 
         <div className="absolute left-4 right-4 top-4 flex flex-wrap items-center justify-between gap-2">

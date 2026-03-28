@@ -44,21 +44,21 @@ export default function PremiumWarehouseTool() {
         <form className="premium-tool__panel premium-tool__controls">
           <label>
             <span>Clear height ({values.clearHeight} ft)</span>
-            <input type="range" min="16" max="40" name="clearHeight" value={values.clearHeight} onChange={update} />
+            <input id="pw-clearHeight" type="range" min="16" max="40" name="clearHeight" value={values.clearHeight} onChange={update} />
           </label>
           <label>
             <span>Dock doors ({values.dockDoors})</span>
-            <input type="range" min="0" max="14" name="dockDoors" value={values.dockDoors} onChange={update} />
+            <input id="pw-dockDoors" type="range" min="0" max="14" name="dockDoors" value={values.dockDoors} onChange={update} />
           </label>
           <label>
             <span>Trailer stalls ({values.trailerStalls})</span>
-            <input type="range" min="0" max="24" name="trailerStalls" value={values.trailerStalls} onChange={update} />
+            <input id="pw-trailerStalls" type="range" min="0" max="24" name="trailerStalls" value={values.trailerStalls} onChange={update} />
           </label>
-          <label className="premium-tool__check"><input type="checkbox" name="esfr" checked={values.esfr} onChange={update} /><span>ESFR / modern suppression confirmed</span></label>
-          <label className="premium-tool__check"><input type="checkbox" name="crossDock" checked={values.crossDock} onChange={update} /><span>Cross-dock shipping configuration</span></label>
+          <label className="premium-tool__check"><input id="pw-esfr" type="checkbox" name="esfr" checked={values.esfr} onChange={update} /><span>ESFR / modern suppression confirmed</span></label>
+          <label className="premium-tool__check"><input id="pw-crossDock" type="checkbox" name="crossDock" checked={values.crossDock} onChange={update} /><span>Cross-dock shipping configuration</span></label>
           <label>
             <span>Office finish</span>
-            <select name="officeFinish" value={values.officeFinish} onChange={update}>
+            <select id="pw-officeFinish" name="officeFinish" value={values.officeFinish} onChange={update}>
               <option value="base">Base finish</option>
               <option value="upgraded">Upgraded office</option>
               <option value="premium">Premium client-facing finish</option>

@@ -33,6 +33,8 @@ export default function PropertyDetailPage() {
     { label: "Zoning", value: listing.zoning },
   ];
   const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(listing.mapQuery || listing.address || listing.location)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+  const amenityHref = `/amenities?address=${encodeURIComponent(listing.address)}`;
+  const commuteHref = `/commute?origin=${encodeURIComponent(listing.address)}`;
 
   return (
     <>
@@ -87,6 +89,9 @@ export default function PropertyDetailPage() {
                 <a className="button button-secondary" href={brochureHref} download>Download sample brochure PDF</a>
                 <Link className="button button-secondary" to="/contact#analysis-workflow">Request confidential review</Link>
                 <Link className="button button-secondary" to="/tools">Run fit analysis</Link>
+                <Link className="button button-secondary" to={amenityHref}>Find nearby amenities</Link>
+                <Link className="button button-secondary" to={commuteHref}>Run commute analysis</Link>
+                <Link className="button button-secondary" to="/schedule">Schedule a walkthrough</Link>
                 <button className="button button-secondary" type="button" onClick={() => window.print()}>Print one-sheet</button>
                 <ShortlistButton listing={listing} className="button button-secondary" />
               </div>

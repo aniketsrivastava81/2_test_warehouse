@@ -4,6 +4,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import RouteSeo from "./RouteSeo";
 import FloatingInquiryButton from "./FloatingInquiryButton";
+import CookieConsentBanner from "./CookieConsentBanner";
+import FaqChatbot from "./FaqChatbot";
 import ShortlistTray from "./ShortlistTray";
 
 export default function Layout() {
@@ -22,7 +24,9 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <CookieConsentBanner />
       <ShortlistTray />
+      <FaqChatbot />
       <FloatingInquiryButton />
     </div>
   );

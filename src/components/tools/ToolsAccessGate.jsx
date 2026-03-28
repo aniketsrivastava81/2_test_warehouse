@@ -72,7 +72,7 @@ export default function ToolsAccessGate({ accepted, onAccept, metadataReady = tr
           <div className="grid gap-3">
             {cards.map((card) => (
               <label key={card.key} className={`tools-v3-gate-card ${checks[card.key] ? 'active' : ''}`}>
-                <input type="checkbox" checked={checks[card.key]} onChange={setCheck(card.key)} />
+                <input id={`gate-${card.key}`} type="checkbox" checked={checks[card.key]} onChange={setCheck(card.key)} />
                 <div>
                   <strong>{card.title}</strong>
                   <span>{card.body}</span>

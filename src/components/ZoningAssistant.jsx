@@ -66,7 +66,7 @@ export default function ZoningAssistant() {
         <form className="zoning-assistant__panel zoning-assistant__form" onSubmit={onSubmit}>
           <label>
             <span>Market</span>
-            <select name="market" value={form.market} onChange={onChange}>
+            <select id="z-market" name="market" value={form.market} onChange={onChange}>
               <option>Toronto</option>
               <option>Mississauga</option>
               <option>Brampton</option>
@@ -76,7 +76,7 @@ export default function ZoningAssistant() {
           </label>
           <label>
             <span>Use type</span>
-            <select name="useType" value={form.useType} onChange={onChange}>
+            <select id="z-useType" name="useType" value={form.useType} onChange={onChange}>
               <option value="industrial">Industrial</option>
               <option value="office">Office</option>
               <option value="retail">Retail</option>
@@ -85,11 +85,11 @@ export default function ZoningAssistant() {
           </label>
           <label>
             <span>Approximate size</span>
-            <input name="size" value={form.size} onChange={onChange} placeholder="12,000" />
+            <input id="z-size" name="size" value={form.size} onChange={onChange} placeholder="12,000" />
           </label>
           <label>
             <span>Loading assumption</span>
-            <select name="loading" value={form.loading} onChange={onChange}>
+            <select id="z-loading" name="loading" value={form.loading} onChange={onChange}>
               <option value="truck-level">Truck-level</option>
               <option value="drive-in">Drive-in</option>
               <option value="none">No loading priority</option>

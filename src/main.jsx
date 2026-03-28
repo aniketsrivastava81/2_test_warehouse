@@ -6,6 +6,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import App from './App';
 import theme from './theme';
+import 'leaflet/dist/leaflet.css';
 import './style.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(

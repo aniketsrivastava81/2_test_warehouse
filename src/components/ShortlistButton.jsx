@@ -16,8 +16,7 @@ export default function ShortlistButton({ listing, className = "button button-se
   };
 
   return (
-    <button
-      type="button"
+    <button type="button"
       onClick={onToggle}
       aria-pressed={saved}
       aria-label={saved ? `Remove ${listing.title} from shortlist` : `Add ${listing.title} to shortlist`}

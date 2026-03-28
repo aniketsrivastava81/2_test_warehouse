@@ -31,17 +31,12 @@ export default function Header() {
               {item.label}
             </NavLink>
           ))}
+          <Link to="/schedule" className="button button-secondary small-button">Schedule</Link>
           <Link to="/contact#analysis-workflow" className="button button-secondary small-button">Scarcity Report</Link>
           <Link to="/listings" className="button button-primary small-button">View Opportunities</Link>
         </nav>
 
-        <button
-          type="button"
-          className="menu-button"
-          onClick={() => setOpen((value) => !value)}
-          aria-expanded={open}
-          aria-label="Toggle menu"
-        >
+        <button type="button" className="menu-button" onClick={() => setOpen((value) => !value)} aria-expanded={open} aria-label="Toggle menu">
           <span></span>
           <span></span>
         </button>
@@ -60,6 +55,9 @@ export default function Header() {
                 {item.label}
               </NavLink>
             ))}
+            <Link to="/schedule" className="button button-secondary" onClick={() => setOpen(false)}>
+              Schedule a call
+            </Link>
             <Link to="/contact#analysis-workflow" className="button button-secondary" onClick={() => setOpen(false)}>
               Get Scarcity Report
             </Link>

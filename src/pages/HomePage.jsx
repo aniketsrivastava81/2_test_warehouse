@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import CTASection from '../components/CTASection';
+import SocialProofTicker from '../components/SocialProofTicker';
 import { Reveal, Stagger } from '../components/motion/Reveal';
 import { JOURNEY, LISTINGS } from '../data/siteData';
 
@@ -180,6 +181,8 @@ export default function HomePage() {
           </Reveal>
         </div>
       </section>
+
+      <SocialProofTicker />
 
       <section className="section pt-6 lg:pt-8">
         <div className="container">
