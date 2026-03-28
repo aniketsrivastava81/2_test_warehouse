@@ -56,7 +56,7 @@ export default function LeadMagnetModal() {
 
   return (
     <div className="modal" aria-hidden="false">
-      <div className="modal-backdrop" onClick={closeLeadMagnet}></div>
+      <div className="modal-backdrop" role="button" tabIndex={0} aria-label="Close modal" onClick={closeLeadMagnet} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") closeLeadMagnet(); }}></div>
       <div className="modal-card" role="dialog" aria-modal="true" aria-label={`Get the ${SITE.leadMagnetTitle}`}>
         <button className="modal-close" aria-label="Close" type="button" onClick={closeLeadMagnet}>×</button>
         <div className="modal-header">

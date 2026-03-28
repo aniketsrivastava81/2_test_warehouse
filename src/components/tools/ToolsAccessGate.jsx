@@ -88,8 +88,8 @@ export default function ToolsAccessGate({ accepted, onAccept, metadataReady = tr
           </div>
 
           <div className="hero-button-row tools-v3-gate-actions">
-            <a className="button button-secondary small-button waves-effect" href="#download-tresa" onClick={(e) => e.preventDefault()}>Download TRESA Guide</a>
-            <a className="button button-secondary small-button waves-effect" href="#download-reco" onClick={(e) => e.preventDefault()}>Download RECO Report</a>
+            <a className="button button-secondary small-button" href="#download-tresa" onClick={(e) => e.preventDefault()}>Download TRESA Guide</a>
+            <a className="button button-secondary small-button" href="#download-reco" onClick={(e) => e.preventDefault()}>Download RECO Report</a>
             <Button variant="contained" color="primary" onClick={handleUnlock} disabled={!canUnlock}>
               Accept and unlock tools
             </Button>

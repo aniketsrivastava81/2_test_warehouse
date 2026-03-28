@@ -3,6 +3,7 @@ import path from 'path';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const SRC = path.join(ROOT, 'src');
+const INDEX = path.join(ROOT, 'index.html');
 
 function walk(dir) {
   const out = [];
@@ -13,45 +14,57 @@ function walk(dir) {
   }
   return out;
 }
+function linesOf(text) { return text.split(/\r?\n/); }
+function issue(type, file, line, snippet, severity = 'warning') {
+  return { type, file, line, snippet: (snippet || '').trim().slice(0, 240), severity };
+}
+function lineForOffset(text, offset) { return text.slice(0, offset).split(/\r?\n/).length; }
 
-function linesOf(text) {
-  return text.split(/\r?\n/);
+function blocks(tag, text) {
+  const regex = new RegExp(`<${tag}\\b[\\s\\S]*?>`, 'g');
+  return [...text.matchAll(regex)].map((m) => ({ raw: m[0], index: m.index ?? 0 }));
 }
 
-function findTagIssues(file, text) {
+function findIssues(file, text) {
   const issues = [];
-
   const lines = linesOf(text);
 
-  // IMG without alt
-  lines.forEach((line, i) => {
-    if (line.includes('<img') && !line.includes('alt=')) {
-      issues.push({ type: 'IMG_MISSING_ALT', file, line: i + 1, snippet: line.trim().slice(0, 220) });
+  for (const m of blocks('img', text)) {
+    if (!/\balt=/.test(m.raw)) issues.push(issue('IMG_MISSING_ALT', file, lineForOffset(text, m.index), m.raw, 'error'));
+  }
+  for (const m of blocks('iframe', text)) {
+    if (!/\btitle=/.test(m.raw)) issues.push(issue('IFRAME_MISSING_TITLE', file, lineForOffset(text, m.index), m.raw, 'error'));
+  }
+  for (const m of blocks('button', text)) {
+    if (!/\btype=/.test(m.raw)) issues.push(issue('BUTTON_MISSING_TYPE', file, lineForOffset(text, m.index), m.raw, 'warning'));
+  }
+  for (const tag of ['input', 'select', 'textarea']) {
+    for (const m of blocks(tag, text)) {
+      if (!/\bid=/.test(m.raw)) issues.push(issue('FIELD_MISSING_ID', file, lineForOffset(text, m.index), m.raw, 'warning'));
     }
-  });
-
-  // target=_blank without rel noopener/noreferrer
-  lines.forEach((line, i) => {
-    if (line.includes('target="_blank"')) {
-      const hasRel = line.includes('rel=');
-      const safeRel = hasRel && (line.includes('noreferrer') || line.includes('noopener'));
-      if (!safeRel) issues.push({ type: 'A_TARGET_BLANK_REL', file, line: i + 1, snippet: line.trim().slice(0, 220) });
+  }
+  for (const m of blocks('a', text)) {
+    if (/target="_blank"/.test(m.raw)) {
+      const safeRel = /rel=/.test(m.raw) && /(noreferrer|noopener)/.test(m.raw);
+      if (!safeRel) issues.push(issue('A_TARGET_BLANK_REL', file, lineForOffset(text, m.index), m.raw, 'error'));
     }
-  });
+  }
 
-  // button without type (common source of accidental form submits)
+  // line-oriented heuristics
   lines.forEach((line, i) => {
-    const hasBtn = line.includes('<button');
-    if (!hasBtn) return;
-    const hasType = line.includes('type=');
-    if (!hasType) issues.push({ type: 'BUTTON_MISSING_TYPE', file, line: i + 1, snippet: line.trim().slice(0, 220) });
-  });
-
-  // inputs/selects/textareas without id (hurts label association)
-  lines.forEach((line, i) => {
-    const isField = line.includes('<input') || line.includes('<select') || line.includes('<textarea');
-    if (!isField) return;
-    if (!line.includes('id=')) issues.push({ type: 'FIELD_MISSING_ID', file, line: i + 1, snippet: line.trim().slice(0, 220) });
+    const trimmed = line.trim();
+    if (/^<(div|span|article)\b/.test(trimmed)) {
+      const tagClose = trimmed.indexOf('>');
+      const head = tagClose >= 0 ? trimmed.slice(0, tagClose + 1) : trimmed;
+      if (/onClick=/.test(head)) {
+        const hasRole = /role=/.test(head);
+        const hasTab = /tabIndex=/.test(head);
+        if (!hasRole || !hasTab) issues.push(issue('NON_INTERACTIVE_CLICKABLE', file, i + 1, trimmed, 'warning'));
+      }
+    }
+    if (/text-black\/(42|45|54|55|60)/.test(trimmed) && /text-\[0\.(68|72|78)rem\]/.test(trimmed)) {
+      issues.push(issue('LOW_CONTRAST_SMALL_TEXT_TOKEN', file, i + 1, trimmed, 'warning'));
+    }
   });
 
   return issues;
@@ -61,38 +74,28 @@ const files = walk(SRC);
 let all = [];
 for (const file of files) {
   const text = fs.readFileSync(file, 'utf8');
-  all = all.concat(findTagIssues(file, text));
+  all = all.concat(findIssues(file, text));
 }
-
-const byType = all.reduce((acc, item) => {
-  acc[item.type] = acc[item.type] || [];
-  acc[item.type].push(item);
-  return acc;
-}, {});
-
-function mdEscape(s) {
-  return s.replace(/\|/g, '\\|');
+if (fs.existsSync(INDEX)) {
+  const indexText = fs.readFileSync(INDEX, 'utf8');
+  if (/Megha Mehta/i.test(indexText)) all.push(issue('OUTDATED_DEFAULT_METADATA', INDEX, 1, 'index.html still contains legacy Megha Mehta branding in the default title/meta.', 'warning'));
+  if (/cdnjs\.cloudflare\.com\/ajax\/libs\/materialize/i.test(indexText)) all.push(issue('EXTERNAL_FRAMEWORK_COLLISION_RISK', INDEX, 1, 'index.html still loads Materialize CSS/JS, which can override component styling and focus behavior.', 'warning'));
 }
-
-let report = `# WCAG / Accessibility Static Audit (Demo)\n\n`;
-report += `This is an automated static scan for common accessibility foot-guns (missing alt, missing rel on target=_blank, missing button types, missing field ids).\n\n`;
-report += `Scanned: ${files.length} source files\n`;
-report += `Findings: ${all.length} potential issues\n\n`;
-
+const byType = all.reduce((acc, item) => ((acc[item.type] ||= []).push(item), acc), {});
+const mdEscape = (s) => String(s).replace(/\|/g, '\\|');
+let report = `# Accessibility / WCAG-Oriented Static Audit\n\n`;
+report += `This scan is stronger than the earlier pass but is still a **static code audit**, not a full browser + assistive-tech conformance certification.\n\n`;
+report += `Checks included:\n- img alt text\n- iframe title\n- target=_blank rel safety\n- button type\n- form field id presence\n- clickable non-interactive elements\n- low-contrast small-text utility tokens\n- outdated default metadata / framework-collision risk in index.html\n\n`;
+report += `Scanned: ${files.length} source files\nFindings: ${all.length}\n\n`;
 for (const [type, items] of Object.entries(byType)) {
-  report += `## ${type} (${items.length})\n\n`;
-  report += `| File | Line | Snippet |\n|---|---:|---|\n`;
-  for (const it of items.slice(0, 60)) {
-    report += `| ${mdEscape(path.relative(ROOT, it.file))} | ${it.line} | \`${mdEscape(it.snippet)}\` |\n`;
-  }
-  if (items.length > 60) report += `\n…and ${items.length - 60} more.\n`;
+  report += `## ${type} (${items.length})\n\n| Severity | File | Line | Snippet |\n|---|---|---:|---|\n`;
+  for (const it of items.slice(0, 100)) report += `| ${it.severity} | ${mdEscape(path.relative(ROOT, it.file))} | ${it.line} | \`${mdEscape(it.snippet)}\` |\n`;
   report += `\n`;
 }
-
+if (all.length === 0) report += `## Result\n\nNo issues were flagged by this static audit. A manual keyboard / screen-reader pass is still recommended before calling the site WCAG-ready.\n`;
 const outPath = path.join(ROOT, 'WCAG_AUDIT_REPORT.md');
 fs.writeFileSync(outPath, report, 'utf8');
-
-console.log(`WCAG static audit complete.`);
+console.log('Accessibility static audit complete.');
 console.log(`Files scanned: ${files.length}`);
 console.log(`Issues found: ${all.length}`);
 console.log(`Report written to: ${outPath}`);

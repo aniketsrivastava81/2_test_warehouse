@@ -30,11 +30,11 @@ export default function WarehousePage() {
     <>
       <section className="page-hero slim-hero warehouse-hero-premium !pt-10 lg:!pt-14 overflow-hidden">
         <div className="container grid gap-6 lg:grid-cols-[1.02fr_.98fr] items-stretch">
-          <Reveal className="relative overflow-hidden rounded-[2rem] border border-black/5 bg-white px-7 py-8 shadow-luxe lg:px-10 lg:py-10">
+          <Reveal className="relative overflow-hidden rounded-[2rem] border border-black/5 bg-white px-7 py-7 shadow-luxe lg:px-10 lg:py-9">
             <div className="absolute inset-0 bg-kolt-glow opacity-80" aria-hidden="true" />
             <div className="relative z-[1]">
               <div className="eyebrow">Warehouse Demo</div>
-              <h1 className="m-0 max-w-[10ch] text-[clamp(3rem,7vw,6rem)] leading-[0.92] tracking-[-0.07em]">See the asset as an operating environment, not just a listing page.</h1>
+              <h1 className="m-0 max-w-[15ch] text-[clamp(3rem,7vw,6rem)] leading-[0.92] tracking-[-0.07em]">See the asset as an operating environment, not just a listing page.</h1>
               <p className="mt-5 max-w-[58ch] text-[1.04rem] leading-8 text-black/80">
                 This route now adds a cleaner entry explanation, stronger branded framing, a more site-native iframe shell, and a direct bridge back into active opportunities.
               </p>

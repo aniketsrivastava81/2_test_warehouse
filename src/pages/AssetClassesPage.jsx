@@ -41,9 +41,9 @@ export default function AssetClassesPage() {
     <>
       <section className="page-hero slim-hero page-hero-premium !pt-10 lg:!pt-14 overflow-hidden">
         <div className="container grid gap-6 lg:grid-cols-[1.05fr_.95fr] items-stretch">
-          <div className="rounded-[2rem] border border-black/5 bg-white px-7 py-8 shadow-luxe lg:px-10 lg:py-10">
+          <div className="rounded-[2rem] border border-black/5 bg-white px-7 py-7 shadow-luxe lg:px-10 lg:py-9">
             <div className="eyebrow">Asset Classes</div>
-            <h1 className="m-0 mt-4 max-w-[11ch] text-[clamp(3rem,6vw,5.4rem)] leading-[0.92] tracking-[-0.07em]">Asset classes explained through fit, value, and competitive advantage.</h1>
+            <h1 className="m-0 mt-4 max-w-[14ch] text-[clamp(3rem,6vw,5.4rem)] leading-[0.92] tracking-[-0.07em]">Asset classes explained through fit, value, and competitive advantage.</h1>
             <p className="mt-5 max-w-[60ch] text-[1.05rem] leading-8 text-black/70">
               This page helps users understand why different property types solve different commercial problems, and how KOLT should evaluate them differently.
             </p>
@@ -77,11 +77,11 @@ export default function AssetClassesPage() {
                   <p className="m-0 text-[1rem] leading-8 text-black/68">{item.body}</p>
                   <div className="mt-5 grid gap-4 md:grid-cols-2">
                     <div className="rounded-[1.3rem] border border-black/6 bg-[#faf7f4] px-4 py-4">
-                      <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/42">Use case</div>
+                      <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/68">Use case</div>
                       <p className="mb-0 mt-2 text-[0.98rem] leading-7 text-black/68">{meta.useCase}</p>
                     </div>
                     <div className="rounded-[1.3rem] border border-black/6 bg-white px-4 py-4">
-                      <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/42">KOLT approach</div>
+                      <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/68">KOLT approach</div>
                       <p className="mb-0 mt-2 text-[0.98rem] leading-7 text-black/68">{meta.approach}</p>
                     </div>
                   </div>

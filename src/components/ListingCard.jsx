@@ -49,7 +49,7 @@ export default function ListingCard({ listing }) {
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {[[listing.size, "sq ft"], [listing.clearHeight, "clear"], [listing.zoning, "zoning"], [listing.loading, "loading"]].map(([value, label]) => (
             <div key={`${listing.slug}-${label}`} className="rounded-[1.25rem] border border-black/6 bg-[#faf7f4] px-4 py-3">
-              <div className="text-[0.7rem] font-extrabold uppercase tracking-[0.18em] text-black/60">{label}</div>
+              <div className="text-[0.7rem] font-extrabold uppercase tracking-[0.18em] text-black/72">{label}</div>
               <div className="mt-1 text-[0.95rem] font-semibold text-black/86">{value}</div>
             </div>
           ))}
@@ -69,7 +69,7 @@ export default function ListingCard({ listing }) {
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/60">Best fit</div>
+            <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/72">Best fit</div>
             <div className="mt-1 text-[0.98rem] text-black/80">{listing.bestFor.slice(0, 2).join(" • ")}</div>
           </div>
           <div className="flex flex-wrap gap-2">

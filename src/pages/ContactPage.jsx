@@ -30,9 +30,9 @@ export default function ContactPage() {
     <>
       <section className="page-hero slim-hero page-hero-premium !pt-10 lg:!pt-14 overflow-hidden">
         <div className="container grid gap-6 lg:grid-cols-[1.02fr_.98fr] items-stretch">
-          <div className="rounded-[2rem] border border-black/5 bg-white px-7 py-8 shadow-luxe lg:px-10 lg:py-10">
-            <div className="flex flex-wrap gap-2"><div className="eyebrow">Contact</div><span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Sample CRM routing now live</span><span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Scarcity report capture</span></div>
-            <h1 className="m-0 mt-4 max-w-[10.4ch] text-[clamp(3rem,6vw,5.6rem)] leading-[0.92] tracking-[-0.07em]">Value first, then the call.</h1>
+          <div className="rounded-[2rem] border border-black/5 bg-white px-7 py-7 shadow-luxe lg:px-10 lg:py-9">
+            <div className="flex flex-wrap gap-2"><div className="eyebrow">Contact</div><span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/70">Sample CRM routing now live</span><span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/70">Scarcity report capture</span></div>
+            <h1 className="m-0 mt-4 max-w-[13.5ch] text-[clamp(3rem,6vw,5.6rem)] leading-[0.92] tracking-[-0.07em]">Value first, then the call.</h1>
             <p className="mt-5 max-w-[60ch] text-[1.05rem] leading-8 text-black/76">This pass upgrades the contact flow into a more commercial capture path: a gated 2026 GTA Industrial Scarcity Report, a multi-step requirement brief, sample phone and WhatsApp routing, and a visible sample CRM inbox.</p>
             <div className="hero-proof-row mt-6"><span className="proof-chip">Scarcity report</span><span className="proof-chip">Sample phone</span><span className="proof-chip">Sample WhatsApp</span><span className="proof-chip">Local CRM inbox view</span></div>
           </div>

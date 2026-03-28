@@ -45,15 +45,15 @@ export default function PropertyListPage() {
     <>
       <section className="page-hero slim-hero page-hero-premium !pt-10 lg:!pt-14 overflow-hidden">
         <div className="container grid gap-6 lg:grid-cols-[1.03fr_.97fr] items-stretch">
-          <Reveal className="relative overflow-hidden rounded-[2rem] border border-black/5 bg-white px-7 py-8 shadow-luxe lg:px-10 lg:py-10">
+          <Reveal className="relative overflow-hidden rounded-[2rem] border border-black/5 bg-white px-7 py-7 shadow-luxe lg:px-10 lg:py-9">
             <div className="absolute inset-0 bg-kolt-glow opacity-80" aria-hidden="true" />
             <div className="relative z-[1]">
               <div className="flex flex-wrap gap-2">
                 <span className="eyebrow">Listings</span>
-                <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Peel • Halton • York focus</span>
-                <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Scarcity-led inventory</span>
+                <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/70">Peel • Halton • York focus</span>
+                <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/70">Scarcity-led inventory</span>
               </div>
-              <h1 className="m-0 mt-4 max-w-[10.6ch] text-[clamp(3rem,7vw,6rem)] leading-[0.92] tracking-[-0.07em]">
+              <h1 className="m-0 mt-4 max-w-[13.5ch] text-[clamp(3rem,7vw,6rem)] leading-[0.92] tracking-[-0.07em]">
                 GTA industrial inventory is scarce. The wrong shortlist is expensive.
               </h1>
               <p className="mt-5 max-w-[60ch] text-[1.05rem] leading-8 text-black/70">

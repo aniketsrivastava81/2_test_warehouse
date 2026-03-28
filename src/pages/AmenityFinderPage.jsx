@@ -196,6 +196,7 @@ export default function AmenityFinderPage() {
               {CATEGORIES.map((c) => (
                 <button type="button" key={c.key}
                   className={`amenity-chip ${activeCats.includes(c.key) ? 'is-on' : ''}`}
+                  aria-pressed={activeCats.includes(c.key)}
                   onClick={() => toggleCat(c.key)}
                 >
                   {c.label}

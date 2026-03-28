@@ -107,7 +107,7 @@ export default function ToolsPage() {
         <div className="tools-v2-orb tools-v2-orb-b" aria-hidden="true" />
         <div className="container tools-v2-hero-grid tools-v3-hero-grid tools-v4-hero-grid">
           <div className="page-hero-inner tools-v2-hero-main tools-v2-reveal tools-v3-hero-main tools-v4-hero-main">
-            <div className="flex flex-wrap gap-2"><div className="eyebrow">KOLT Tools</div><span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Main stack refreshed</span></div>
+            <div className="flex flex-wrap gap-2"><div className="eyebrow">KOLT Tools</div><span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/70">Main stack refreshed</span></div>
             <h1>The full KOLT tool stack now lives inside the app instead of beside it.</h1>
             <p>
               The working front-stack logic stays intact. The remade tools file is used as the structural cue,

@@ -116,15 +116,15 @@ export default function HomePage() {
     <>
       <section className="page-hero slim-hero !pt-10 lg:!pt-14 overflow-hidden hero-section-premium">
         <div className="container grid gap-6 lg:grid-cols-[1.05fr_.95fr] items-stretch">
-          <Reveal className="relative overflow-hidden rounded-[2.1rem] border border-black/5 bg-white px-7 py-8 shadow-luxe lg:px-10 lg:py-10">
+          <Reveal className="relative overflow-hidden rounded-[2.1rem] border border-black/5 bg-white px-7 py-7 shadow-luxe lg:px-10 lg:py-9">
             <div className="absolute inset-0 bg-kolt-glow opacity-90" aria-hidden="true" />
             <div className="relative z-[1]">
               <div className="flex flex-wrap gap-2">
                 <div className="eyebrow">KOLT Realty</div>
-                <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Asset advisory mode</span>
-                <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Industrial condo conversions</span>
+                <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/70">Asset advisory mode</span>
+                <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/70">Industrial condo conversions</span>
               </div>
-              <h1 className="m-0 mt-4 max-w-[10.8ch] text-[clamp(3.15rem,7vw,6.35rem)] leading-[0.9] tracking-[-0.08em]">
+              <h1 className="m-0 mt-4 max-w-[13.8ch] text-[clamp(3.15rem,7vw,6.35rem)] leading-[0.9] tracking-[-0.08em]">
                 Navigating GTA industrial landscapes with data-driven insight and unmatched access.
               </h1>
               <p className="mt-5 max-w-[60ch] text-[1.06rem] leading-8 text-black/72">
@@ -132,9 +132,9 @@ export default function HomePage() {
                 E2 / E3 zoning, truck-level loading, and the high cost of vacancy across Peel, Halton, and York.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <Link to="/listings" className="button button-primary waves-effect waves-light small-button">Review inventory</Link>
-                <Link to="/contact#analysis-workflow" className="button button-secondary waves-effect small-button">Get the 2026 scarcity report</Link>
-                <Link to="/listing-type-2" className="button button-secondary waves-effect small-button">Open warehouse demo</Link>
+                <Link to="/listings" className="button button-primary small-button">Review inventory</Link>
+                <Link to="/contact#analysis-workflow" className="button button-secondary small-button">Get the 2026 scarcity report</Link>
+                <Link to="/listing-type-2" className="button button-secondary small-button">Open warehouse demo</Link>
               </div>
               <Stagger className="mt-8 grid gap-3 md:grid-cols-3">
                 {pillars.map((pillar) => (
@@ -173,7 +173,7 @@ export default function HomePage() {
                 ['Closer instinct', 'Every page now gives the visitor a stronger reason to request analysis instead of just browsing.'],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-[1.6rem] border border-black/6 bg-white px-5 py-5 shadow-[0_18px_50px_rgba(17,17,17,0.08)]">
-                  <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/45">{label}</div>
+                  <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/70">{label}</div>
                   <p className="mb-0 mt-2 text-[0.98rem] leading-7 text-black/68">{value}</p>
                 </div>
               ))}
@@ -260,7 +260,7 @@ export default function HomePage() {
         <div className="container grid gap-6 lg:grid-cols-[1fr_.94fr] items-stretch">
           <Reveal className="rounded-[2rem] border border-black/5 bg-white p-7 shadow-luxe lg:p-10">
             <div className="eyebrow">Featured opportunity</div>
-            <h2 className="m-0 max-w-[11ch] text-[clamp(2.2rem,4vw,4.2rem)] leading-[0.94] tracking-[-0.06em]">Make the first listing feel like the market is moving now.</h2>
+            <h2 className="m-0 max-w-[14ch] text-[clamp(2.2rem,4vw,4.2rem)] leading-[0.94] tracking-[-0.06em]">Make the first listing feel like the market is moving now.</h2>
             <p className="mt-5 max-w-[58ch] text-[1rem] leading-8 text-black/68">KOLT should not show inventory politely. It should stage urgency, fit, and commercial upside the way an elite industrial team would talk in a live pitch.</p>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
               {[
@@ -269,7 +269,7 @@ export default function HomePage() {
                 [featured.zoning, 'Zoning'],
               ].map(([value, label]) => (
                 <div key={label} className="rounded-[1.4rem] border border-black/6 bg-[#faf7f4] px-4 py-4">
-                  <div className="text-[0.7rem] font-extrabold uppercase tracking-[0.18em] text-black/42">{label}</div>
+                  <div className="text-[0.7rem] font-extrabold uppercase tracking-[0.18em] text-black/68">{label}</div>
                   <div className="mt-1 text-[0.98rem] font-semibold text-black/78">{value}</div>
                 </div>
               ))}
@@ -299,7 +299,7 @@ export default function HomePage() {
         <div className="container grid gap-6 lg:grid-cols-[.95fr_1.05fr] items-stretch">
           <Reveal className="rounded-[2rem] border border-black/5 bg-[#151515] p-7 text-white shadow-luxe lg:p-10">
             <div className="eyebrow !text-white/70">Lead magnet</div>
-            <h2 className="m-0 max-w-[11ch] text-[clamp(2rem,3.2vw,3.3rem)] leading-[0.95] tracking-[-0.06em] text-white">Create the information gap before asking for the call.</h2>
+            <h2 className="m-0 max-w-[14ch] text-[clamp(2rem,3.2vw,3.3rem)] leading-[0.95] tracking-[-0.06em] text-white">Create the information gap before asking for the call.</h2>
             <p className="mt-5 max-w-[55ch] text-[1rem] leading-8 text-white/74">The 2026 GTA Industrial Scarcity Report gives investors, developers, and owner-users a reason to hand over an email before they are ready for a hard sales conversation.</p>
             <div className="mt-6 flex flex-wrap gap-2">
               {['Vacancy pressure', 'Core-region comparison', 'Industrial condo signals', 'Off-market readiness'].map((chip) => (
@@ -330,7 +330,7 @@ export default function HomePage() {
         <div className="container grid gap-6 lg:grid-cols-[1.02fr_.98fr] items-stretch">
           <Reveal className="rounded-[2rem] border border-black/5 bg-white p-7 shadow-luxe lg:p-10">
             <div className="eyebrow">Institutional proof</div>
-            <h2 className="m-0 max-w-[11ch] text-[clamp(2rem,3vw,3.4rem)] leading-[0.95] tracking-[-0.06em]">The site should feel more asset advisor than retail realtor.</h2>
+            <h2 className="m-0 max-w-[14ch] text-[clamp(2rem,3vw,3.4rem)] leading-[0.95] tracking-[-0.06em]">The site should feel more asset advisor than retail realtor.</h2>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               {[
                 'Industrial real estate Toronto language built into the hierarchy.',
@@ -348,7 +348,7 @@ export default function HomePage() {
             {testimonials.map((item) => (
               <article key={item.source} className="rounded-[1.5rem] border border-black/5 bg-white p-5 shadow-[0_18px_50px_rgba(17,17,17,0.07)]">
                 <p className="m-0 text-[0.98rem] leading-7 text-black/70">“{item.quote}”</p>
-                <div className="mt-4 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/42">{item.source}</div>
+                <div className="mt-4 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/68">{item.source}</div>
               </article>
             ))}
           </Reveal>

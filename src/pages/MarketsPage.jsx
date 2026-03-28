@@ -19,9 +19,9 @@ export default function MarketsPage() {
     <>
       <section className="page-hero slim-hero page-hero-premium !pt-10 lg:!pt-14 overflow-hidden">
         <div className="container grid gap-6 lg:grid-cols-[1.05fr_.95fr] items-stretch">
-          <div className="rounded-[2rem] border border-black/5 bg-white px-7 py-8 shadow-luxe lg:px-10 lg:py-10">
-            <div className="flex flex-wrap gap-2"><div className="eyebrow">Markets</div><span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/54">Peel • Halton • York emphasized</span></div>
-            <h1 className="m-0 mt-4 max-w-[11ch] text-[clamp(3rem,6vw,5.4rem)] leading-[0.92] tracking-[-0.07em]">GTA coverage framed through corridor performance, scarcity pressure, and commercial usefulness.</h1>
+          <div className="rounded-[2rem] border border-black/5 bg-white px-7 py-7 shadow-luxe lg:px-10 lg:py-9">
+            <div className="flex flex-wrap gap-2"><div className="eyebrow">Markets</div><span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/70">Peel • Halton • York emphasized</span></div>
+            <h1 className="m-0 mt-4 max-w-[14ch] text-[clamp(3rem,6vw,5.4rem)] leading-[0.92] tracking-[-0.07em]">GTA coverage framed through corridor performance, scarcity pressure, and commercial usefulness.</h1>
             <p className="mt-5 max-w-[60ch] text-[1.05rem] leading-8 text-black/70">Each market is presented according to what it actually means for occupancy, customer reach, labour access, last-mile logic, and the real operating value of Peel, Halton, York, and surrounding GTA nodes.</p>
           </div>
           <div className="relative overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-luxe">

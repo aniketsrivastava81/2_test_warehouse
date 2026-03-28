@@ -44,10 +44,10 @@ export default function PropertyDetailPage() {
             <div className="rounded-[2rem] border border-black/5 bg-white p-7 shadow-luxe lg:p-10">
               <div className="flex flex-wrap gap-2">
                 <span className="eyebrow">{listing.category}</span>
-                <span className="rounded-full border border-black/10 bg-[#faf7f4] px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/60">{listing.marketPulse}</span>
+                <span className="rounded-full border border-black/10 bg-[#faf7f4] px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/72">{listing.marketPulse}</span>
                 <span className="listing-urgency-badge listing-urgency-badge--light">{availability}</span>
               </div>
-              <h1 className="m-0 mt-4 max-w-[13ch] text-[clamp(3rem,6vw,5.4rem)] leading-[0.92] tracking-[-0.07em]">{listing.title}</h1>
+              <h1 className="m-0 mt-4 max-w-[15ch] text-[clamp(3rem,6vw,5.4rem)] leading-[0.92] tracking-[-0.07em]">{listing.title}</h1>
               <p className="mt-5 max-w-[60ch] text-[1.06rem] leading-8 text-black/80">{listing.teaser}</p>
               <div className="hero-proof-row mt-6">
                 <span className="proof-chip">{listing.location}</span>
@@ -96,7 +96,7 @@ export default function PropertyDetailPage() {
                 <ShortlistButton listing={listing} className="button button-secondary" />
               </div>
               <div className="mt-5 rounded-[1.4rem] border border-black/10 bg-[#faf7f4] px-4 py-4">
-                <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/60">Address</div>
+                <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/72">Address</div>
                 <p className="mb-0 mt-2 text-[0.98rem] leading-7 text-black/80">{listing.address}</p>
               </div>
             </div>
@@ -122,7 +122,7 @@ export default function PropertyDetailPage() {
           <div className="space-y-6">
             <div className="rounded-[2rem] border border-black/5 bg-white p-7 shadow-luxe lg:p-8">
               <div className="eyebrow">Description</div>
-              <h2 className="m-0 max-w-[13ch] text-[clamp(2rem,3vw,3.4rem)] leading-[0.95] tracking-[-0.06em]">{listing.highlight}</h2>
+              <h2 className="m-0 max-w-[15ch] text-[clamp(2rem,3vw,3.4rem)] leading-[0.95] tracking-[-0.06em]">{listing.highlight}</h2>
               <div className="mt-5 grid gap-4">
                 {listing.description.map((paragraph) => (<p key={paragraph} className="m-0 text-[1rem] leading-8 text-black/80">{paragraph}</p>))}
               </div>
@@ -137,7 +137,7 @@ export default function PropertyDetailPage() {
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-luxe"><div className="eyebrow">Financial snapshot</div><div className="mt-4 grid gap-3">{listing.financialSnapshot.map((row) => (<div key={row.label} className="flex items-start justify-between gap-4 rounded-[1.2rem] border border-black/10 bg-[#faf7f4] px-4 py-4"><div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/60">{row.label}</div><div className="text-right text-[0.98rem] font-semibold text-black/88">{row.value}</div></div>))}</div></div>
+            <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-luxe"><div className="eyebrow">Financial snapshot</div><div className="mt-4 grid gap-3">{listing.financialSnapshot.map((row) => (<div key={row.label} className="flex items-start justify-between gap-4 rounded-[1.2rem] border border-black/10 bg-[#faf7f4] px-4 py-4"><div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/72">{row.label}</div><div className="text-right text-[0.98rem] font-semibold text-black/88">{row.value}</div></div>))}</div></div>
             <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-luxe">
               <div className="eyebrow">Core-region logic</div>
               <div className="mt-4 grid gap-3">

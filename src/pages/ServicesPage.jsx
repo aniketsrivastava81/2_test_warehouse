@@ -204,14 +204,14 @@ export default function ServicesPage() {
     <div className="services-premium-page services-premium-page-v2">
       <section className="page-hero slim-hero page-hero-premium !pt-10 lg:!pt-14 overflow-hidden">
         <div className="container grid gap-6 lg:grid-cols-[1.02fr_.98fr] items-stretch">
-          <Reveal className="relative overflow-hidden rounded-[2rem] border border-black/5 bg-white px-7 py-8 shadow-luxe lg:px-10 lg:py-10">
+          <Reveal className="relative overflow-hidden rounded-[2rem] border border-black/5 bg-white px-7 py-7 shadow-luxe lg:px-10 lg:py-9">
             <div className="absolute inset-0 bg-kolt-glow opacity-80" aria-hidden="true" />
             <div className="relative z-[1]">
               <div className="flex flex-wrap gap-2">
                 <span className="eyebrow">Services</span>
-                <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/60">Market Pulse · March 2026</span>
+                <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/72">Market Pulse · March 2026</span>
               </div>
-              <h1 className="m-0 mt-4 max-w-[10.5ch] text-[clamp(3rem,7vw,6.2rem)] leading-[0.92] tracking-[-0.07em]">
+              <h1 className="m-0 mt-4 max-w-[13.5ch] text-[clamp(3rem,7vw,6.2rem)] leading-[0.92] tracking-[-0.07em]">
                 Advisory paths that read like commercial strategy, not brochure filler.
               </h1>
               <p className="mt-5 max-w-[60ch] text-[1.04rem] leading-8 text-black/80">
@@ -363,7 +363,7 @@ export default function ServicesPage() {
               ))}
             </div>
             <div className="services-proof-panel__represented mt-4">
-              <div className="text-[0.74rem] font-extrabold uppercase tracking-[0.16em] text-black/55">Selected publicly referenced properties / markets</div>
+              <div className="text-[0.74rem] font-extrabold uppercase tracking-[0.16em] text-black/72">Selected publicly referenced properties / markets</div>
               <div className="mt-3 flex flex-wrap gap-2">
                 {representedPlaces.map((place) => (
                   <span key={place} className="proof-chip">{place}</span>
