@@ -4,15 +4,56 @@ import { Link } from "react-router-dom";
 const evidence = [
   {
     title: "Pipeline mindset",
-    body: "More than $2B in pipeline assets should not sit quietly inside body copy. It speaks to a team that studies the market in motion, tracks opportunity before it becomes obvious, and understands how to position clients ahead of slower competitors.",
+    body: "More than $2B in pipeline assets should not sit quietly inside body copy. It signals a team that studies the market in motion, tracks opportunity before it becomes obvious, and helps clients move with sharper timing and stronger positioning.",
   },
   {
     title: "United culture",
-    body: "KOLT’s culture is built on collaboration, diversity, accountability, and shared execution. We believe the strongest teams combine young-market energy with veteran closing instincts, creating better market coverage, sharper decisions, and a stronger posture in front of clients and counterparties.",
+    body: "KOLT’s culture is built on collaboration, diversity, accountability, and shared execution. The strongest teams combine young-market energy with veteran closing instincts to create better market coverage, stronger judgment, and more confident execution.",
   },
   {
     title: "Industrial fluency",
-    body: "We speak the language of GTA commercial real estate with precision. Zoning categories, loading ratios, industrial condo conversions, lease audit upside, site functionality, and vacancy risk are not side notes here. They are part of how we evaluate opportunities and how we protect client interests.",
+    body: "KOLT speaks the language of GTA commercial real estate with precision. Zoning categories, loading ratios, industrial condo conversions, lease-audit upside, site functionality, and vacancy risk are part of how opportunities are evaluated and client interests are protected.",
+  },
+];
+
+const perspectiveCards = [
+  {
+    title: "Consultancy-first posture",
+    body: "KOLT Realty approaches commercial real estate as a capital, positioning, and execution problem to be solved properly. That means understanding the capital stack, zoning bylaws, leasing risk, vacancy exposure, and the operational realities behind each asset.",
+  },
+  {
+    title: "Boardroom and boots-on-ground credibility",
+    body: "KOLT brings together boardroom-level strategy and site-level practicality. The team is as comfortable speaking through underwriting logic, portfolio direction, and investment posture as it is discussing loading geometry, bay utility, yard constraints, and site performance.",
+  },
+  {
+    title: "Institutional rhythm",
+    body: "The firm is built to feel credible with sophisticated investors, developers, landlords, and occupiers. The page should not read like a resume. It should read like a brokerage platform shaped by operators who understand how to present, advise, and close.",
+  },
+  {
+    title: "Diversity with execution",
+    body: "A united culture matters most when it translates into sharper decisions, broader market awareness, better collaboration, and stronger negotiation posture. KOLT’s culture is built to improve outcomes, not simply describe values.",
+  },
+];
+
+const lensCards = [
+  {
+    title: "Boardroom lens",
+    body: "Capital-markets discipline stays visible above the fold because it is part of how KOLT thinks. The team understands portfolio logic, investment strategy, acquisition posture, disposition framing, and the standards expected by sophisticated commercial users.",
+  },
+  {
+    title: "Site lens",
+    body: "Commercial credibility also has to hold up on-site. KOLT understands the dirt, the loading court, the turning radius, the shipping pattern, bay utility, and the operational friction that can make or break industrial performance in the field.",
+  },
+];
+
+const missionCards = [
+  {
+    title: "Our Mission",
+    body: "To unite culture and diversity in a way that drives insight, performance, and execution across every assignment. KOLT believes strong collaboration, open communication, and multiple points of view lead to better strategy and better results.",
+  },
+  {
+    title: "Our Philosophy",
+    body: "KOLT upholds quality, integrity, and accountability in every transaction. Real estate is not only about space, pricing, and contracts. It is also about people, timing, risk, and long-term consequence, which is why every assignment is approached with discipline and clear commercial judgment.",
   },
 ];
 
@@ -30,6 +71,24 @@ const serviceRows = [
     body: "We deliver market insight, scrutiny, and strategic guidance that helps clients evaluate opportunity, reduce blind spots, and move with greater confidence.",
   },
 ];
+
+function InfoCard({ title, body, tone = "light" }) {
+  const toneClasses =
+    tone === "dark"
+      ? "border-white/10 bg-white/5 text-white"
+      : "border-black/8 bg-white text-[#161616] shadow-[0_10px_35px_rgba(0,0,0,0.05)]";
+
+  const bodyClasses = tone === "dark" ? "text-white/72" : "text-black/72";
+
+  return (
+    <div
+      className={`rounded-[28px] border p-6 lg:p-7 ${toneClasses}`}
+    >
+      <h3 className="text-xl font-semibold tracking-[-0.03em]">{title}</h3>
+      <p className={`mt-4 text-base leading-8 ${bodyClasses}`}>{body}</p>
+    </div>
+  );
+}
 
 export default function AboutPage() {
   return (
@@ -53,42 +112,45 @@ export default function AboutPage() {
               move through industrial, retail, land, and investment decisions with more clarity,
               better positioning, and stronger outcomes.
             </p>
+
+            <div className="mt-10 flex flex-wrap gap-3">
+              <Link
+                to="/contact"
+                className="rounded-full bg-[#161616] px-6 py-3 text-sm font-semibold text-white"
+              >
+                Contact KOLT Realty
+              </Link>
+              <Link
+                to="/services"
+                className="rounded-full border border-black/10 px-6 py-3 text-sm font-semibold text-[#161616]"
+              >
+                View Services
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       <section className="border-b border-black/8 bg-[#f6f3ee]">
-        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-[0.78fr_1.22fr] lg:px-10 lg:py-24">
-          <div>
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
+          <div className="max-w-3xl">
             <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
-              Consultancy-first posture
+              Positioning
             </div>
-            <h2 className="mt-4 max-w-[10ch] text-4xl font-semibold leading-[0.96] tracking-[-0.05em] lg:text-5xl">
-              Built to advise before the market catches up.
+            <h2 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.05em] lg:text-5xl">
+              A commercial real estate platform built to advise and execute.
             </h2>
+            <p className="mt-5 max-w-4xl text-lg leading-8 text-black/72">
+              KOLT Realty operates with a consultancy-first posture. It does not approach
+              commercial real estate as simple deal flow. It approaches it as a capital,
+              positioning, and execution problem that needs to be solved properly.
+            </p>
           </div>
-          <div className="space-y-6 text-lg leading-8 text-black/72">
-            <p>
-              KOLT Realty operates with a consultancy-first posture. We do not approach commercial
-              real estate as simple deal flow. We approach it as a capital, positioning, and execution
-              problem that needs to be solved properly.
-            </p>
-            <p>
-              That means understanding the capital stack, zoning bylaws, leasing risk, vacancy exposure,
-              industrial functionality, and the operational realities behind each property. It also means
-              staying close enough to the market to see motion early, not just after it shows up on a listing feed.
-            </p>
-            <p>
-              Our team brings together boardroom-level strategy and boots-on-the-ground credibility. We are as
-              comfortable speaking through underwriting logic, portfolio direction, pipeline assets, and investment
-              posture as we are discussing loading geometry, bay utility, industrial condo conversion logic, yard
-              constraints, and site-level performance.
-            </p>
-            <p>
-              That dual-lens approach shapes how we advise, how we position opportunities, and how we negotiate.
-              It gives clients a team that can think like operators, present like advisors, and execute like
-              professionals who understand that commercial real estate is won in both the analysis and the field.
-            </p>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {perspectiveCards.map((item) => (
+              <InfoCard key={item.title} title={item.title} body={item.body} />
+            ))}
           </div>
         </div>
       </section>
@@ -104,15 +166,9 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          <div className="mt-12 divide-y divide-black/8 border-y border-black/8">
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
             {evidence.map((item) => (
-              <div
-                key={item.title}
-                className="grid gap-4 py-6 lg:grid-cols-[280px_1fr] lg:gap-8 lg:py-8"
-              >
-                <div className="text-xl font-semibold tracking-[-0.03em]">{item.title}</div>
-                <p className="text-base leading-8 text-black/72 lg:text-lg">{item.body}</p>
-              </div>
+              <InfoCard key={item.title} title={item.title} body={item.body} />
             ))}
           </div>
         </div>
@@ -120,84 +176,38 @@ export default function AboutPage() {
 
       <section className="border-b border-black/8 bg-[#161616] text-white">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
-          <div className="grid gap-12 lg:grid-cols-2">
-            <div className="border-t border-white/15 pt-5">
-              <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">
-                Boardroom lens
-              </div>
-              <p className="mt-5 text-2xl leading-9 text-white/88">
-                Capital-markets discipline stays visible above the fold because it is part of how KOLT thinks.
-              </p>
-              <p className="mt-5 text-base leading-8 text-white/70">
-                We understand portfolio logic, investment strategy, acquisition posture, disposition framing,
-                and the decision-making standards expected by investors, developers, and sophisticated commercial users.
-              </p>
-              <p className="mt-4 text-base leading-8 text-white/70">
-                We do not just market property. We help clients interpret opportunity through the language of
-                returns, positioning, timing, and downside protection.
-              </p>
+          <div className="max-w-3xl">
+            <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">
+              Perspective
             </div>
+            <h2 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.05em] lg:text-5xl">
+              Credible in the boardroom and credible on-site.
+            </h2>
+          </div>
 
-            <div className="border-t border-white/15 pt-5">
-              <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">
-                Site lens
-              </div>
-              <p className="mt-5 text-2xl leading-9 text-white/88">
-                Commercial credibility also has to hold up at property level.
-              </p>
-              <p className="mt-5 text-base leading-8 text-white/70">
-                KOLT understands the dirt, the loading court, the turning radius, the shipping pattern,
-                the utility of a bay, and the operational friction that can make or break industrial performance
-                in the field.
-              </p>
-              <p className="mt-4 text-base leading-8 text-white/70">
-                That site-level awareness matters because a polished pitch means little if the team cannot read
-                how the asset actually works once boots hit the ground.
-              </p>
-            </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {lensCards.map((item) => (
+              <InfoCard key={item.title} title={item.title} body={item.body} tone="dark" />
+            ))}
           </div>
         </div>
       </section>
 
       <section className="border-b border-black/8 bg-[#efe8df]">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
-          <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
-            <div>
-              <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
-                Mission and philosophy
-              </div>
-              <h2 className="mt-4 max-w-[10ch] text-4xl font-semibold leading-[0.96] tracking-[-0.05em] lg:text-5xl">
-                Culture with execution.
-              </h2>
+          <div className="max-w-3xl">
+            <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
+              Mission and philosophy
             </div>
+            <h2 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.05em] lg:text-5xl">
+              Culture with execution.
+            </h2>
+          </div>
 
-            <div className="space-y-10">
-              <div className="border-t border-black/10 pt-5">
-                <h3 className="text-2xl font-semibold tracking-[-0.03em]">Our Mission</h3>
-                <p className="mt-4 text-base leading-8 text-black/72 lg:text-lg">
-                  To unite culture and diversity in a way that drives insight, performance, and execution
-                  across every assignment.
-                </p>
-                <p className="mt-4 text-base leading-8 text-black/72 lg:text-lg">
-                  We believe open communication, strong collaboration, and multiple points of view produce
-                  better strategy and better results. Our clients can expect a team of high-caliber professionals
-                  who uphold integrity, think creatively, and operate with a clear commitment to service excellence.
-                </p>
-              </div>
-
-              <div className="border-t border-black/10 pt-5">
-                <h3 className="text-2xl font-semibold tracking-[-0.03em]">Our Philosophy</h3>
-                <p className="mt-4 text-base leading-8 text-black/72 lg:text-lg">
-                  We uphold quality, integrity, and accountability in every transaction. Our role is to serve the
-                  client’s best interests with discipline, respect, and clear commercial judgment.
-                </p>
-                <p className="mt-4 text-base leading-8 text-black/72 lg:text-lg">
-                  Real estate is not only about space, pricing, and contracts. It is about people, timing, risk,
-                  and long-term consequence. That is why we work to understand the full picture, communicate clearly,
-                  and execute with consistency from first conversation to final outcome.
-                </p>
-              </div>
-            </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {missionCards.map((item) => (
+              <InfoCard key={item.title} title={item.title} body={item.body} />
+            ))}
           </div>
         </div>
       </section>
@@ -213,15 +223,9 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          <div className="mt-12 divide-y divide-black/8 border-y border-black/8">
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
             {serviceRows.map((row) => (
-              <div
-                key={row.title}
-                className="grid gap-4 py-6 lg:grid-cols-[320px_1fr] lg:gap-8 lg:py-8"
-              >
-                <div className="text-xl font-semibold tracking-[-0.03em]">{row.title}</div>
-                <p className="text-base leading-8 text-black/72 lg:text-lg">{row.body}</p>
-              </div>
+              <InfoCard key={row.title} title={row.title} body={row.body} />
             ))}
           </div>
         </div>
@@ -229,8 +233,8 @@ export default function AboutPage() {
 
       <section className="bg-[#161616] text-white">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
-          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-            <div>
+          <div className="rounded-[32px] border border-white/10 bg-white/5 p-8 lg:p-10">
+            <div className="max-w-4xl">
               <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">
                 Closing statement
               </div>
@@ -238,8 +242,8 @@ export default function AboutPage() {
                 Credible in the boardroom. Credible on-site. Credible in execution.
               </h2>
               <p className="mt-5 max-w-3xl text-lg leading-8 text-white/72">
-                KOLT Realty strives to exceed expectations with high ethical standards, sharp market awareness,
-                and smart, creative strategies designed to win strong results.
+                KOLT Realty strives to exceed expectations with high ethical standards,
+                sharp market awareness, and smart, creative strategies designed to win strong results.
               </p>
               <p className="mt-4 max-w-3xl text-lg leading-8 text-white/72">
                 We are building a commercial real estate platform that feels credible in the boardroom,
@@ -247,7 +251,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 to="/contact"
                 className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black"
