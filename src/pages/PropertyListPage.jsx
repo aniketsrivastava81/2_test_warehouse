@@ -1,29 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import ListingCard from "../components/ListingCard";
-import CTASection from "../components/CTASection";
 import { LISTINGS } from "../data/siteData";
-import { Reveal } from "../components/motion/Reveal";
 
-const ALL = "All";
-
-const regionInsights = [
-  {
-    region: 'Peel',
-    title: 'Scarcity-led industrial demand',
-    body: 'Brampton and Mississauga stay central when truck movement, airport access, and industrial condo supply all matter at once.',
-  },
-  {
-    region: 'Halton',
-    title: 'Expansion and development runway',
-    body: 'Milton and western logistics growth make Halton useful for users balancing modern warehouse product with future expansion logic.',
-  },
-  {
-    region: 'York',
-    title: 'Industrial-flex and conversion upside',
-    body: 'Vaughan and north-GTA product fit owner-users, flex occupiers, and industrial condo strategies that need stronger front-end image.',
-  },
-];
+const ALL = 'All';
 
 export default function PropertyListPage() {
   const [category, setCategory] = useState(ALL);
@@ -33,193 +12,106 @@ export default function PropertyListPage() {
   const categories = useMemo(() => [ALL, ...new Set(LISTINGS.map((item) => item.category))], []);
   const locations = useMemo(() => [ALL, ...new Set(LISTINGS.map((item) => item.location))], []);
   const statuses = useMemo(() => [ALL, ...new Set(LISTINGS.map((item) => item.status))], []);
-  const featured = useMemo(() => LISTINGS.find((item) => item.status === "Featured") || LISTINGS[0], []);
 
-  const filtered = LISTINGS.filter((listing) => {
-    return (category === ALL || listing.category === category)
-      && (location === ALL || listing.location === location)
-      && (status === ALL || listing.status === status);
-  });
+  const filtered = LISTINGS.filter((listing) => (
+    (category === ALL || listing.category === category) &&
+    (location === ALL || listing.location === location) &&
+    (status === ALL || listing.status === status)
+  ));
 
   return (
-    <>
-      <section className="page-hero slim-hero page-hero-premium !pt-10 lg:!pt-14 overflow-hidden">
-        <div className="container grid gap-6 lg:grid-cols-[1.03fr_.97fr] items-stretch">
-          <Reveal className="relative overflow-hidden rounded-[2rem] border border-black/5 bg-white px-7 py-7 shadow-luxe lg:px-10 lg:py-9">
-            <div className="absolute inset-0 bg-kolt-glow opacity-80" aria-hidden="true" />
-            <div className="relative z-[1]">
-              <div className="flex flex-wrap gap-2">
-                <span className="eyebrow">Listings</span>
-                <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/70">Peel • Halton • York focus</span>
-                <span className="rounded-full border border-black/8 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/70">Scarcity-led inventory</span>
-              </div>
-              <h1 className="m-0 mt-4 max-w-[13.5ch] text-[clamp(3rem,7vw,6rem)] leading-[0.92] tracking-[-0.07em]">
-                GTA industrial inventory is scarce. The wrong shortlist is expensive.
-              </h1>
-              <p className="mt-5 max-w-[60ch] text-[1.05rem] leading-8 text-black/70">
-                This page should feel less like a gallery and more like a live industrial pipeline - floor plans up front, availability framed with urgency,
-                and every card speaking the language of fit, zoning, truck access, and commercial usefulness.
-              </p>
-              <div className="hero-proof-row mt-6">
-                <span className="proof-chip">Availability tags</span>
-                <span className="proof-chip">Floor plan download</span>
-                <span className="proof-chip">Industrial condo focus</span>
-                <span className="proof-chip">Confidential review path</span>
-              </div>
-              <div className="hero-power-bar hero-power-bar--inline mt-6">
-                {[
-                  ['Coverage', 'Peel • Halton • York'],
-                  ['Inventory lane', 'Industrial and flex-heavy'],
-                  ['Client action', 'Download plans before tours'],
-                  ['Advisor tone', 'Scarcity-first'],
-                ].map(([label, value]) => (
-                  <article key={label}><small>{label}</small><strong>{value}</strong></article>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.08} className="relative overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-luxe">
-            <img src={featured.image} alt={`${featured.title} featured industrial opportunity in ${featured.location}`} className="h-full min-h-[420px] w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/12 to-transparent" />
-            <div className="absolute left-4 right-4 top-4 flex flex-wrap justify-between gap-2">
-              <span className="listing-urgency-badge">SELLING NOW</span>
-              <span className="rounded-full border border-white/20 bg-[#151515]/78 px-3 py-2 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-white backdrop-blur-md">{featured.tag}</span>
-            </div>
-            <div className="absolute left-4 right-4 bottom-4 rounded-[1.6rem] border border-white/20 bg-white/80 px-5 py-4 backdrop-blur-lg">
-              <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24]">{featured.location} · {featured.neighbourhood}</div>
-              <h2 className="mb-0 mt-2 text-[1.75rem] leading-tight tracking-[-0.05em] text-[#151515]">{featured.title}</h2>
-              <p className="mb-0 mt-2 text-[0.98rem] leading-7 text-black/68">{featured.teaser}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <span className="rounded-full border border-black/8 bg-white px-3 py-2 text-sm text-black/68">{featured.size}</span>
-                <span className="rounded-full border border-black/8 bg-white px-3 py-2 text-sm text-black/68">{featured.clearHeight}</span>
-                <span className="rounded-full border border-black/8 bg-white px-3 py-2 text-sm text-black/68">{featured.zoning}</span>
-              </div>
-              <div className="mt-4 flex flex-wrap gap-3">
-                <Link to={`/listings/${featured.slug}`} className="button button-primary">Review availability</Link>
-                <a href={`/one-sheets/${featured.slug}.pdf`} className="button button-secondary" download>Download floor plan</a>
-                <Link to="/contact#analysis-workflow" className="button button-secondary">Request confidential review</Link>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="section pt-6 lg:pt-8">
-        <div className="container grid gap-4 md:grid-cols-3">
-          {regionInsights.map((item) => (
-            <Reveal key={item.region} className="rounded-[1.7rem] border border-black/5 bg-white p-6 shadow-[0_18px_50px_rgba(17,17,17,0.07)] institutional-card institutional-card--soft">
-              <div className="institutional-card__icon" aria-hidden="true" />
-              <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24]">{item.region} Region</div>
-              <h3 className="m-0 mt-2 text-[1.25rem] tracking-[-0.04em]">{item.title}</h3>
-              <p className="mb-0 mt-3 text-[0.98rem] leading-7 text-black/68">{item.body}</p>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="section section-soft-borderless">
-        <div className="container">
-          <div className="section-heading-row">
-            <div>
-              <div className="eyebrow">Opportunity filter</div>
-              <h2>Find the right lane before the shortlist grows.</h2>
-            </div>
-            <p>
-              The goal is not to show the most properties. The goal is to help the right user find the right few faster - with plan access and scarcity cues already in place.
-            </p>
-          </div>
-
-          <div className="listing-filter-panel">
-            <label>
-              <span>Asset type</span>
-              <select id="pl-category" value={category} onChange={(e) => setCategory(e.target.value)}>
-                {categories.map((item) => <option key={item} value={item}>{item}</option>)}
-              </select>
-            </label>
-            <label>
-              <span>Location</span>
-              <select id="pl-location" value={location} onChange={(e) => setLocation(e.target.value)}>
-                {locations.map((item) => <option key={item} value={item}>{item}</option>)}
-              </select>
-            </label>
-            <label>
-              <span>Status</span>
-              <select id="pl-status" value={status} onChange={(e) => setStatus(e.target.value)}>
-                {statuses.map((item) => <option key={item} value={item}>{item}</option>)}
-              </select>
-            </label>
-            <div className="listing-filter-result">
-              <strong>{filtered.length}</strong>
-              <span>matched opportunities</span>
-            </div>
-            <Link className="button button-secondary small-button" to="/contact#analysis-workflow">Request shortlist analysis</Link>
+    <main className="bg-[#f6f3ee] text-[#161616]">
+      <section className="border-b border-black/6 bg-white">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
+          <div className="max-w-5xl">
+            <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">Listings</div>
+            <h1 className="mt-4 max-w-[13ch] text-5xl font-semibold leading-[0.92] tracking-[-0.06em] lg:text-7xl">Active commercial opportunities presented for comparison, not scrolling fatigue.</h1>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-black/70">Use the filters to narrow the market, then compare each opportunity in a broker OM-style row built for readability, scanning speed, and faster decision-making.</p>
           </div>
         </div>
       </section>
 
-      <section className="section pt-0">
-        <div className="container listing-grid">
-          {filtered.map((listing) => (
-            <ListingCard key={listing.slug} listing={listing} />
-          ))}
+      <section className="border-b border-black/6 bg-[#efe8df]">
+        <div className="mx-auto max-w-7xl px-6 py-8 lg:px-10">
+          <div className="grid gap-4 lg:grid-cols-5">
+            <label className="text-sm font-medium text-black/70">Asset type
+              <select className="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3" value={category} onChange={(e) => setCategory(e.target.value)}>{categories.map((item) => <option key={item}>{item}</option>)}</select>
+            </label>
+            <label className="text-sm font-medium text-black/70">Location
+              <select className="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3" value={location} onChange={(e) => setLocation(e.target.value)}>{locations.map((item) => <option key={item}>{item}</option>)}</select>
+            </label>
+            <label className="text-sm font-medium text-black/70">Status
+              <select className="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3" value={status} onChange={(e) => setStatus(e.target.value)}>{statuses.map((item) => <option key={item}>{item}</option>)}</select>
+            </label>
+            <div className="rounded-xl border border-black/10 bg-white px-4 py-3 flex items-center justify-between lg:col-span-2">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-black/45">Matched opportunities</div>
+                <div className="mt-1 text-2xl font-semibold tracking-[-0.04em]">{filtered.length}</div>
+              </div>
+              <Link to="/contact" className="rounded-full bg-[#111] px-5 py-3 text-sm font-semibold text-white">Request shortlist review</Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="section section-soft-borderless">
-        <div className="container grid gap-6 lg:grid-cols-[1.05fr_.95fr] items-stretch">
-          <div className="rounded-[2rem] border border-black/5 bg-[#151515] p-7 text-white shadow-luxe lg:p-9">
-            <div className="eyebrow !text-white/70">Private Vault</div>
-            <h2 className="m-0 max-w-[12ch] text-[clamp(2rem,3vw,3.3rem)] leading-[0.95] tracking-[-0.06em] text-white">
-              The strongest industrial opportunities are not public for long.
-            </h2>
-            <p className="mt-5 max-w-[58ch] text-[1rem] leading-8 text-white/74">
-              Create the feeling of a confidential pipeline - off-market previews, limited-release inventory, and floor-plan access that rewards serious buyers and landlords first.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {['Off-market previews', 'Limited-release inventory', 'Floor-plan first conversion'].map((chip) => (
-                <span key={chip} className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-white/78">{chip}</span>
-              ))}
+      <section className="bg-white">
+        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:grid-cols-[320px_1fr] lg:px-10 lg:py-16">
+          <aside className="lg:sticky lg:top-28 h-max space-y-8">
+            <div className="overflow-hidden rounded-[1.6rem] border border-black/8 bg-[#111] text-white">
+              <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80" alt="GTA market locator" className="h-48 w-full object-cover opacity-70" />
+              <div className="p-6">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-white/55">Market locator</div>
+                <p className="mt-3 text-sm leading-7 text-white/74">Peel, Halton, York, and Toronto opportunities screened through asset class, location, status, and practical fit.</p>
+              </div>
             </div>
-          </div>
+            <div className="border-t border-black/10 pt-5">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-black/45">How to read the list</div>
+              <ul className="mt-4 space-y-3 text-sm leading-7 text-black/65">
+                <li>Compare size, zoning, loading, and location before asking rate alone.</li>
+                <li>Use teaser copy to judge operational fit, not just marketing appeal.</li>
+                <li>Open details when an opportunity clears the first operational screen.</li>
+              </ul>
+            </div>
+          </aside>
 
-          <div className="grid gap-4 md:grid-cols-2">
-            {[
-              {
-                title: 'Scarcity-led UX',
-                body: 'Availability tags and stronger CTA language make each opportunity feel active instead of archival.',
-              },
-              {
-                title: 'Floor-plan urgency',
-                body: 'Users can grab the one-sheet or floor plan directly from the card rather than hunting through multiple screens.',
-              },
-              {
-                title: 'Conversion by clarity',
-                body: 'The page naturally points users into confidential review, scarcity report capture, and direct analysis.',
-              },
-              {
-                title: 'Institutional tone',
-                body: 'Status language, asset descriptors, and corridor framing all read more like elite industrial advisory than retail real estate copy.',
-              },
-            ].map((item) => (
-              <article key={item.title} className="rounded-[1.6rem] border border-black/5 bg-white p-5 shadow-[0_18px_50px_rgba(17,17,17,0.07)]">
-                <h3 className="m-0 text-[1.2rem] tracking-[-0.04em]">{item.title}</h3>
-                <p className="mb-0 mt-3 text-[0.98rem] leading-7 text-black/68">{item.body}</p>
+          <div className="divide-y divide-black/8 border-y border-black/8">
+            {filtered.map((listing) => (
+              <article key={listing.slug} className="grid gap-5 py-8 lg:grid-cols-[220px_1fr_auto] lg:items-start">
+                <Link to={`/listings/${listing.slug}`} className="overflow-hidden rounded-[1.3rem] border border-black/8 block min-h-[160px]">
+                  <img src={listing.image} alt={listing.title} className="h-full w-full object-cover" />
+                </Link>
+                <div>
+                  <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-black/46">
+                    <span>{listing.location}</span>
+                    <span>•</span>
+                    <span>{listing.category}</span>
+                    <span>•</span>
+                    <span>{listing.status}</span>
+                  </div>
+                  <h2 className="mt-3 text-2xl font-semibold tracking-[-0.04em] lg:text-3xl">{listing.title}</h2>
+                  <p className="mt-3 max-w-3xl text-base leading-8 text-black/68">{listing.teaser}</p>
+                  <div className="mt-4 flex flex-wrap gap-2 text-sm text-black/66">
+                    <span className="rounded-full border border-black/10 px-3 py-2">{listing.size}</span>
+                    <span className="rounded-full border border-black/10 px-3 py-2">{listing.clearHeight}</span>
+                    <span className="rounded-full border border-black/10 px-3 py-2">{listing.zoning}</span>
+                    <span className="rounded-full border border-black/10 px-3 py-2">{listing.loading}</span>
+                  </div>
+                </div>
+                <div className="lg:text-right">
+                  <div className="text-xs font-bold uppercase tracking-[0.18em] text-black/45">Pricing / fit</div>
+                  <div className="mt-2 text-lg font-semibold">{listing.ask}</div>
+                  <div className="mt-2 text-sm leading-7 text-black/60">{listing.highlight}</div>
+                  <div className="mt-5 flex flex-wrap gap-3 lg:justify-end">
+                    <Link to={`/listings/${listing.slug}`} className="rounded-full bg-[#111] px-5 py-3 text-sm font-semibold text-white">View details</Link>
+                    <Link to="/contact" className="rounded-full border border-black/12 px-5 py-3 text-sm font-semibold text-black">Inquire</Link>
+                  </div>
+                </div>
               </article>
             ))}
+            {filtered.length === 0 && <div className="py-12 text-base text-black/65">No matches found. Broaden the filter set to reopen the market.</div>}
           </div>
         </div>
       </section>
-
-      <CTASection
-        eyebrow="Next move"
-        title="Turn the shortlist into a stronger final decision."
-        body="Move from inventory to fit testing with the tools, then use the scarcity report or confidential review path to start the real conversation."
-        primaryLabel="Open the Tools"
-        primaryTo="/tools"
-        secondaryLabel="Request Scarcity Report"
-        secondaryTo="/contact#analysis-workflow"
-      />
-    </>
+    </main>
   );
 }

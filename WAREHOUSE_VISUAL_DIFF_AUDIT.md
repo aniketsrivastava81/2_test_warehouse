@@ -1,0 +1,85 @@
+# Warehouse Visual Merge Audit
+
+## What this merge preserved from the original production warehouse
+- Existing production toolbar and control set were preserved: Interior, Wide Shot, Wide Shot Inside, Down Aisle, Overhead, Dock Side, Horner Ave, Site Bird, Animate, Wireframe, Reset, 3D Pallet Stack, Exterior Shell, Logistics, Ground, Context, Landscape.
+- Production-style intro overlay, scene action links, mobile toolbar menu/backdrop, rotate prompt, and pallet-stack game UI were preserved.
+- Protected manual view buttons were remapped to the production-angle camera poses rather than the uploaded HTML camera set.
+- KOLT pill was moved to bottom-center so it no longer crowds the top control area.
+
+## Major visual / UI systems extracted from the uploaded HTML and now present in the React warehouse
+- Interactive listing intelligence side panel with rotating broker-OM style cards.
+- Road-connectivity hover tooltip / hotspot system.
+- Procedural material pipeline for asphalt, concrete, roof, precast, brick, grass, and glass textures.
+- Expanded post-processing stack: SSAO, bloom, FXAA, and premium image finishing.
+- Richer lighting rig with façade lift, dock shade bounce, interior spill, rim light, reflection cards, haze band, and cinematic overlays.
+- Added / merged helper families from the uploaded file, including:
+  - addDockNumbers
+  - addInstancedDockGuideLights
+  - addMountMark
+  - addRoadHotspot
+  - addRoofClutter
+  - addTrailerBranding
+  - addWheelChocks
+  - buildProceduralTextures
+  - buildSkyTextureForPreset
+  - goToView
+  - hideRoadTip
+  - initPost
+  - makeAltLightPole
+  - makeBackflowAssembly
+  - makeCanvasTexture
+  - makeChainLinkFenceSegment
+  - makeCone
+  - makeConifer
+  - makeDoorHardware
+  - makeDrum
+  - makeDumpster
+  - makeForklift
+  - makeGaylord
+  - makeGrassTuft
+  - makeHandCart
+  - makeHeroTree
+  - makeHydroPole
+  - makeIBCTote
+  - makeJerseyBarrier
+  - makeLightPole
+  - makeLouverBox
+  - makeMiniServiceShed
+  - makePalletJack
+  - makeReachTruck
+  - makeSoftTower
+  - makeStormDrain
+  - makeStyledPallet
+  - makeTelecomCabinet
+  - makeTreeVariant
+  - makeUDAddressMonument
+  - makeUDBale
+  - makeUDCageLadder
+  - makeUDCamera
+  - makeUDDockLadder
+  - makeUDDockSignal
+  - makeUDDockStairs
+  - makeUDGasMeters
+  - makeUDGaylord
+  - makeUDGooseneck
+  - makeUDHydrant
+  - makeUDIBC
+  - makeUDMeterBank
+  - makeUDPadTransformer
+  - makeUDRestraintBox
+  - makeUDRollingBin
+  - makeUDRoofHatch
+  - makeUDRoofRail
+  - makeUDServiceVan
+  - makeUDSlidingGate
+  - makeUDTrafficSign
+  - makeUtilityPad
+  - makeWorkerSilhouette
+  - normalizeInfoView
+  - renderListingInfo
+  - setLookPreset
+  - showRoadTip
+  - updateShotSequence
+
+## Important note
+This audit is code-based rather than a rendered-image diff, so the most subjective checklist lines still need an in-browser visual pass.

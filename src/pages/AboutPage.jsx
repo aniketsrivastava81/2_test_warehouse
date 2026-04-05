@@ -1,231 +1,134 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import CTASection from '../components/CTASection';
-import VideoTestimonials from '../components/VideoTestimonials';
+import React from "react";
+import { Link } from "react-router-dom";
 
-const stats = [
-  ['Heavyweight belt', '$1B+ sales volume'],
-  ['Combined expertise', '200+ years'],
-  ['Pipeline', '$2B+ assets'],
-  ['Corridor focus', 'Peel • Halton • York'],
+const beliefs = [
+  ['Strategy should come before motion', 'Not every opportunity is the right one. Better results come from understanding the objective first, then aligning property, timing, and execution around it.'],
+  ['Presentation shapes perception', 'How a property is presented affects how it is understood. Better positioning and clearer communication improve decision quality.'],
+  ['Commercial real estate is never one-size-fits-all', 'An owner-user requirement is not the same as an investor acquisition. Advice needs to reflect the realities of the asset and the goal behind it.'],
+  ['Clarity builds confidence', 'Clearer insight creates better conversations, better filtering, and better next steps.'],
 ];
 
-const consultancyPillars = [
-  {
-    title: 'Consultancy-first posture',
-    body: 'The page should sound like a fiduciary partner who understands the capital stack, zoning bylaws, leasing risk, and the true cost of vacancy.',
-  },
-  {
-    title: 'Boardroom and boots-on-ground credibility',
-    body: 'KOLT has to look equally believable in a suit under a cap-rate model and in high-vis gear on an active industrial site.',
-  },
-  {
-    title: 'Institutional rhythm',
-    body: 'This page needed to stop feeling like a resume and start feeling like a pitch deck written by operators who know how to close.',
-  },
-  {
-    title: 'Diversity with execution',
-    body: 'A united culture matters most when it translates into sharper decisions, better market coverage, and stronger negotiation posture.',
-  },
+const steps = [
+  ['01', 'Understand the objective', 'Every engagement starts with understanding what success looks like for the client.'],
+  ['02', 'Assess the context', 'We look at the property, the submarket, the use case, and the broader conditions shaping the opportunity.'],
+  ['03', 'Clarify the strategy', 'Once the context is clear, we help frame the most practical path forward with greater precision.'],
+  ['04', 'Support the next move', 'From exploration to execution, the goal is a process that stays focused and aligned with the end objective.'],
 ];
 
-const visuals = [
-  {
-    kicker: 'Boardroom lens',
-    title: 'Capital-markets discipline stays visible above the fold.',
-    body: 'Use polished boardroom visuals to show investors and developers that KOLT can speak underwriting, portfolio strategy, and pipeline logic with confidence.',
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80',
-  },
-  {
-    kicker: 'Site lens',
-    title: 'Then prove the same team understands the dirt, loading courts, and operational realities.',
-    body: 'High-vis, on-site imagery reinforces that KOLT understands truck movement, bay utility, yard constraints, and how industrial product really performs in the field.',
-    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=80',
-  },
-];
-
-const philosophy = [
-  'Velocity matters, but only when it is paired with disciplined underwriting.',
-  'Variety matters, but only when every opportunity is framed through local market intelligence.',
-  'Pipeline is a power word because it signals continuity, deal flow, and investor-grade visibility into what comes next.',
-  'The goal is to turn industrial space from a line-item expense into a high-performance asset.',
-];
-
-const cultureCards = [
-  {
-    title: 'Pipeline mindset',
-    body: '$2B+ in pipeline assets should not hide in body copy. It should read like evidence that KOLT sees the market in motion, not just after it posts online.',
-  },
-  {
-    title: 'United culture',
-    body: 'The strongest teams mix young-market energy with veteran closing instincts. That dual-lens approach should feel obvious in the pacing and visual hierarchy.',
-  },
-  {
-    title: 'Industrial fluency',
-    body: 'Talk openly about E2 / E3 zoning, loading ratios, industrial condo conversions, and lease-audit upside so the page sounds like it belongs in GTA CRE.',
-  },
+const audiences = [
+  ['Owners', 'Looking to position assets more effectively, evaluate options, and move with stronger market awareness.'],
+  ['Investors', 'Assessing opportunity through the lens of demand, risk, upside, and long-term commercial relevance.'],
+  ['Tenants', 'Searching for space that supports operations, access, visibility, customer experience, or future growth.'],
+  ['Developers', 'Evaluating land, site potential, market direction, and strategic positioning within the GTA.'],
 ];
 
 export default function AboutPage() {
   return (
-    <div className="premium-page-scroll premium-story-page about-premium-page">
-      <section className="page-hero slim-hero premium-story-hero premium-story-hero--dark about-hero-upgrade about-stage-shell">
-        <div className="container about-stage-grid">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55 }}
-            className="premium-story-hero__main about-hero-main about-stage-main"
-          >
-            <div className="eyebrow">About KOLT Realty</div>
-            <h1>Asset-advisory positioning for the GTA’s industrial landscape.</h1>
-            <p className="about-lead-quote">“In the GTA’s industrial landscape, data is the only currency that matters.”</p>
-            <p>
-              Megha Mehta does not just list warehouses; she engineers high-yield real estate strategies for institutional investors and owner-users across the Golden Horseshoe.
-              With a focus on Peel, Halton, and York, the advisory lens here is last-mile logistics optimization, off-market asset acquisition, industrial condo conversions,
-              and disciplined DCF-backed judgment that turns industrial space into a higher-performance asset.
-            </p>
+    <main className="bg-[#f6f3ee] text-[#161616]">
+      <section className="border-b border-black/6 bg-white">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
+          <div className="max-w-5xl">
+            <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">About KOLT Realty</div>
+            <h1 className="mt-4 max-w-[14ch] text-5xl font-semibold leading-[0.92] tracking-[-0.06em] lg:text-7xl">Commercial real estate guidance shaped by strategy, clarity, and market awareness.</h1>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-black/70">KOLT Realty is built around a straightforward idea: commercial real estate decisions deserve sharper thinking, better presentation, and a more useful client experience from the first click to the final conversation.</p>
+          </div>
+        </div>
+      </section>
 
-            <div className="about-stage-nameplate">
-              <span className="listing-urgency-badge listing-urgency-badge--light">Megha Mehta</span>
-              <strong>does not just list warehouses; she engineers high yield real estate strategies for institutional investors and owner-users across the Golden Horseshoe.</strong>
+      <section className="border-b border-black/6 bg-[#f6f3ee]">
+        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-[.85fr_1.15fr] lg:px-10 lg:py-24">
+          <div>
+            <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">A more considered approach</div>
+            <h2 className="mt-4 max-w-[12ch] text-4xl font-semibold leading-[0.98] tracking-[-0.05em] lg:text-5xl">More than exposure. More than inventory.</h2>
+          </div>
+          <div className="space-y-6 text-lg leading-8 text-black/70">
+            <p>In commercial real estate, the details matter. Site functionality, timing, market conditions, positioning, and long-term use all influence the quality of a decision. KOLT Realty approaches every opportunity with that reality in mind.</p>
+            <p>We work across the Greater Toronto Area with a focus on industrial, retail, land, and selected mixed-use opportunities. Our role is not simply to place properties in front of clients. It is to help them better understand fit, uncover value, reduce friction, and move forward with clearer direction.</p>
+            <p>Real estate platforms often stop at information. We believe they should go further. They should help people understand what they are seeing, why it matters, and what action makes sense next.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-black/6 bg-[#111] text-white">
+        <div className="mx-auto max-w-7xl px-6 py-14 lg:px-10 lg:py-16">
+          <div className="grid gap-8 lg:grid-cols-2">
+            <div className="border-t border-white/15 pt-5">
+              <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">Mission</div>
+              <p className="mt-4 text-2xl leading-9 text-white/88">To deliver a stronger commercial real estate experience through better guidance, better positioning, and better tools for decision-making.</p>
             </div>
-
-            <div className="premium-story-kpis about-kpi-grid">
-              {stats.map(([label, value]) => (
-                <article key={label}><small>{label}</small><strong>{value}</strong></article>
-              ))}
+            <div className="border-t border-white/15 pt-5">
+              <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">Vision</div>
+              <p className="mt-4 text-2xl leading-9 text-white/88">To help set a higher digital and strategic standard for commercial real estate in the GTA through experiences that are more informative, more engaging, and more aligned with modern decision-making.</p>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link to="/listings" className="button button-primary">Review opportunities</Link>
-              <Link to="/contact#analysis-workflow" className="button button-secondary">Request scarcity report</Link>
+      <section className="border-b border-black/6 bg-white">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
+          <div className="grid gap-10 lg:grid-cols-[.8fr_1.2fr]">
+            <div>
+              <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">What we believe</div>
+              <h2 className="mt-4 max-w-[10ch] text-4xl font-semibold leading-[0.98] tracking-[-0.05em] lg:text-5xl">The point of view behind the platform.</h2>
             </div>
-
-            <div className="about-stage-pill-row">
-              <span>Boardroom to site fluency</span>
-              <span>Institutional narrative</span>
-              <span>Pipeline and mandate strength</span>
-            </div>
-          </motion.div>
-
-          <div className="about-stage-side">
-            <motion.article
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.08 }}
-              className="about-stage-photo-card"
-            >
-              <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1600&q=80" alt="Boardroom strategy session" />
-              <div className="hero-power-bar hero-power-bar--inline about-stage-powerbar">
-                <article><small>Advisory stance</small><strong>Fiduciary tone over generic biography tone</strong></article>
-                <article><small>Field posture</small><strong>Boardroom credibility that still reads believable on-site</strong></article>
-              </div>
-            </motion.article>
-
-            <div className="about-stage-rail">
-              {consultancyPillars.map((item, index) => (
-                <motion.article
-                  whileHover={{ y: -6 }}
-                  key={item.title}
-                  className="premium-story-hover-card institutional-card about-stage-rail-card"
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.06 * index }}
-                >
-                  <div className="institutional-card__icon" aria-hidden="true" />
-                  <h3>{item.title}</h3>
-                  <p>{item.body}</p>
-                </motion.article>
+            <div className="divide-y divide-black/8 border-y border-black/8">
+              {beliefs.map(([title, body]) => (
+                <div key={title} className="py-6">
+                  <h3 className="text-lg font-semibold tracking-[-0.02em]">{title}</h3>
+                  <p className="mt-3 text-base leading-8 text-black/68">{body}</p>
+                </div>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section premium-story-nav-wrap">
-        <div className="container premium-story-nav about-story-nav">
-          <a href="#about-boardroom-site">Boardroom to site</a>
-          <a href="#about-philosophy">KOLT philosophy</a>
-          <a href="#about-culture">Team and culture</a>
-        </div>
-      </section>
-
-      <section className="section premium-story-band about-visual-stage" id="about-boardroom-site">
-        <div className="container grid gap-6 lg:grid-cols-2 items-stretch">
-          {visuals.map((item, index) => (
-            <motion.article
-              key={item.title}
-              className="rounded-[2rem] border border-black/5 bg-white p-5 shadow-luxe about-visual-card"
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.45, delay: index * 0.08 }}
-            >
-              <div className="overflow-hidden rounded-[1.4rem] about-visual-card__media">
-                <img src={item.image} alt={item.title} className="h-[300px] w-full object-cover transition-transform duration-700 hover:scale-[1.04]" />
+      <section className="border-b border-black/6 bg-[#efe8df]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
+          <div className="grid gap-8 lg:grid-cols-4">
+            {steps.map(([num, title, body]) => (
+              <div key={num} className="border-t border-black/10 pt-5">
+                <div className="text-sm font-semibold tracking-[0.18em] text-[#8b1e24]">{num}</div>
+                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em]">{title}</h3>
+                <p className="mt-3 text-base leading-8 text-black/68">{body}</p>
               </div>
-              <div className="mt-5 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24]">{item.kicker}</div>
-              <h2 className="m-0 mt-2 text-[1.8rem] leading-tight tracking-[-0.05em]">{item.title}</h2>
-              <p className="mb-0 mt-3 text-[1rem] leading-8 text-black/72">{item.body}</p>
-            </motion.article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section section-soft-borderless" id="about-philosophy">
-        <div className="container grid gap-6 lg:grid-cols-[1.02fr_.98fr] items-stretch">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            className="rounded-[2rem] border border-black/5 bg-[#151515] p-7 text-white shadow-luxe lg:p-10 about-manifesto-card"
-          >
-            <div className="eyebrow !text-white/70">KOLT philosophy</div>
-            <h2 className="m-0 max-w-[12ch] text-[clamp(2rem,3vw,3.5rem)] leading-[0.95] tracking-[-0.06em] text-white">The mission is not to look premium. It is to make the mandate stronger.</h2>
-            <p className="mt-5 max-w-[56ch] text-[1rem] leading-8 text-white/74">Backed by dynamic analysts and seasoned market veterans, the platform should feel quick enough for rapid-fire opportunities and disciplined enough for a $20M industrial land conversation.</p>
-            <div className="mt-6 grid gap-3">
-              {philosophy.map((item) => (
-                <div key={item} className="rounded-[1.25rem] border border-white/12 bg-white/8 px-4 py-4 text-[0.98rem] leading-7 text-white/80">{item}</div>
-              ))}
-            </div>
-          </motion.div>
-          <div className="grid gap-4 md:grid-cols-1">
-            {cultureCards.map((card, index) => (
-              <motion.article
-                key={card.title}
-                className="rounded-[1.6rem] border border-black/5 bg-white p-6 shadow-[0_18px_50px_rgba(17,17,17,0.07)] institutional-card about-culture-card"
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ delay: index * 0.06 }}
-              >
-                <div className="institutional-card__icon" aria-hidden="true" />
-                <h3 className="m-0 text-[1.25rem] tracking-[-0.04em]">{card.title}</h3>
-                <p className="mb-0 mt-3 text-[0.98rem] leading-7 text-black/68">{card.body}</p>
-              </motion.article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section" id="about-culture">
-        <div className="container premium-principles-grid about-principles-grid">
-          {[
-            'Institutional tone over generic biography formatting.',
-            'Sharper hierarchy so the most powerful numbers land first.',
-            'On-site and boardroom visuals proving both dirt and deal fluency.',
-            'A clearer bridge from about-page trust into inventory, tools, and direct inquiry.',
-          ].map((item) => (
-            <motion.article key={item} whileHover={{ y: -4 }}><strong>{item}</strong></motion.article>
-          ))}
+      <section className="border-b border-black/6 bg-white">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="max-w-3xl">
+            <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">Who we work with</div>
+            <h2 className="mt-4 text-4xl font-semibold leading-[0.98] tracking-[-0.05em] lg:text-5xl">Built for different commercial objectives.</h2>
+          </div>
+          <div className="mt-10 divide-y divide-black/8 border-y border-black/8">
+            {audiences.map(([title, body]) => (
+              <div key={title} className="grid gap-4 py-6 lg:grid-cols-[220px_1fr] lg:items-start">
+                <div className="text-xl font-semibold tracking-[-0.03em]">{title}</div>
+                <div className="text-base leading-8 text-black/68">{body}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <VideoTestimonials />
-
-      <CTASection eyebrow="Continue the mandate" title="The strongest About page should make the next click feel more inevitable." body="Move from team credibility into services, listings, and the scarcity-report capture path without losing the institutional tone." primaryLabel="Explore Services" primaryTo="/services" secondaryLabel="Open Listings" secondaryTo="/listings" />
-    </div>
+      <section className="bg-[#161616] text-white">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div>
+              <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">Closing statement</div>
+              <h2 className="mt-4 max-w-[12ch] text-4xl font-semibold leading-[0.98] tracking-[-0.05em] lg:text-5xl">Work with a team that takes commercial real estate seriously.</h2>
+              <p className="mt-5 max-w-3xl text-lg leading-8 text-white/72">Whether you are assessing a property, planning your next move, or looking for clearer guidance in the GTA market, KOLT Realty is ready to help.</p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Link to="/schedule" className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black">Schedule a Consultation</Link>
+              <Link to="/services" className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white">View Services</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

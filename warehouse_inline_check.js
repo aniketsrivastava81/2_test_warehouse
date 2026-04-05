@@ -1,478 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>KOLT Realty · Industrial Review — Interior View</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Mono:wght@300;400&display=swap');
 
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{width:100%;height:100%;overflow:hidden;}
-body{background:#05060a;color:#e0ddd8;font-family:'DM Mono',monospace;}
-#canvas{display:block;width:100vw;height:100vh;}
-
-#toolbar{
-  position:fixed;top:16px;left:50%;transform:translateX(-50%);
-  z-index:50;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;
-}
-#toolbar button{
-  background:rgba(18,22,28,.88);
-  border:1px solid rgba(255,255,255,.10);
-  color:#aab;padding:7px 14px;border-radius:20px;cursor:pointer;
-  font-size:11px;letter-spacing:.5px;font-family:'DM Mono',monospace;
-  transition:background .15s,color .15s,border-color .15s,transform .15s;
-  backdrop-filter:blur(8px);
-}
-#toolbar button:hover{background:rgba(35,42,52,.95);color:#fff;border-color:rgba(255,255,255,.22);}
-#toolbar button.active{background:rgba(200,40,40,.25);border-color:#cc2a2a;color:#ff8080;}
-#toolbar button.toggle-on{background:rgba(76,120,210,.22);border-color:rgba(110,150,255,.55);color:#cfe0ff;}
-
-#ui{
-  position:fixed;top:72px;left:0;right:0;
-  display:flex;justify-content:space-between;align-items:flex-start;
-  padding:22px 32px;pointer-events:none;z-index:10;
-}
-#title{font-size:9px;letter-spacing:3px;color:#2a2a2a;text-transform:uppercase;line-height:2.2;}
-#title strong{display:block;font-size:13px;color:#585450;letter-spacing:2px;margin-bottom:6px;}
-#title em{font-style:normal;color:#222;font-size:9px;letter-spacing:2px;}
-
-#phase-display{font-size:9px;letter-spacing:3px;text-align:right;line-height:2.4;}
-#phase-display span{
-  display:block;font-size:10px;color:#1e1e1e;letter-spacing:3px;
-  transition:color .45s ease,text-shadow .45s ease;
-}
-#phase-display span.active{color:#a8a49c;text-shadow:0 0 20px rgba(200,196,188,.22);}
-
-#progress-bar{position:fixed;bottom:0;left:0;right:0;height:1px;background:#0e0e0e;z-index:10;}
-#progress-fill{
-  height:100%;
-  background:linear-gradient(90deg,transparent,#3a3836 20%,#888480 50%,#3a3836 80%,transparent);
-  width:0%;transition:width .1s linear;
-}
-
-#callout{
-  position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
-  text-align:center;pointer-events:none;z-index:10;white-space:nowrap;
-}
-#callout-name{font-size:9px;letter-spacing:3px;color:#383432;transition:color .35s ease;}
-#callout-sub{display:block;font-size:8px;letter-spacing:2px;color:#1e1c1a;margin-top:5px;transition:color .35s ease;}
-#callout-name.live{color:#807c78;}
-#callout-sub.live{color:#383432;}
-
-#hint{position:fixed;bottom:64px;left:32px;color:#24262b;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;z-index:10;pointer-events:none;}
-
-#vignette{
-  position:fixed;inset:0;pointer-events:none;z-index:5;
-  background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 38%,rgba(5,6,10,.48) 72%,rgba(5,6,10,.90) 100%);
-}
-#scanlines{
-  position:fixed;inset:0;pointer-events:none;z-index:6;
-  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.028) 3px,rgba(0,0,0,.028) 4px);
-}
-
-
-#listing-info-shell{
-  position:fixed;right:24px;top:170px;width:min(360px,32vw);z-index:17;
-  display:flex;flex-direction:column;gap:10px;pointer-events:none;
-  transition:opacity .28s ease,transform .28s ease;
-}
-#listing-info-shell.hidden,#road-connectivity-tip.hidden{opacity:0;pointer-events:none;transform:translateY(12px);}
-#listing-info-header,
-.listing-info-card,
-#listing-info-ribbon,
-#road-connectivity-tip{
-  background:linear-gradient(180deg,rgba(12,16,22,.84),rgba(8,10,14,.72));
-  border:1px solid rgba(215,225,255,.10);
-  box-shadow:0 14px 40px rgba(0,0,0,.22);
-  backdrop-filter:blur(12px);
-}
-#listing-info-header{
-  padding:14px 16px;border-radius:16px;
-}
-#listing-info-kicker{
-  font-size:9px;letter-spacing:2.8px;color:#93a6d8;text-transform:uppercase;
-}
-#listing-info-title{
-  margin-top:6px;font-size:12px;letter-spacing:2.2px;color:#edf2ff;text-transform:uppercase;
-}
-#listing-info-summary{
-  margin-top:7px;font-size:10px;line-height:1.7;letter-spacing:1px;color:#bcc5d8;
-}
-#listing-info-grid{
-  display:grid;grid-template-columns:1fr;gap:10px;
-}
-.listing-info-card{
-  border-radius:16px;padding:12px 14px;
-}
-.listing-info-card h4{
-  font-size:10px;letter-spacing:2.2px;color:#f1f4ff;text-transform:uppercase;margin-bottom:10px;
-}
-.metric-row{
-  display:flex;justify-content:space-between;gap:14px;padding:6px 0;
-  border-top:1px solid rgba(255,255,255,.06);
-}
-.metric-row:first-of-type{border-top:none;padding-top:0;}
-.metric-row span{
-  font-size:9px;letter-spacing:1.5px;color:#97a4be;text-transform:uppercase;
-}
-.metric-row strong{
-  font-size:10px;letter-spacing:1.4px;color:#eff3ff;text-align:right;font-weight:400;
-}
-#listing-info-ribbon{
-  display:flex;flex-wrap:wrap;gap:7px;padding:10px 12px;border-radius:16px;
-}
-.listing-chip{
-  display:inline-flex;align-items:center;padding:6px 9px;border-radius:999px;
-  border:1px solid rgba(136,168,255,.18);background:rgba(82,106,162,.12);
-  color:#d9e6ff;font-size:9px;letter-spacing:1.4px;text-transform:uppercase;
-}
-#road-connectivity-tip{
-  position:fixed;left:0;top:0;transform:translate(-999px,-999px);z-index:22;
-  width:min(280px,28vw);padding:12px 14px;border-radius:14px;opacity:0;
-  transition:opacity .14s ease,transform .14s ease;pointer-events:none;
-}
-#road-connectivity-tip .tip-kicker{font-size:9px;letter-spacing:2.3px;color:#9bb0e3;text-transform:uppercase;}
-#road-connectivity-tip .tip-title{margin-top:5px;font-size:11px;letter-spacing:1.7px;color:#eff3ff;text-transform:uppercase;}
-#road-connectivity-tip .tip-line{margin-top:7px;font-size:10px;letter-spacing:1px;line-height:1.7;color:#c8d2e6;}
-@media (max-width:1200px){
-  #listing-info-shell{width:min(330px,34vw);top:182px;}
-}
-@media (max-width:980px){
-  #listing-info-shell{right:18px;left:18px;top:auto;bottom:22px;width:auto;max-width:none;}
-  #listing-info-grid{grid-template-columns:1fr;}
-  #road-connectivity-tip{width:min(260px,70vw);}
-}
-
-
-
-/* ── GAME UI ── */
-#ui,#callout,#hint,#progress-bar{transition:opacity .35s ease,transform .35s ease;}
-#ui.hidden,#callout.hidden,#hint.hidden,#progress-bar.hidden{opacity:0;pointer-events:none;}
-
-#playGameBtn{
-  background:rgba(30,160,90,.22)!important;
-  border-color:rgba(80,220,140,.5)!important;
-  color:#7fffc0!important;
-}
-#playGameBtn:hover{background:rgba(30,160,90,.42)!important;border-color:#7fffc0!important;color:#fff!important;}
-#playGameBtn.game-active{
-  background:rgba(200,40,40,.25)!important;
-  border-color:#cc2a2a!important;
-  color:#ff8080!important;
-}
-
-#game-hud{
-  position:fixed;left:20px;right:20px;bottom:18px;z-index:40;
-  opacity:0;pointer-events:none;transition:opacity .3s ease;
-}
-#game-hud.visible{opacity:1;}
-.hud-top{
-  display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));
-  gap:10px;max-width:760px;
-}
-.hud-card{
-  background:rgba(8,14,24,.84);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:20px;
-  padding:14px 14px 10px;
-  backdrop-filter:blur(10px);
-  box-shadow:0 20px 60px rgba(0,0,0,.24);
-}
-.hud-label{
-  display:block;color:#6d7384;font-size:9px;letter-spacing:3px;
-  text-transform:uppercase;margin-bottom:6px;
-}
-.hud-value{
-  display:block;color:#e8e5dd;font-size:24px;font-weight:300;letter-spacing:1px;
-}
-#game-hud .warn{color:#ffd166;}
-#game-hud .danger{color:#ff7b7b;}
-.hud-bottom{
-  display:flex;gap:12px;align-items:flex-end;justify-content:space-between;
-  margin-top:10px;max-width:920px;
-}
-.hud-status,.hud-help{
-  background:rgba(8,14,24,.84);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:18px;
-  padding:12px 16px;
-  backdrop-filter:blur(10px);
-  box-shadow:0 20px 60px rgba(0,0,0,.18);
-}
-.hud-status{flex:1;min-width:0;color:#e8e5dd;font-size:12px;line-height:1.5;}
-.hud-status strong{color:#8be5b5;font-weight:400;}
-.hud-help{color:#aab2c4;font-size:11px;letter-spacing:.6px;white-space:nowrap;}
-
-#game-end{
-  position:fixed;inset:0;display:grid;place-items:center;z-index:45;
-  background:rgba(4,6,10,.44);backdrop-filter:blur(6px);
-  opacity:0;pointer-events:none;transition:opacity .3s ease;
-}
-#game-end.visible{opacity:1;pointer-events:auto;}
-.overlay-panel{
-  width:min(720px,calc(100vw - 32px));
-  background:linear-gradient(180deg,rgba(7,12,22,.94),rgba(6,10,18,.9));
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:28px;padding:24px 24px 22px;
-  box-shadow:0 40px 100px rgba(0,0,0,.34);
-}
-.overlay-eyebrow{
-  display:inline-block;padding:5px 10px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.08);color:#6d7384;
-  font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;
-}
-.overlay-title{font-size:48px;font-weight:300;line-height:1.05;letter-spacing:1px;color:#f0ede6;margin-bottom:10px;}
-.overlay-body{color:#8a91a3;font-size:15px;line-height:1.65;max-width:58ch;}
-.results-grid{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:10px;margin-top:20px;
-}
-.result-card{
-  padding:14px;border-radius:16px;
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.07);
-}
-.result-label{
-  display:block;color:#5a6070;font-size:9px;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;
-}
-.result-value{
-  display:block;font-size:26px;font-weight:300;color:#a8e9c2;letter-spacing:1px;
-}
-.overlay-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;}
-.overlay-actions button,
-#game-controls button{
-  font-family:'DM Mono',monospace;border-radius:18px;border:1px solid rgba(255,255,255,.08);
-  background:rgba(13,20,31,.92);color:#d7dce8;cursor:pointer;
-  transition:transform .12s ease,background .12s ease,border-color .12s ease;
-}
-.overlay-actions button:hover,#game-controls button:hover{
-  transform:translateY(-1px);background:rgba(22,32,48,.96);border-color:rgba(255,255,255,.18);
-}
-#btn-restart{
-  background:rgba(26,146,86,.24);border-color:rgba(87,220,152,.35);color:#8effbe;
-  padding:14px 20px;
-}
-#btn-exit{
-  padding:14px 20px;
-}
-
-#game-controls{
-  position:fixed;right:20px;bottom:18px;z-index:42;
-  display:grid;grid-template-columns:repeat(3,54px);grid-template-rows:54px 54px 54px;
-  gap:8px;opacity:0;pointer-events:none;transition:opacity .3s ease;
-}
-#game-controls.visible{opacity:1;pointer-events:auto;}
-#game-controls button{width:54px;height:54px;font-size:18px;padding:0;}
-#game-controls .wide-btn{grid-column:1 / span 2;width:116px;font-size:12px;letter-spacing:2px;text-transform:uppercase;}
-#game-controls .spacer{visibility:hidden;}
-#game-controls .drop-btn{
-  background:rgba(26,146,86,.24);border-color:rgba(87,220,152,.35);color:#8effbe;
-}
-
-@media(max-width:900px){
-  .hud-top{grid-template-columns:repeat(2,minmax(0,1fr));max-width:560px;}
-  .hud-bottom{flex-direction:column;align-items:stretch;max-width:560px;}
-  .hud-help{white-space:normal;}
-}
-@media(max-width:700px){
-  #game-hud{left:14px;right:14px;bottom:112px;}
-  .overlay-title{font-size:36px;}
-  .results-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-  #sceneActions{left:14px;right:14px;top:auto;bottom:18px;max-width:none;justify-content:flex-start;}
-  #warehouseIntroOverlay{padding:14px;}
-  #warehouseIntroOverlay .intro-card{padding:20px;border-radius:24px;}
-  #warehouseIntroOverlay .intro-grid{grid-template-columns:1fr;}
-}
-
-
-#koltBrandPill{position:fixed;left:50%;top:auto;bottom:18px;transform:translateX(-50%);z-index:1000;padding:12px 16px;border-radius:999px;background:rgba(18,18,18,.84);color:#fff;font-family:Inter,Arial,sans-serif;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;box-shadow:0 18px 40px rgba(0,0,0,.22);backdrop-filter:blur(12px)}
-@media (max-width:980px){#koltBrandPill{bottom:110px;font-size:10px;padding:10px 13px;}}
-#koltBrandPill b{color:#d13a3f}
-
-#sceneActions{position:fixed;right:18px;top:18px;z-index:1000;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;max-width:min(52vw,620px)}
-#sceneActions a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 14px;border-radius:999px;background:rgba(255,255,255,.88);border:1px solid rgba(17,17,17,.08);color:#171717;font:700 11px/1 Inter,Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;box-shadow:0 16px 35px rgba(0,0,0,.12);backdrop-filter:blur(14px)}
-#sceneActions a.primary{background:rgba(176,31,36,.94);color:#fff;border-color:rgba(176,31,36,.35)}
-#warehouseIntroOverlay{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;padding:28px;background:linear-gradient(180deg,rgba(9,11,15,.70),rgba(9,11,15,.82));backdrop-filter:blur(14px)}
-#warehouseIntroOverlay.hidden{display:none}
-#warehouseIntroOverlay .intro-card{width:min(860px,100%);border-radius:34px;padding:28px;background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(247,243,238,.96));box-shadow:0 34px 90px rgba(0,0,0,.26);border:1px solid rgba(17,17,17,.08);color:#181818;font-family:Inter,Arial,sans-serif}
-#warehouseIntroOverlay .intro-eyebrow{display:inline-flex;padding:8px 12px;border-radius:999px;background:#171717;color:#fff;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
-#warehouseIntroOverlay h2{margin:16px 0 0;font-size:clamp(32px,5vw,58px);line-height:.95;letter-spacing:-.06em;font-weight:800;color:#131313;max-width:11ch}
-#warehouseIntroOverlay p{margin:16px 0 0;max-width:64ch;font-size:16px;line-height:1.85;color:rgba(24,24,24,.78)}
-#warehouseIntroOverlay .intro-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:18px;margin-top:20px}
-#warehouseIntroOverlay .intro-panel{border-radius:24px;padding:18px;background:#fff;border:1px solid rgba(17,17,17,.08)}
-#warehouseIntroOverlay .intro-panel strong{display:block;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#b01f24}
-#warehouseIntroOverlay ul{margin:12px 0 0;padding-left:18px;color:rgba(24,24,24,.78);line-height:1.8}
-#warehouseIntroOverlay .intro-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
-#warehouseIntroOverlay .intro-actions button,#warehouseIntroOverlay .intro-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 18px;border-radius:999px;border:1px solid transparent;font-weight:800;letter-spacing:.06em;text-decoration:none}
-#warehouseIntroOverlay .intro-actions button{background:#b01f24;color:#fff;box-shadow:0 18px 34px rgba(176,31,36,.25)}
-#warehouseIntroOverlay .intro-actions a{background:#fff;color:#171717;border-color:rgba(17,17,17,.1)}
-
-
-
-</style>
-</head>
-<body>
-<div id="koltBrandPill"><b>KOLT</b> Realty · Interactive warehouse intelligence</div>
-<div id="warehouseIntroOverlay">
-  <div class="intro-card">
-    <span class="intro-eyebrow">KOLT Realty · Warehouse Review</span>
-    <h2>Evaluate the warehouse like an operating environment.</h2>
-    <p>Use this scene to review circulation, loading, staging, and visual fit before you commit more time to tours, underwriting, or internal approvals.</p>
-    <div class="intro-grid">
-      <div class="intro-panel">
-        <strong>What to review</strong>
-        <ul>
-          <li>Interior flow, aisle logic, and pallet storage behaviour</li>
-          <li>Dock-side access, staging practicality, and exterior context</li>
-          <li>Brand-native signage, wall markers, and KOLT scene overlays</li>
-        </ul>
-      </div>
-      <div class="intro-panel">
-        <strong>Where to go next</strong>
-        <ul>
-          <li>Return to Listings once a fit looks credible</li>
-          <li>Open Tools to pressure-test cap rate or operational fit</li>
-          <li>Use Contact / Request Analysis when the brief is ready</li>
-        </ul>
-      </div>
-    </div>
-    <div class="intro-actions">
-      <button id="enterWarehouseBtn" type="button">Enter warehouse review</button>
-      <a href="/listings">View opportunities</a>
-      <a href="/contact#analysis-workflow">Request analysis</a>
-    </div>
-  </div>
-</div>
-<div id="sceneActions">
-  <a class="primary" href="/listings">Listings</a>
-  <a href="/tools">Tools</a>
-  <a href="/contact#analysis-workflow">Contact</a>
-</div>
-
-<canvas id="canvas"></canvas>
-<button id="toolbarMenuBtn" aria-label="Open controls" aria-expanded="false">☰ Controls</button>
-<div id="toolbarBackdrop"></div>
-
-<div id="rotatePrompt">
-  <div class="rotate-card">
-    <strong>Rotate your screen</strong>
-    <span>For a bigger warehouse view, switch to landscape mode.</span>
-  </div>
-
-<div id="vignette"></div>
-<div id="scanlines"></div>
-
-<div id="toolbar">
-  <button data-view="inside" class="active">Interior</button>
-  <button data-view="wide">Wide Shot</button>
-  <button data-view="wideinside">Wide Shot Inside</button>
-  <button data-view="aisle">Down Aisle</button>
-  <button data-view="overhead">Overhead</button>
-  <button data-view="dock">Dock Side</button>
-  <button data-view="street">Horner Ave</button>
-  <button data-view="sitebird">Site Bird</button>
-  <button id="animateBtn">Animate</button>
-  <button id="wireBtn">Wireframe</button>
-  <button id="resetBtn">Reset</button>
-  <button id="playGameBtn">3D Pallet Stack</button>
-  <button id="extShellBtn" class="toggle-on">Exterior Shell</button>
-  <button id="logisticsBtn" class="toggle-on">Logistics</button>
-  <button id="groundBtn" class="toggle-on">Ground</button>
-  <button id="contextBtn" class="toggle-on">Context</button>
-  <button id="landscapeBtn" class="toggle-on">Landscape</button>
-</div>
-
-<div id="ui">
-  <div id="title">
-    <strong>KOLT Realty · Industrial Review — Interior</strong>
-    Pallet racking · bay storage · clear-span floor<br>
-    <em>Greater Toronto Area · Commercial Class A</em>
-  </div>
-  <div id="phase-display">
-    <span id="ph-empty">EMPTY</span>
-    <span id="ph-loading">LOADING</span>
-    <span id="ph-full-a">STORAGE MODE A</span>
-    <span id="ph-full-b">STORAGE MODE B</span>
-    <span id="ph-clearing">CLEARING</span>
-  </div>
-</div>
-
-<div id="callout">
-  <span id="callout-name">KOLT REALTY · INDUSTRIAL REVIEW — INTERIOR</span>
-  <span id="callout-sub">GREATER TORONTO AREA · COMMERCIAL CLASS A</span>
-</div>
-
-<div id="hint">DRAG TO ORBIT · SCROLL TO ZOOM · ANIMATE TO START / STOP</div>
-<div id="progress-bar"><div id="progress-fill"></div></div>
-
-<div id="listing-info-shell">
-  <div id="listing-info-header">
-    <div id="listing-info-kicker">Interactive listing intelligence</div>
-    <div id="listing-info-title">Interior operational readout</div>
-    <div id="listing-info-summary">Key data rotates with each camera view so the property reads like a live listing presentation instead of a static model.</div>
-  </div>
-  <div id="listing-info-grid"></div>
-  <div id="listing-info-ribbon"></div>
-</div>
-<div id="road-connectivity-tip"></div>
-
-
-<div id="game-hud">
-  <div class="hud-top">
-    <div class="hud-card"><span class="hud-label">Timer</span><strong class="hud-value" id="g-time">1:30</strong></div>
-    <div class="hud-card"><span class="hud-label">Score</span><strong class="hud-value" id="g-score">0</strong></div>
-    <div class="hud-card"><span class="hud-label">Lines</span><strong class="hud-value" id="g-lines">0 / 10</strong></div>
-    <div class="hud-card"><span class="hud-label">Next</span><strong class="hud-value" id="g-next">T</strong></div>
-  </div>
-  <div class="hud-bottom">
-    <div class="hud-status" id="g-status"><strong>Status:</strong> shift live. stack the empty bay clean.</div>
-    <div class="hud-help">← → move · ↑ / Q / E rotate · ↓ soft drop · Space hard drop</div>
-  </div>
-</div>
-
-<div id="game-end">
-  <div class="overlay-panel">
-    <span class="overlay-eyebrow">Pallet Stack 3D</span>
-    <h2 class="overlay-title" id="g-end-title">Shift Complete</h2>
-    <p class="overlay-body" id="g-end-summary">You cleared the empty bay before the truck window closed.</p>
-    <div class="results-grid">
-      <div class="result-card"><span class="result-label">Score</span><span class="result-value" id="g-end-score">0</span></div>
-      <div class="result-card"><span class="result-label">Lines</span><span class="result-value" id="g-end-lines">0</span></div>
-      <div class="result-card"><span class="result-label">Level</span><span class="result-value" id="g-end-level">1</span></div>
-      <div class="result-card"><span class="result-label">Time Left</span><span class="result-value" id="g-end-time">0:00</span></div>
-    </div>
-    <div class="overlay-actions">
-      <button id="btn-restart">Run It Back</button>
-      <button id="btn-exit">Exit To Warehouse</button>
-    </div>
-  </div>
-</div>
-
-<div id="game-controls">
-  <button class="spacer" aria-hidden="true"></button>
-  <button id="g-rotate">↻</button>
-  <button class="spacer" aria-hidden="true"></button>
-  <button id="g-left">◀</button>
-  <button id="g-down">▼</button>
-  <button id="g-right">▶</button>
-  <button class="wide-btn drop-btn" id="g-drop">Hard Drop</button>
-  <button id="g-exit-mini">✕</button>
-</div>
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/FXAAShader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/Pass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/SSAOPass.js"></script>
-<script>
 
 // ─────────────────────────────────────────────────────────────────────────────
 // UTILS
@@ -702,14 +228,7 @@ applyCamera();
 function animCam(tx,ty,td,dur=1200,cb,target=[targX,targY,targZ],fov=camFov,easeFn=cineEase){
   const sx=rotX,sy=rotY,sd=dist,sf=camFov;
   const stx=targX,sty=targY,stz=targZ;
-  let gx=targX,gy=targY,gz=targZ;
-  if(Array.isArray(target)){
-    [gx,gy,gz]=target;
-  }else if(target && typeof target==='object'){
-    gx=('x' in target)?target.x:targX;
-    gy=('y' in target)?target.y:targY;
-    gz=('z' in target)?target.z:targZ;
-  }
+  const [gx,gy,gz]=target;
   const t0=performance.now();
   camAnim=function(now){
     const t=Math.min((now-t0)/dur,1),e=easeFn(Math.max(0,Math.min(1,t)));
@@ -723,7 +242,6 @@ function initPost(){
   try{
     if(typeof THREE.EffectComposer==='undefined' || typeof THREE.RenderPass==='undefined' || typeof THREE.Pass==='undefined') return;
     composer=new THREE.EffectComposer(renderer);
-    if(typeof composer.setPixelRatio==='function') composer.setPixelRatio(renderer.getPixelRatio());
     renderPass=new THREE.RenderPass(scene,camera);
     composer.addPass(renderPass);
 
@@ -849,10 +367,10 @@ for(let i=0;i<8;i++){
 scene.add(farHazeBand);
 
 const cinematicOverlay=document.createElement('div');
-cinematicOverlay.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:18;background:radial-gradient(circle at 50% 42%, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.00) 36%, rgba(6,8,10,0.30) 76%, rgba(3,4,6,0.62) 100%), linear-gradient(to bottom, rgba(5,7,10,0.18), rgba(5,7,10,0.00) 18%, rgba(5,7,10,0.00) 82%, rgba(5,7,10,0.28));mix-blend-mode:multiply;opacity:0.6;';
+cinematicOverlay.style.cssText='position:fixed;inset:0;pointer-events:none;z-index:18;background:radial-gradient(circle at 50% 42%, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.00) 36%, rgba(6,8,10,0.30) 76%, rgba(3,4,6,0.62) 100%), linear-gradient(to bottom, rgba(5,7,10,0.18), rgba(5,7,10,0.00) 18%, rgba(5,7,10,0.00) 82%, rgba(5,7,10,0.28));mix-blend-mode:multiply;opacity:0.78;';
 document.body.appendChild(cinematicOverlay);
 const grainOverlay=document.createElement('div');
-graneStyle='position:fixed;inset:0;pointer-events:none;z-index:19;opacity:0.028;background-image:radial-gradient(rgba(255,255,255,0.35) 0.7px, transparent 0.8px);background-size:5px 5px;mix-blend-mode:soft-light;';
+graneStyle='position:fixed;inset:0;pointer-events:none;z-index:19;opacity:0.06;background-image:radial-gradient(rgba(255,255,255,0.35) 0.7px, transparent 0.8px);background-size:5px 5px;mix-blend-mode:soft-light;';
 grainOverlay.style.cssText=graneStyle;
 document.body.appendChild(grainOverlay);
 
@@ -4496,7 +4014,8 @@ function setActiveView(name){
 document.querySelectorAll('#toolbar [data-view]').forEach(btn=>{
   btn.addEventListener('click',()=>{
     if(typeof gameActive!=='undefined' && gameActive) exitGame();
-    goToView(btn.dataset.view,800);
+    resetShotSequence();
+    goToView(btn.dataset.view,1000);
   });
 });
 
@@ -4543,6 +4062,7 @@ function setAnimate(on){
   const btn=document.getElementById('animateBtn');
   btn.classList.toggle('toggle-on',animPlaying);
   btn.textContent=animPlaying?'Stop':'Animate';
+  if(animPlaying){ resetShotSequence(); goToView('hero',0); }
 }
 
 
@@ -4589,10 +4109,7 @@ document.getElementById('resetBtn').addEventListener('click',()=>{
   if(typeof gameActive!=='undefined' && gameActive) exitGame();
   setAnimate(false);setWireframe(false);
   cycleT=0;updateScene(0);
-  setActiveView('inside');
-  const insidePose=views.inside;
-  const insideOrbit=orbitFromPose(insidePose.pos,insidePose.target);
-  animCam(insideOrbit.rx,insideOrbit.ry,insideOrbit.dist,800,null,insidePose.target,insidePose.fov||camFov);
+  goToView('hero',900);
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -5156,10 +4673,7 @@ window.addEventListener('resize',()=>{
   W=window.innerWidth;H=window.innerHeight;
   camera.aspect=W/H;camera.updateProjectionMatrix();
   renderer.setSize(W,H);
-  if(composer){
-    if(typeof composer.setPixelRatio==='function') composer.setPixelRatio(renderer.getPixelRatio());
-    composer.setSize(W,H);
-  }
+  if(composer) composer.setSize(W,H);
   if(fxaaPass && fxaaPass.material && fxaaPass.material.uniforms && fxaaPass.material.uniforms['resolution']){
     fxaaPass.material.uniforms['resolution'].value.set(1/(W*renderer.getPixelRatio()),1/(H*renderer.getPixelRatio()));
   }
@@ -5185,13 +4699,24 @@ renderListingInfo('inside');
   if(camAnim) camAnim(performance.now());
   if(animPlaying){
     cycleT=(cycleT+dtMs/CYCLE)%1.0;
+    updateShotSequence(dtMs);
   }
   updateScene((typeof gameActive!=='undefined' && gameActive) ? 0 : cycleT);
 
-  // Premium daylight drift and warmth
+  // Premium daylight drift, shot breathing, and warmth
   const lt=time*0.00018;
   const golden=lookMode==='golden';
-  camBiasX=0; camBiasY=0; camBiasZ=0; camBiasDist=0;
+  if(animPlaying && shotIndex>=0){
+    const shot=shotSequence[shotIndex]||{};
+    const holdNorm=Math.max(0,Math.min(1,(shotElapsed-(shot.dur||0))/Math.max(1,shot.hold||1)));
+    const breath=(shot.breath||0.10)*(0.35+holdNorm*0.65);
+    camBiasX=Math.sin(lt*3.1+shotIndex*0.7)*breath;
+    camBiasY=Math.cos(lt*2.3+shotIndex*0.4)*breath*0.18;
+    camBiasZ=Math.sin(lt*2.0+shotIndex*0.5)*breath*0.30;
+    camBiasDist=Math.sin(lt*1.6+shotIndex*0.4)*(shot.zoomBreath||0.10);
+  }else{
+    camBiasX=lerp(camBiasX,0,0.08); camBiasY=lerp(camBiasY,0,0.08); camBiasZ=lerp(camBiasZ,0,0.08); camBiasDist=lerp(camBiasDist,0,0.08);
+  }
   applyCamera();
   warmAccent.position.set((golden?2.5:6)+Math.sin(lt*1.4)*(golden?6.8:4.8),3.2+Math.sin(lt*0.8)*1.1,(golden?-14:-8)+Math.cos(lt*1.1)*(golden?8.2:5.5));
   warmAccent.intensity=(golden?18.6:14.5)+Math.sin(lt*2.0)*(golden?1.8:1.4);
@@ -5260,6 +4785,3 @@ renderListingInfo('inside');
 })(0);
 
 
-</script>
-</body>
-</html>

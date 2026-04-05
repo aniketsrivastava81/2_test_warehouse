@@ -1,420 +1,79 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Accordion, AccordionDetails, AccordionSummary, Chip } from "@mui/material";
-import { motion } from "framer-motion";
-import CTASection from "../components/CTASection";
-import { LISTINGS } from "../data/siteData";
-import { Reveal } from "../components/motion/Reveal";
-import Counter from "../components/motion/Counter";
 
-const serviceBlocks = [
-  {
-    slug: "tenant-representation",
-    title: "Tenant Representation",
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80",
-    intro: "For occupiers who need a requirement brief that reads like operations, not wishful thinking.",
-    summary: "We translate loading type, labour catchment, truck circulation, clear height, office ratio, parking, and NNN exposure into a smaller, sharper shortlist.",
-    learnMore: [
-      {
-        title: "What gets pressure-tested",
-        body: "Occupancy cost, truck-level versus drive-in loading, power, parking, racking assumptions, shipping rhythm, landlord work, inducements, and renewal flexibility all get compared before the final lane is chosen.",
-      },
-      {
-        title: "Why this matters commercially",
-        body: "The goal is not more tours. The goal is fewer, more relevant tours and stronger negotiation posture once conviction starts to form.",
-      },
-    ],
-    chips: ["Loading type", "NNN exposure", "Labour access"],
-    cta: "Launch requirement brief",
-  },
-  {
-    slug: "landlord-representation",
-    title: "Landlord Representation",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80",
-    intro: "For owners who need the asset positioned with cleaner market logic and stronger tenant targeting.",
-    summary: "We refine the presentation around corridor quality, user-fit, loading configuration, office image, and absorption logic so response quality improves — not just volume.",
-    learnMore: [
-      {
-        title: "Institutional positioning",
-        body: "CTA language, feature framing, and callouts now read like leasing intelligence: trailer access, clear height, shipping ratio, frontage, and merchandising flexibility instead of generic amenities alone.",
-      },
-      {
-        title: "How the page now helps",
-        body: "Alternating editorial sections, deeper expansion content, and stronger proof blocks help the user understand why the mandate is relevant before the first inquiry.",
-      },
-    ],
-    chips: ["Absorption strategy", "Tenant targeting", "Narrative control"],
-    cta: "Request leasing strategy review",
-  },
-  {
-    slug: "owner-user-acquisition",
-    title: "Owner-User Acquisition",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80",
-    intro: "For operators deciding whether ownership beats another lease cycle.",
-    summary: "We weigh equity creation, capex timing, control, future flexibility, and zoning permanence together so the acquisition thesis feels earned rather than emotional.",
-    learnMore: [
-      {
-        title: "Decision lens",
-        body: "This is where lease-versus-buy tools, lender posture, occupancy cost, and exit optionality matter. The right building must solve today’s workflow and still make sense five to ten years out.",
-      },
-      {
-        title: "Best fit examples",
-        body: "Trade contractors, food users, light manufacturing, automotive, and growing service operators often need a more operational decision lens than standard marketing materials provide.",
-      },
-    ],
-    chips: ["Control", "Future optionality", "Balance-sheet logic"],
-    cta: "Start acquisition analysis",
-  },
-  {
-    slug: "investment-advisory",
-    title: "Investment Advisory",
-    image: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=1600&q=80",
-    intro: "For capital that needs underwriting context beyond headline cap rate.",
-    summary: "We frame opportunities through tenant quality, corridor durability, lease structure, cap rate posture, rollover risk, and last-mile relevance so the downside case is easier to see early.",
-    learnMore: [
-      {
-        title: "CRE language that matters",
-        body: "Cap rate compression, covenant strength, lease rollover, free-and-clear upside, and replacement-cost context are not side notes. They shape conviction, bidding behaviour, and hold strategy.",
-      },
-      {
-        title: "How we present assets now",
-        body: "Calls to action now use institutional language like Request Confidential Offering Memorandum and Request Underwriting Pack to fit investor expectations more naturally.",
-      },
-    ],
-    chips: ["Cap rate context", "Lease quality", "Downside resilience"],
-    cta: "Request underwriting pack",
-  },
-  {
-    slug: "development-land",
-    title: "Development Land Advisory",
-    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80",
-    intro: "For groups assessing land, zoning posture, servicing context, and future employment use.",
-    summary: "We structure the land story around planning context, access, frontage, servicing, entitlement complexity, and employment land logic so the real upside is easier to compare.",
-    learnMore: [
-      {
-        title: "Employment land lens",
-        body: "The right context is more than acreage. Zoning posture, servicing risk, municipal tone, corridor adjacency, and future-use alignment determine whether the land is actionable or just theoretically attractive.",
-      },
-      {
-        title: "Developer relevance",
-        body: "Developers need a faster signal on what is truly buildable, what is strategically land-banked, and what is likely to stall in diligence. That is the lens this section now adopts.",
-      },
-    ],
-    chips: ["Zoning context", "Servicing", "Employment land"],
-    cta: "Review land strategy",
-  },
-  {
-    slug: "portfolio-positioning",
-    title: "Portfolio Positioning",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80",
-    intro: "For clients reassessing what to hold, market, improve, lease, or redeploy across multiple assets.",
-    summary: "We look at tenant mix, corridor quality, redevelopment optionality, leasing posture, capex prioritization, and timing so portfolio decisions do not get made asset by asset in isolation.",
-    learnMore: [
-      {
-        title: "What gets surfaced",
-        body: "Where the portfolio is overexposed to one tenant type, where a capex event could unlock rent, where disposition makes more sense than hold, and where leasing strategy should shift immediately.",
-      },
-      {
-        title: "Why the page needed rebuilding",
-        body: "This lane needed to read like strategic advisory, not a small card in a grid. The new alternating chapters and proof modules make the positioning feel much more senior and deliberate.",
-      },
-    ],
-    chips: ["Portfolio review", "Redeployment", "Strategic timing"],
-    cta: "Book portfolio strategy session",
-  },
-];
-
-const personas = [
-  {
-    title: "Investors",
-    body: "Focused on yield durability, covenant quality, cap rate posture, rollover timing, and downside resilience across GTA corridors.",
-    bullets: ["Request underwriting pack", "Compare cap rate against tenant quality", "Assess hold thesis versus exit timing"],
-  },
-  {
-    title: "Owner-users",
-    body: "Focused on shipping practicality, power, image, circulation, control, capex, and whether ownership creates a more durable operating platform.",
-    bullets: ["Run lease-vs-buy logic", "Check loading and clear height", "Protect expansion optionality"],
-  },
-  {
-    title: "Developers",
-    body: "Focused on zoning, servicing, site context, entitlement friction, employment land logic, and where the upside is actually executable.",
-    bullets: ["Assess employment land viability", "Test frontage and access logic", "Compare entitlement complexity"],
-  },
-];
-
-const caseExamples = [
-  {
-    title: "Last-mile industrial search",
-    body: "A regional operator needed truck-level shipping, 28-foot clear height, and tighter last-mile access. The search narrowed from broad GTA inventory into a smaller logistics-fit lane first.",
-    tag: "Loading + logistics",
-  },
-  {
-    title: "Investor underwriting reset",
-    body: "A private investor liked the asking cap rate, but the real decision hinged on lease rollover concentration and corridor durability. The frame shifted from headline yield to hold quality.",
-    tag: "Cap rate + rollover",
-  },
-  {
-    title: "Employment land screen",
-    body: "A development group needed a faster read on zoning context, servicing posture, and municipal friction. The land conversation moved from acreage to executable utility.",
-    tag: "Zoning + land use",
-  },
-];
-
-const publicTrackRecord = [
-  {
-    metric: "2021 transactions closed",
-    value: "41",
-    note: "Publicly reported commercial closings in 2021.",
-  },
-  {
-    metric: "2021 dollar volume",
-    value: "$37.5M",
-    note: "Publicly reported 2021 commercial transaction volume.",
-  },
-  {
-    metric: "2022 pipeline snapshot",
-    value: "58 pending / $184M+",
-    note: "Publicly reported pending volume snapshot from 2022.",
-  },
-];
-
-const representedPlaces = [
-  "2074–2084 Steeles Ave E · Brampton",
-  "286 Rutherford Road South · Brampton",
-  "11–13 Edvac Drive · Brampton",
-  "4 Alfred Kuehne Boulevard · Brampton",
-  "89–111 Orenda Road · Brampton",
-  "5775 Atlantic Drive · Mississauga",
-  "177 Lombard Street · Winnipeg",
-  "2283 St. Laurent Boulevard · Ottawa",
-];
-
-const voicePlaceholders = [
-  "Reserved for approved occupier testimonial copy.",
-  "Reserved for approved owner-user testimonial copy.",
-  "Reserved for approved investor testimonial copy.",
+const services = [
+  { slug: 'industrial-real-estate', title: 'Industrial Real Estate', line: 'Industrial property guidance for occupiers, owners, and investors.', body: 'Industrial real estate decisions require more than square footage alone. Functionality, shipping access, clear height, loading configuration, site circulation, power, zoning, and future operational fit all matter.', bullets: ['Warehousing and distribution requirements', 'Functional property evaluation', 'Site access and circulation considerations', 'Leasing and acquisition support'], cta: 'Explore Industrial Opportunities' },
+  { slug: 'retail-real-estate', title: 'Retail Real Estate', line: 'Retail strategy shaped by visibility, demand, and market context.', body: 'Retail property decisions depend on more than location alone. Frontage, visibility, access, surrounding tenancy, traffic patterns, local demographics, and brand fit all influence performance.', bullets: ['Site selection and retail positioning', 'Visibility and accessibility considerations', 'Tenant and consumer alignment', 'Acquisition and leasing support'], cta: 'View Retail Opportunities' },
+  { slug: 'land-advisory', title: 'Land Advisory', line: 'Land opportunities evaluated through a longer-term strategic lens.', body: 'Land decisions require patience, context, and a strong understanding of future potential. Scarcity, planning context, surrounding growth, access, servicing, and development logic all affect how a site should be evaluated.', bullets: ['Development potential assessment', 'Strategic land positioning', 'Market and growth context', 'Long-term opportunity analysis'], cta: 'Explore Land Opportunities' },
+  { slug: 'tenant-representation', title: 'Tenant Representation', line: 'Helping occupiers secure space that fits the way their business operates.', body: 'The right property needs to support operations, customer experience, access, staffing, logistics, growth plans, and cost structure. The focus is on helping occupiers identify, evaluate, and compare opportunities more strategically.', bullets: ['Requirement-based property searches', 'Functional fit analysis', 'Location and access review', 'Comparative property evaluation'], cta: 'Discuss Your Requirement' },
+  { slug: 'owner-representation', title: 'Owner Representation', line: 'Helping owners position commercial assets with greater clarity and stronger market appeal.', body: 'Owners benefit from more than exposure alone. Effective property positioning requires strong messaging, clear presentation, market-aware pricing logic, and a better understanding of what serious users or buyers need to see.', bullets: ['Asset positioning strategy', 'Commercial marketing support', 'Presentation and messaging guidance', 'Market-aware listing support'], cta: 'Position Your Property' },
+  { slug: 'acquisition-advisory', title: 'Acquisition Advisory', line: 'Support for buyers and investors evaluating commercial opportunities with discipline.', body: 'Acquiring commercial real estate requires a clear view of both opportunity and risk. Properties are assessed through the lens of use case, market timing, functionality, demand drivers, and long-term relevance.', bullets: ['Opportunity screening', 'Strategic fit analysis', 'Submarket and demand context', 'Decision support for acquisitions'], cta: 'Evaluate an Opportunity' },
+  { slug: 'disposition-strategy', title: 'Disposition Strategy', line: 'Guidance for owners preparing to bring commercial assets to market.', body: 'A successful disposition starts well before the property is introduced. Positioning, timing, presentation, audience targeting, and narrative all influence how an asset is received.', bullets: ['Pre-market positioning', 'Asset narrative development', 'Audience-focused presentation', 'Commercial listing strategy'], cta: 'Plan Your Disposition' },
+  { slug: 'market-advisory', title: 'Market Advisory', line: 'Commercial real estate insight designed to reduce guesswork.', body: 'Not every question begins with a transaction. Sometimes the most important step is understanding the market, the submarket, or the direction of an asset class before deciding what to do next.', bullets: ['GTA market insight', 'Submarket perspective', 'Opportunity and risk framing', 'Decision-stage advisory support'], cta: 'Request Market Insight' },
+  { slug: 'digital-property-presentation', title: 'Digital Property Presentation', line: 'A more modern way to help commercial properties stand out.', body: 'Static media alone does not always communicate the functionality, scale, or potential of a space. KOLT Realty is focused on stronger digital presentation through clearer content structure, better user journeys, and interactive ways to experience a property before a site visit takes place.', bullets: ['Digital property storytelling', 'User-focused listing presentation', 'Interactive space visualization', 'Improved engagement before inquiry'], cta: 'See the Warehouse Experience' },
 ];
 
 export default function ServicesPage() {
-  const inventorySqft = LISTINGS.reduce((total, listing) => total + (listing.sqft || 0), 0);
-  const assetClasses = new Set(LISTINGS.map((listing) => listing.assetClass)).size;
-  const activeNodes = new Set(LISTINGS.map((listing) => listing.location)).size;
-
   return (
-    <div className="services-premium-page services-premium-page-v2">
-      <section className="page-hero slim-hero page-hero-premium !pt-10 lg:!pt-14 overflow-hidden">
-        <div className="container grid gap-6 lg:grid-cols-[1.02fr_.98fr] items-stretch">
-          <Reveal className="relative overflow-hidden rounded-[2rem] border border-black/5 bg-white px-7 py-7 shadow-luxe lg:px-10 lg:py-9">
-            <div className="absolute inset-0 bg-kolt-glow opacity-80" aria-hidden="true" />
-            <div className="relative z-[1]">
-              <div className="flex flex-wrap gap-2">
-                <span className="eyebrow">Services</span>
-                <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-black/72">Market Pulse · March 2026</span>
-              </div>
-              <h1 className="m-0 mt-4 max-w-[13.5ch] text-[clamp(3rem,7vw,6.2rem)] leading-[0.92] tracking-[-0.07em]">
-                Advisory paths that read like commercial strategy, not brochure filler.
-              </h1>
-              <p className="mt-5 max-w-[60ch] text-[1.04rem] leading-8 text-black/80">
-                The services page now works like an editorial CRE narrative: stronger hierarchy, alternating image-and-text chapters, deeper expansion content, sharper jargon, and a clearer route into the right mandate.
-              </p>
-              <div className="hero-proof-row mt-6">
-                <span className="proof-chip">Alternating story-led sections</span>
-                <span className="proof-chip">Institutional CTA language</span>
-                <span className="proof-chip">Who we serve</span>
-                <span className="proof-chip">Proof + case examples</span>
-              </div>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link to="/listings" className="button button-primary">Request Confidential Offering Memorandum</Link>
-                <Link to="/contact#analysis-workflow" className="button button-secondary">Launch requirement brief</Link>
-              </div>
-            </div>
-          </Reveal>
+    <main className="bg-[#f6f3ee] text-[#161616]">
+      <section className="border-b border-black/6 bg-white">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
+          <div className="max-w-5xl">
+            <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">Commercial Real Estate Services</div>
+            <h1 className="mt-4 max-w-[13ch] text-5xl font-semibold leading-[0.92] tracking-[-0.06em] lg:text-7xl">Commercial real estate services built around strategy, not just transactions.</h1>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-black/70">KOLT Realty supports owners, investors, tenants, and developers across the Greater Toronto Area with practical commercial real estate guidance across industrial, retail, land, and advisory-focused assignments.</p>
+          </div>
+        </div>
+      </section>
 
-          <Reveal delay={0.08} className="grid gap-4">
-            <div className="relative min-h-[420px] overflow-hidden rounded-[2rem] border border-white/60 bg-white shadow-luxe">
-              <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1500&q=80" alt="Commercial real estate strategy session" className="h-full w-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 rounded-[1.6rem] border border-white/20 bg-white/78 px-5 py-4 backdrop-blur-lg">
-                <div className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#b01f24]">Why this rebuild matters</div>
-                <div className="mt-2 text-2xl font-extrabold leading-tight tracking-[-0.05em] text-[#151515]">Less static grid. More authored decision support.</div>
-              </div>
-            </div>
-            <div className="services-proof-strip">
-              {[
-                ["Active mandates", LISTINGS.length, "opportunities in current build"],
-                ["Current inventory", inventorySqft, "SF showcased across live listings"],
-                ["Asset classes", assetClasses, "industrial, office, retail, land, mixed-use"],
-                ["GTA nodes", activeNodes, "markets represented in current inventory"],
-              ].map(([label, value, note]) => (
-                <article key={label} className="services-proof-stat">
-                  <small>{label}</small>
-                  <strong><Counter value={Number(value)} separator={label === "Current inventory"} suffix={label === "Current inventory" ? " SF" : ""} /></strong>
-                  <span>{note}</span>
-                </article>
+      <section className="border-b border-black/6 bg-[#f6f3ee]">
+        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:grid-cols-[280px_1fr] lg:px-10 lg:py-16">
+          <aside className="lg:sticky lg:top-28 h-max border-t border-black/10 pt-5">
+            <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">Service navigator</div>
+            <nav className="mt-6 space-y-3">
+              {services.map((service) => (
+                <a key={service.slug} href={`#${service.slug}`} className="block text-sm font-medium text-black/72 transition hover:text-black">{service.title}</a>
               ))}
-            </div>
-          </Reveal>
+            </nav>
+          </aside>
+
+          <div className="divide-y divide-black/8 border-y border-black/8 bg-white px-0">
+            {services.map((service) => (
+              <section key={service.slug} id={service.slug} className="grid gap-5 py-10 lg:grid-cols-[1fr_240px] lg:items-start">
+                <div className="pr-0 lg:pr-8">
+                  <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">Service</div>
+                  <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] lg:text-4xl">{service.title}</h2>
+                  <div className="mt-3 text-lg font-medium text-black/78">{service.line}</div>
+                  <p className="mt-5 max-w-3xl text-base leading-8 text-black/68">{service.body}</p>
+                  <Link to={service.slug === 'digital-property-presentation' ? '/listing-type-2' : '/contact'} className="mt-6 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-black">{service.cta} <span aria-hidden="true">↗</span></Link>
+                </div>
+                <div className="border-t border-black/10 pt-4">
+                  <div className="text-xs font-bold uppercase tracking-[0.18em] text-black/45">What this includes</div>
+                  <ul className="mt-4 space-y-3 text-sm leading-7 text-black/66">
+                    {service.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}
+                  </ul>
+                </div>
+              </section>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="section pt-8 lg:pt-10">
-        <div className="container grid gap-7">
-          {serviceBlocks.map((service, index) => (
-            <motion.article
-              key={service.slug}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.55, ease: "easeOut" }}
-              className={`service-story-card service-story-card--editorial ${index % 2 === 1 ? "is-reversed" : ""}`}
-            >
-              <div className="service-story-card__visual">
-                <img src={service.image} alt={service.title} />
-                <div className="service-story-card__visual-overlay" />
-                <div className="service-story-card__badge-row">
-                  <span>{service.slug.replaceAll("-", " ")}</span>
-                  <span>KOLT Lens</span>
-                </div>
-              </div>
-              <div className="service-story-card__content">
-                <div className="eyebrow">Service {index + 1}</div>
-                <h2>{service.title}</h2>
-                <p className="service-story-card__intro">{service.intro}</p>
-                <div className="service-story-card__summary">{service.summary}</div>
-                <div className="service-story-card__chips">
-                  {service.chips.map((chip) => <Chip key={chip} label={chip} />)}
-                </div>
-                <div className="service-story-card__learnmore">
-                  {service.learnMore.map((row) => (
-                    <Accordion key={row.title} disableGutters>
-                      <AccordionSummary expandIcon={<span className="text-lg font-bold">+</span>}>
-                        <div className="text-[1rem] font-extrabold tracking-[-0.03em]">{row.title}</div>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <p className="m-0 text-[0.98rem] leading-7 text-black/78">{row.body}</p>
-                      </AccordionDetails>
-                    </Accordion>
-                  ))}
-                </div>
-                <div className="service-story-card__actions">
-                  <Link className="button button-primary small-button" to="/contact#analysis-workflow">{service.cta}</Link>
-                  <Link className="button button-secondary small-button" to="/tools">Pressure-test this path</Link>
-                </div>
-              </div>
-            </motion.article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section section-soft-borderless">
-        <div className="container">
-          <div className="section-heading-row">
+      <section className="bg-[#111] text-white">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
-              <div className="eyebrow">Who we serve</div>
-              <h2>Three commercial lenses. Three very different decision patterns.</h2>
+              <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">Service philosophy</div>
+              <h2 className="mt-4 max-w-[13ch] text-4xl font-semibold leading-[0.98] tracking-[-0.05em] lg:text-5xl">The value of commercial guidance is clarity, filtering, and stronger positioning.</h2>
+              <p className="mt-5 max-w-3xl text-lg leading-8 text-white/72">KOLT Realty structures its services around that principle so clients can approach opportunities with greater precision and less friction.</p>
             </div>
-            <p>
-              Investors, owner-users, and developers do not evaluate the same asset the same way. The page now says that clearly.
-            </p>
-          </div>
-          <div className="services-persona-grid">
-            {personas.map((persona) => (
-              <article key={persona.title} className="services-persona-card">
-                <h3>{persona.title}</h3>
-                <p>{persona.body}</p>
-                <ul>
-                  {persona.bullets.map((item) => <li key={item}>{item}</li>)}
-                </ul>
-              </article>
-            ))}
+            <div className="flex flex-wrap gap-3">
+              <Link to="/schedule" className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black">Schedule a Consultation</Link>
+              <Link to="/contact" className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white">Contact Us</Link>
+            </div>
           </div>
         </div>
       </section>
-
-      <section className="section">
-        <div className="container grid gap-6 lg:grid-cols-[.92fr_1.08fr] items-start">
-          <div className="services-proof-panel">
-            <div className="eyebrow">Proof + trust</div>
-            <h2>Give the page enough commercial proof that the advisory tone feels earned.</h2>
-            <p>
-              This pass adds a proper proof layer: live-inventory scale metrics, public track-record snapshots, represented markets, mandate-style examples, and testimonial-ready slots awaiting approved client quote language.
-            </p>
-            <div className="services-proof-panel__stats">
-              <article>
-                <small>Current active listings</small>
-                <strong>{LISTINGS.length}</strong>
-              </article>
-              <article>
-                <small>Current inventory</small>
-                <strong>{inventorySqft.toLocaleString()} SF</strong>
-              </article>
-              <article>
-                <small>Markets currently represented</small>
-                <strong>{activeNodes}</strong>
-              </article>
-            </div>
-            <div className="services-proof-panel__stats mt-4">
-              {publicTrackRecord.map((item) => (
-                <article key={item.metric}>
-                  <small>{item.metric}</small>
-                  <strong>{item.value}</strong>
-                  <span>{item.note}</span>
-                </article>
-              ))}
-            </div>
-            <div className="services-proof-panel__represented mt-4">
-              <div className="text-[0.74rem] font-extrabold uppercase tracking-[0.16em] text-black/72">Selected publicly referenced properties / markets</div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {representedPlaces.map((place) => (
-                  <span key={place} className="proof-chip">{place}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {voicePlaceholders.map((quote, index) => (
-              <blockquote key={quote} className="services-voice-card">
-                <span>Client voice slot {index + 1}</span>
-                <p>“{quote}”</p>
-                <footer>Pending approved testimonial</footer>
-              </blockquote>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section section-soft-borderless">
-        <div className="container">
-          <div className="section-heading-row">
-            <div>
-              <div className="eyebrow">Case-style examples</div>
-              <h2>Give the user a glimpse of how the mandate gets framed in the real world.</h2>
-            </div>
-            <p>
-              These are not fictional transaction claims. They are advisory-style examples designed to show how KOLT would structure the conversation.
-            </p>
-          </div>
-          <div className="services-case-grid">
-            {caseExamples.map((item) => (
-              <article key={item.title} className="services-case-card">
-                <span>{item.tag}</span>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <CTASection
-        eyebrow="Next move"
-        title="Use the rebuilt services page to move naturally into listings, tools, and contact."
-        body="The service story now sets up the rest of the site properly: institutional language, cleaner mandate fit, better proof, and better next actions."
-        primaryLabel="Browse listings"
-        primaryTo="/listings"
-        secondaryLabel="Launch requirement brief"
-        secondaryTo="/contact#analysis-workflow"
-      />
-    </div>
+    </main>
   );
 }

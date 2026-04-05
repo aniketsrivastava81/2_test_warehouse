@@ -1,213 +1,138 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import CTASection from '../components/CTASection';
+import React from "react";
+import { Link } from "react-router-dom";
 
-const differentiators = [
-  {
-    title: 'Closer instinct over brochure instinct',
-    body: 'KOLT should behave like a team that understands the difference between traffic and intent. The structure reduces ambiguity, sharpens urgency, and moves serious users toward a brief.',
-  },
-  {
-    title: 'Hyper-local GTA authority',
-    body: 'Peel, Halton, and York are not decorative geography. They are the commission-justifying knowledge layer that tells a user where to move and why.',
-  },
-  {
-    title: 'Institutional language throughout',
-    body: 'Use NOI, DCF, lease audit, E2 / E3 zoning, truck-level loading, and industrial condo conversions so the platform sounds like it belongs in a real CRE war room.',
-  },
-  {
-    title: '3D proof of future-readiness',
-    body: 'The warehouse experience keeps the brand from feeling static and proves KOLT understands where logistics product and occupier expectations are going next.',
-  },
+const manifesto = [
+  'Clarity over clutter.',
+  'Strategy over assumption.',
+  'Presentation with purpose.',
+  'Experience that supports action.',
 ];
 
-const path = [
-  {
-    step: '01',
-    title: 'State dominance early',
-    body: 'Lead with the heavyweight signals - sales volume, combined experience, pipeline, and corridor focus - before the user ever reaches supporting copy.',
-  },
-  {
-    step: '02',
-    title: 'Translate authority into utility',
-    body: 'Show why local intelligence improves NOI, occupancy, leasing velocity, and deal conviction. Authority without payoff still feels generic.',
-  },
-  {
-    step: '03',
-    title: 'Make inventory feel scarce',
-    body: 'Status tags, floor-plan downloads, and confidentiality CTAs should create a sense that the user is entering a live market, not a parked catalogue.',
-  },
-  {
-    step: '04',
-    title: 'Capture intent with information',
-    body: 'The scarcity report and requirement brief give serious users a value-first reason to raise their hand before they are ready for a direct call.',
-  },
+const comparisons = [
+  ['Generic CRE experience', 'Basic exposure, fragmented information, passive browsing, and weaker digital context.'],
+  ['KOLT approach', 'Sharper positioning, clearer guidance, stronger user journeys, and more useful ways to understand opportunity.'],
 ];
 
-const outcomes = [
-  'Stronger perceived authority because the first fold now behaves like institutional CRE positioning.',
-  'Higher listing engagement because scarcity language and floor-plan access make inventory feel time-sensitive.',
-  'Better lead quality because the report and brief capture users with a real mandate, not casual browsers.',
-  'More memorable differentiation because the warehouse demo and local-market tone do what generic brokerage sites rarely do.',
+const values = [
+  ['Clearer opportunity assessment', 'Commercial opportunities are evaluated with better context around fit, use, market conditions, and long-term relevance.'],
+  ['Stronger asset positioning', 'Owners and stakeholders can present properties more effectively through sharper framing and stronger digital communication.'],
+  ['Better pre-conversation alignment', 'Stronger online framing leads to more informed inquiries and more productive conversations earlier in the process.'],
+  ['A more modern user experience', 'The online experience is designed to move users from curiosity to clarity with less friction and more confidence.'],
 ];
 
-const proofStats = [
-  ['Sales belt', '$1B+ represented'],
-  ['Experience', '200+ years combined'],
-  ['Pipeline', '$2B+ assets'],
-  ['Product fit', 'Industrial condo conversions'],
+const audiences = [
+  ['Owners', 'Because asset positioning, presentation, and market understanding all influence the quality of attention a property receives.'],
+  ['Investors', 'Because good acquisitions start with disciplined filtering, sharper context, and a clearer read on opportunity and risk.'],
+  ['Tenants', 'Because the right space needs to support operations, access, visibility, cost structure, and long-term plans.'],
+  ['Developers', 'Because land and development opportunities require a broader strategic view of location, scarcity, growth, and future potential.'],
 ];
 
 export default function WhyKoltPage() {
   return (
-    <div className="premium-page-scroll premium-story-page why-premium-page">
-      <section className="page-hero slim-hero premium-story-hero premium-story-hero--dark why-hero-upgrade why-stage-shell">
-        <div className="container why-stage-grid">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55 }}
-            className="premium-story-hero__main about-hero-main why-stage-main"
-          >
-            <div className="eyebrow">Why KOLT</div>
-            <h1>Because serious GTA industrial clients want an asset advisor, not another realtor template.</h1>
-            <p>
-              The advantage is not more information. It is better organized judgment, stronger scarcity framing, and a cleaner bridge between industrial market insight,
-              inventory, and the next step toward a confidential review.
-            </p>
-            <div className="premium-story-kpis about-kpi-grid">
-              {proofStats.map(([label, value]) => (
-                <article key={label}><small>{label}</small><strong>{value}</strong></article>
-              ))}
-            </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link to="/listings" className="button button-primary">Browse live opportunities</Link>
-              <Link to="/contact#analysis-workflow" className="button button-secondary">Request scarcity report</Link>
-            </div>
-            <div className="why-stage-pill-row">
-              <span>What changes</span>
-              <span>How it closes</span>
-              <span>What improves</span>
-            </div>
-          </motion.div>
+    <main className="bg-[#f6f3ee] text-[#161616]">
+      <section className="border-b border-black/6 bg-[#111] text-white">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
+          <div className="max-w-5xl">
+            <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">Why KOLT Realty</div>
+            <h1 className="mt-4 max-w-[13ch] text-5xl font-semibold leading-[0.92] tracking-[-0.06em] lg:text-7xl">Because commercial real estate decisions deserve more than basic exposure.</h1>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-white/72">KOLT Realty is built for clients who want clearer guidance, stronger positioning, and a more modern way to evaluate commercial real estate opportunities across the Greater Toronto Area.</p>
+          </div>
+        </div>
+      </section>
 
-          <div className="why-stage-side">
-            <motion.article
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.08 }}
-              className="why-stage-feature"
-            >
-              <div className="why-stage-feature__media">
-                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1600&q=80" alt="Industrial advisory discussion" />
+      <section className="border-b border-black/6 bg-white">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="grid gap-10 lg:grid-cols-[.9fr_1.1fr]">
+            <div>
+              <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">Manifesto</div>
+              <h2 className="mt-4 max-w-[11ch] text-4xl font-semibold leading-[0.98] tracking-[-0.05em] lg:text-5xl">A better commercial real estate experience starts with better thinking.</h2>
+            </div>
+            <div className="space-y-5">
+              <p className="text-lg leading-8 text-black/70">In commercial real estate, outcomes are shaped by more than access alone. The quality of the decision depends on context, timing, positioning, market awareness, and how well an opportunity is understood before action is taken.</p>
+              <div className="grid gap-3 md:grid-cols-2">
+                {manifesto.map((item) => <div key={item} className="border-t border-black/10 pt-4 text-lg font-medium">{item}</div>)}
               </div>
-              <div className="why-stage-feature__copy">
-                <span className="tools-v2-mini-tag">Why this hits harder</span>
-                <h2>The first fold should already feel like mandate-level positioning.</h2>
-                <p>Scarcity, authority, and local-market intelligence should read before the user ever reaches the supporting proof.</p>
-              </div>
-            </motion.article>
-
-            <div className="why-stage-rail">
-              {differentiators.slice(0, 2).map((item, index) => (
-                <motion.article
-                  whileHover={{ y: -6 }}
-                  key={item.title}
-                  className="premium-story-hover-card premium-story-hover-card--accent institutional-card why-stage-rail-card"
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.06 * index }}
-                >
-                  <div className="institutional-card__icon" aria-hidden="true" />
-                  <h3>{item.title}</h3>
-                  <p>{item.body}</p>
-                </motion.article>
-              ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section premium-story-nav-wrap">
-        <div className="container premium-story-nav why-story-nav">
-          <a href="#why-proof">What changes</a>
-          <a href="#why-path">How it closes</a>
-          <a href="#why-outcomes">What improves</a>
-        </div>
-      </section>
-
-      <section className="section" id="why-proof">
-        <div className="container premium-proof-grid why-proof-grid-upgrade">
-          {differentiators.map((item, index) => (
-            <motion.article
-              key={item.title}
-              className="institutional-card why-proof-card"
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.22 }}
-              transition={{ delay: index * 0.05 }}
-            >
-              <div className="institutional-card__icon" aria-hidden="true" />
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </motion.article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section section-soft-borderless" id="why-path">
-        <div className="container premium-path-grid why-path-grid-upgrade">
-          {path.map((item, index) => (
-            <motion.article
-              key={item.step}
-              className="why-path-card"
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.24 }}
-              transition={{ delay: index * 0.05 }}
-            >
-              <span>{item.step}</span>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </motion.article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section" id="why-outcomes">
-        <div className="container grid gap-6 lg:grid-cols-[1fr_.95fr] items-stretch">
-          <div className="premium-outcomes-grid why-outcomes-grid-upgrade">
-            {outcomes.map((item, index) => (
-              <motion.article
-                key={item}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.22 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <p>{item}</p>
-              </motion.article>
+      <section className="border-b border-black/6 bg-[#efe8df]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="max-w-3xl">
+            <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">The difference</div>
+            <h2 className="mt-4 text-4xl font-semibold leading-[0.98] tracking-[-0.05em] lg:text-5xl">Not just what KOLT shows. How KOLT helps clients think.</h2>
+          </div>
+          <div className="mt-10 divide-y divide-black/8 border-y border-black/8 bg-transparent">
+            {comparisons.map(([title, body]) => (
+              <div key={title} className="grid gap-4 py-6 lg:grid-cols-[260px_1fr]">
+                <div className="text-xl font-semibold tracking-[-0.03em]">{title}</div>
+                <div className="text-base leading-8 text-black/68">{body}</div>
+              </div>
             ))}
           </div>
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            className="rounded-[2rem] border border-black/5 bg-[#151515] p-7 text-white shadow-luxe lg:p-8 why-warehouse-card"
-          >
-            <div className="eyebrow !text-white/70">Warehouse of the future</div>
-            <h3 className="m-0 text-[1.95rem] leading-tight tracking-[-0.05em] text-white">One high-impact 3D layer can separate KOLT from every flat brokerage competitor.</h3>
-            <p className="mb-0 mt-4 text-[0.98rem] leading-7 text-white/74">Use the interactive warehouse page as proof that KOLT understands future logistics, future occupier expectations, and future industrial storytelling - not just current listings.</p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link to="/listing-type-2" className="button button-primary">Open interactive showcase</Link>
-              <Link to="/warehouse" className="button button-secondary">Open warehouse route</Link>
-            </div>
-          </motion.div>
         </div>
       </section>
 
-      <CTASection eyebrow="Put it to work" title="The differentiator only matters if the user can feel it in the next click." body="Move into listings, tools, and the requirement brief with a tone that sounds closer to a senior asset advisor than a retail-style realtor site." primaryLabel="Browse Listings" primaryTo="/listings" secondaryLabel="Open Tools" secondaryTo="/tools" />
-    </div>
+      <section className="border-b border-black/6 bg-white">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="space-y-0 divide-y divide-black/8 border-y border-black/8">
+            {values.map(([title, body]) => (
+              <div key={title} className="grid gap-4 py-8 lg:grid-cols-[320px_1fr]">
+                <div className="text-2xl font-semibold tracking-[-0.03em]">{title}</div>
+                <div className="text-base leading-8 text-black/68">{body}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-black/6 bg-[#161616] text-white">
+        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-[1fr_.9fr] lg:px-10 lg:py-20 lg:items-center">
+          <div>
+            <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">Digital proof layer</div>
+            <h2 className="mt-4 max-w-[12ch] text-4xl font-semibold leading-[0.98] tracking-[-0.05em] lg:text-5xl">Some properties need more than static media.</h2>
+            <p className="mt-5 max-w-3xl text-lg leading-8 text-white/72">That is why KOLT Realty is investing in interactive digital experiences that help users better understand layout, scale, flow, and potential before a site visit ever takes place.</p>
+            <Link to="/listing-type-2" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-white">View Interactive Warehouse Experience <span aria-hidden="true">↗</span></Link>
+          </div>
+          <div className="overflow-hidden rounded-[2rem] border border-white/10 min-h-[340px]">
+            <img src="https://images.unsplash.com/photo-1586528116493-0fefdb7fefc0?auto=format&fit=crop&w=1600&q=80" alt="Warehouse experience preview" className="h-full w-full object-cover" />
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-black/6 bg-white">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="max-w-3xl">
+            <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">Who chooses KOLT</div>
+            <h2 className="mt-4 text-4xl font-semibold leading-[0.98] tracking-[-0.05em] lg:text-5xl">Different stakeholders. Same need for better clarity.</h2>
+          </div>
+          <div className="mt-10 divide-y divide-black/8 border-y border-black/8">
+            {audiences.map(([title, body]) => (
+              <div key={title} className="grid gap-4 py-6 lg:grid-cols-[220px_1fr]">
+                <div className="text-xl font-semibold tracking-[-0.03em]">{title}</div>
+                <div className="text-base leading-8 text-black/68">{body}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#efe8df]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div>
+              <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">Closing CTA</div>
+              <h2 className="mt-4 max-w-[12ch] text-4xl font-semibold leading-[0.98] tracking-[-0.05em] lg:text-5xl">Choose a commercial real estate experience built around clarity.</h2>
+              <p className="mt-5 max-w-3xl text-lg leading-8 text-black/70">If you are looking for sharper guidance, stronger positioning, and a more useful way to navigate commercial property opportunities in the GTA, KOLT Realty is ready to help.</p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <Link to="/schedule" className="rounded-full bg-[#111] px-6 py-3 text-sm font-semibold text-white">Schedule a Consultation</Link>
+              <Link to="/contact" className="rounded-full border border-black/12 px-6 py-3 text-sm font-semibold text-black">Contact KOLT Realty</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

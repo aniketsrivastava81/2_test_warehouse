@@ -46,6 +46,22 @@ export const SERVICES = [
   },
 ];
 
+
+export const MARKETS = [
+  { title: "Peel Region", body: "Industrial scarcity, airport adjacency, and truck-level demand make Peel central for logistics and owner-user decision-making." },
+  { title: "Halton Region", body: "Halton supports growth, modern industrial product, and longer-term expansion logic for users who need scale and runway." },
+  { title: "York Region", body: "York remains relevant for showroom-flex, industrial condo demand, and north-GTA hybrid operating formats." },
+];
+
+export const ASSET_CLASSES = [
+  { title: "Industrial", body: "Industrial space should be screened through throughput, loading, clear height, circulation, and long-term operating fit." },
+  { title: "Warehouse", body: "Warehouse product works when dock logic, truck courts, staging, and dispatch rhythm all support the operation." },
+  { title: "Office", body: "Office decisions depend on workplace image, access, collaboration needs, and effective occupancy strategy." },
+  { title: "Retail", body: "Retail performance is shaped by visibility, access, neighbouring uses, customer patterns, and site relevance." },
+  { title: "Flex / Showroom", body: "Flex and showroom product should balance customer-facing presentation with back-end utility and movement." },
+  { title: "Land / Development", body: "Land should be judged through context, scarcity, zoning posture, servicing realities, and future-use alignment." },
+];
+
 export const LISTINGS = [
   {
     slug: "brampton-industrial-condo",
@@ -408,203 +424,78 @@ export const TOOLS = [
 
 export const BLOG_POSTS = [
   {
-    slug: "toronto-core-office-shortlist-logic",
-    title: "Toronto core office shortlist logic for firms that still need downtown gravity",
-    category: "Office",
-    region: "Toronto Core",
-    date: "March 12, 2026",
-    isoDate: "2026-03-12",
-    excerpt: "Downtown office decisions still work when transit reach, executive image, and client access create real operating leverage rather than vanity.",
-    readTime: "6 min read",
-    takeaway: "Toronto core office only wins when the image premium is matched by client access, hiring leverage, and a credible workplace strategy.",
-    highlights: ["Transit-first decision", "Executive image", "Client-facing HQ logic"],
-    sections: [
-      { heading: "Why downtown still matters", paragraphs: ["The downtown office case is not dead. It simply needs to be argued more carefully than it did in the last cycle.", "For leadership teams, professional services firms, and businesses where executive image still changes the client conversation, Toronto core can create real value instead of just prestige spend."] },
-      { heading: "What should actually be screened", paragraphs: ["The shortlist should start with commute logic, elevator experience, floorplate efficiency, client impression, and whether the building helps or hurts hiring.", "Users should also compare how much of the rent premium is truly buying business advantage versus cosmetic quality."] },
-      { heading: "How KOLT frames the call", paragraphs: ["The site should help the user compare downtown value against suburban control, not force a city-versus-suburb cliché.", "That framing produces a smaller, smarter shortlist before tours even begin."] },
-    ],
-    body: [],
-    checklist: ["Compare image premium against hiring value.", "Test transit and client access together.", "Screen floorplate efficiency before aesthetics."]
-  },
-  {
-    slug: "mississauga-logistics-node-comparison",
+    slug: "mississauga-logistics-node-comparison-for-airport-linked-and-western-gta-users",
     title: "Mississauga logistics node comparison for airport-linked and western GTA users",
-    category: "Industrial",
+    category: "Industrial Real Estate",
     region: "Mississauga",
-    date: "March 10, 2026",
-    isoDate: "2026-03-10",
-    excerpt: "Mississauga remains one of the strongest western GTA industrial decisions when airport access, labour, and route efficiency all matter at once.",
-    readTime: "5 min read",
-    takeaway: "The best Mississauga node is the one that improves first-stop performance, not just the one with the strongest reputation.",
-    highlights: ["Airport adjacency", "Highway access", "Distribution efficiency"],
+    date: "April 5, 2026",
+    isoDate: "2026-04-05",
+    excerpt: "How to compare Mississauga logistics locations when airport access, western GTA reach, truck flow, and operational timing all matter to the requirement.",
+    readTime: "6 min read",
     sections: [
-      { heading: "Why Mississauga keeps winning", paragraphs: ["Few GTA markets combine labour depth, airport access, major highway linkage, and client familiarity as effectively as Mississauga.", "That is why demand stays durable even when users complain about rent levels."] },
-      { heading: "What to compare inside the market", paragraphs: ["Dixie, Airport, Meadowvale, and western industrial pockets do not behave the same way. Travel time, trailer circulation, and parking assumptions change the answer fast.", "The site should help the user compare those internal tradeoffs instead of treating the city like one giant interchangeable blob."] },
+      { heading: "Start with whether the operation is airport-linked or region-linked", paragraphs: ["Some occupiers need meaningful proximity to airport-linked activity because timing sensitivity is part of the business model.", "Others do not need direct airport adjacency and benefit more from smoother access to western GTA corridors, highway connectivity, and distribution efficiency across a broader service radius."] },
+      { heading: "Highway logic should be judged by route quality, not map simplicity", paragraphs: ["A node may look well placed on a map but still create operational friction if truck movement, merge patterns, congestion points, or route dependencies make daily use inefficient.", "Good logistics positioning is not only about being close to a major corridor. It is about how consistently and practically the site connects to the routes the operation depends on most."] },
+      { heading: "Labour access is part of logistics performance", paragraphs: ["Distribution efficiency is shaped not only by freight movement, but also by staffing reliability.", "Shift access, commuting patterns, transit practicality, and general labour convenience all influence how sustainable a location is over time."] },
+      { heading: "Property functionality still matters within the right node", paragraphs: ["Even after the right node is identified, the building itself has to support the operation.", "Loading configuration, trailer circulation, clear height, shipping depth, yard usability, and access flow all remain critical."] },
+      { heading: "The best Mississauga option is the one that reduces unnecessary movement friction", paragraphs: ["For some users, that means stronger airport responsiveness. For others, it means smoother reach into western GTA demand points without overpaying for location logic they do not actually need.", "The stronger decision comes from aligning the node with the business model rather than chasing a prestige location by default."] },
     ],
-    body: [],
-    checklist: ["Compare node-by-node truck access.", "Screen labour and parking together.", "Model travel time against shipping rhythm."]
+    checklist: ["Define whether the operation is airport-linked or broader western-GTA linked.", "Compare route quality and merge friction, not just headline highway proximity.", "Pressure-test labour convenience alongside freight convenience."],
   },
   {
     slug: "brampton-industrial-condo-owner-user-playbook",
     title: "Brampton industrial condo owner-user playbook",
-    category: "Ownership",
+    category: "Ownership Strategy",
     region: "Brampton",
-    date: "March 8, 2026",
-    isoDate: "2026-03-08",
-    excerpt: "Brampton remains a strong owner-user conversation when value, shipping utility, and industrial condo practicality all need to hold together.",
-    readTime: "5 min read",
-    takeaway: "Owner-user logic improves when the building is screened as an operating platform first and an ownership trophy second.",
-    highlights: ["Owner-user", "Industrial condo", "Operational control"],
+    date: "April 5, 2026",
+    isoDate: "2026-04-05",
+    excerpt: "A practical framework for owner-users evaluating industrial condos in Brampton through the lens of control, usability, growth, and long-term business fit.",
+    readTime: "6 min read",
     sections: [
-      { heading: "The real owner-user question", paragraphs: ["The question is not simply whether buying beats leasing. The question is whether control, capex timing, and long-term fit justify the capital commitment.", "Brampton often works because it can still provide practical industrial utility at a more tolerable entry point than some western GTA alternatives."] },
-      { heading: "What gets missed too often", paragraphs: ["Drive-in practicality, truck turning, condo rules, office-to-warehouse balance, and future exit flexibility should be screened early.", "When that is done properly, a small condo can outperform a much bigger but less practical option."] },
+      { heading: "Begin with why ownership matters for this business", paragraphs: ["Industrial condo ownership should solve something meaningful.", "That could be long-term operating stability, control over the premises, avoidance of repeated leasing friction, or a strategic desire to build equity in the occupancy footprint."] },
+      { heading: "Functionality matters more than surface neatness", paragraphs: ["A clean unit in a decent complex is not automatically the right fit.", "Owner-users need to assess loading access, shipping practicality, usable warehouse depth, office proportion, clear height, parking sufficiency, and circulation throughout the complex."] },
+      { heading: "Complex-level realities can affect long-term usability", paragraphs: ["Industrial condos do not operate like entirely independent assets.", "Shared site conditions, condo governance, parking allocation, loading etiquette, signage control, and property-level maintenance standards can all influence how practical the ownership experience becomes."] },
+      { heading: "Growth should be considered before the purchase feels comfortable", paragraphs: ["A unit that fits today but leaves no room for operational change can become a short-lived solution.", "Buying should create stability, not force an avoidable second move too soon."] },
+      { heading: "The strongest industrial condo purchase is disciplined, not emotional", paragraphs: ["Owner-users can easily be drawn toward ownership because it feels strategic, permanent, or more productive than leasing.", "The right approach is to compare ownership logic against actual business use, not against the abstract appeal of owning."] },
     ],
-    body: [],
-    checklist: ["Check condo rules and operating restrictions.", "Compare drive-in utility against future growth.", "Test ownership logic against capital flexibility."]
+    checklist: ["Define the business reason for ownership before evaluating units.", "Screen loading, depth, office ratio, and future adaptability early.", "Review complex rules and site conditions, not only the unit itself."],
   },
   {
-    slug: "vaughan-showroom-flex-for-hybrid-operators",
+    slug: "vaughan-showroom-flex-logic-for-hybrid-operators",
     title: "Vaughan showroom-flex logic for hybrid operators",
-    category: "Flex / Showroom",
+    category: "Showroom / Flex",
     region: "Vaughan",
-    date: "March 5, 2026",
-    isoDate: "2026-03-05",
-    excerpt: "Vaughan works for users who need backend industrial function without giving up customer-facing polish and accessibility.",
-    readTime: "5 min read",
-    takeaway: "Showroom-flex only wins when presentation and operational flow support each other instead of fighting each other.",
-    highlights: ["Showroom-flex", "Customer-facing industrial", "400-series access"],
+    date: "April 5, 2026",
+    isoDate: "2026-04-05",
+    excerpt: "What hybrid users should assess when evaluating Vaughan showroom-flex opportunities that need to support visibility, storage, operations, and client-facing use.",
+    readTime: "6 min read",
     sections: [
-      { heading: "Why Vaughan is useful here", paragraphs: ["Vaughan gives many hybrid operators the rare mix of image, customer convenience, and backend industrial functionality.", "That makes it especially relevant for groups selling product, hosting clients, and still needing warehouse or light assembly support."] },
-      { heading: "How to screen the shortlist", paragraphs: ["Frontage, signage, parking, loading, and showroom-to-backhouse ratio all matter more than the category label itself.", "The wrong flex property looks good online and feels compromised in real operation."] },
+      { heading: "Define the balance between front-of-house and back-of-house use", paragraphs: ["Some hybrid operators are warehouse-led with a modest presentation layer.", "Others are showroom-led with supporting storage and logistics behind the scenes. That ratio changes what the property should prioritize."] },
+      { heading: "Visibility should support the brand without breaking the operation", paragraphs: ["Vaughan showroom-flex space often appeals because it can help a business look more established while still retaining practical utility.", "But visual presence should not come at the expense of how goods move, how staff work, or how inventory is handled."] },
+      { heading: "Loading and circulation still deserve industrial-level scrutiny", paragraphs: ["Even when showroom presence is important, the back-end mechanics of the space cannot be treated casually.", "Delivery access, loading convenience, product movement, warehouse proportion, and general circulation all affect whether the property truly works."] },
+      { heading: "Customer arrival experience should feel intentional", paragraphs: ["If the property is client-facing, then entry experience, parking ease, signage opportunity, frontage clarity, and internal transition all affect perception.", "Hybrid users benefit most from spaces that feel coherent rather than improvised."] },
+      { heading: "Vaughan works best when the location matches the business model", paragraphs: ["Not every showroom-flex user is solving the same problem.", "The right property should strengthen both how the company operates and how it is perceived."] },
     ],
-    body: [],
-    checklist: ["Compare frontage and loading together.", "Check showroom ratio against actual use.", "Test customer access at peak periods."]
+    checklist: ["Clarify the ratio between showroom use and warehouse use.", "Test front-end visibility against real operational needs.", "Validate delivery access and circulation before being sold on presentation."],
   },
   {
     slug: "golden-horseshoe-last-mile-screening-framework",
     title: "Golden Horseshoe last-mile screening framework",
-    category: "Markets",
+    category: "Logistics Strategy",
     region: "Golden Horseshoe",
-    date: "March 2, 2026",
-    isoDate: "2026-03-02",
-    excerpt: "Last-mile logic across the Golden Horseshoe should be screened through service time, first-stop efficiency, labour, and route density rather than headline geography alone.",
+    date: "April 5, 2026",
+    isoDate: "2026-04-05",
+    excerpt: "A decision framework for last-mile users comparing Golden Horseshoe locations based on reach, delivery logic, access, labour, and service coverage.",
     readTime: "6 min read",
-    takeaway: "A last-mile node is valuable because it improves service quality, not because it sounds strategically central on a map.",
-    highlights: ["Golden Horseshoe", "Last-mile strategy", "Route density"],
     sections: [
-      { heading: "Why the Golden Horseshoe matters", paragraphs: ["Serious service and distribution users increasingly need to think beyond a single GTA pin.", "The broader Golden Horseshoe frame helps users compare how route density, customer clusters, and labour access change the economics of speed."] },
-      { heading: "What the screening model should include", paragraphs: ["Travel time to core demand nodes, first-stop reliability, parking or yard assumptions, staffing reach, and replacement options all belong in the first-pass screen.", "The site now treats that geography like an operating network rather than a decorative map layer."] },
+      { heading: "Start with the service map, not the building map", paragraphs: ["The best last-mile location is the one that fits the actual delivery geography the business is trying to serve.", "Screening buildings before the service map is clear usually leads to false positives."] },
+      { heading: "Access quality matters more than broad centrality", paragraphs: ["A site may be generally well located and still underperform if access patterns slow dispatch, create route bottlenecks, or complicate daily movement.", "The strongest site is usually the one that behaves reliably under pressure, not the one that looks most central in theory."] },
+      { heading: "Labour and shift practicality influence delivery consistency", paragraphs: ["Driver access, warehouse staffing, shift timing, and general labour convenience all influence how stable a last-mile facility becomes over time.", "Distribution performance is built from both movement systems and people systems."] },
+      { heading: "The property must support the pace of the operation", paragraphs: ["Loading flow, van access, yard practicality, staging space, internal circulation, and dispatch efficiency all affect whether a property can keep up with real demand.", "A building can be geographically suitable and still be wrong for the actual pace of use."] },
+      { heading: "The best Golden Horseshoe location depends on what the network is trying to solve", paragraphs: ["Some users are optimizing for service density. Some are balancing a regional network.", "That is why last-mile screening should be framed around the network strategy first and the building shortlist second."] },
     ],
-    body: [],
-    checklist: ["Map first-stop performance.", "Compare route density and staffing reach.", "Screen node redundancy before signing."]
+    checklist: ["Map the actual service geography before reviewing buildings.", "Judge route reliability and access quality, not broad centrality alone.", "Screen labour practicality together with dispatch and loading logic."],
   },
 ];
-
-export const JOURNEY = [
-  {
-    step: "01",
-    title: "Define the real requirement",
-    body: "Use, timing, shipping, power, staffing, customer exposure, image, and expansion logic are clarified before the search is allowed to widen.",
-  },
-  {
-    step: "02",
-    title: "Pressure-test the market",
-    body: "Submarkets, formats, and asset classes are filtered against the actual business or investment objective until only credible options remain.",
-  },
-  {
-    step: "03",
-    title: "Shortlist with discipline",
-    body: "A smaller, sharper set of options is built so tours, economics, and negotiations happen with more conviction and less noise.",
-  },
-  {
-    step: "04",
-    title: "Execute from leverage",
-    body: "The final move is made with cleaner alternatives, stronger timing, and more control over the terms that matter.",
-  },
-];
-
-export const MARKETS = [
-  {
-    title: "Toronto Core",
-    body: "Best for firms that need executive presence, transit reach, client-facing polish, and proximity to dense business ecosystems where image and access affect the decision.",
-  },
-  {
-    title: "Mississauga",
-    body: "A high-utility western GTA market for occupiers balancing airport access, highway movement, labour depth, and regional distribution logic without sacrificing commercial credibility.",
-  },
-  {
-    title: "Brampton",
-    body: "Strong for industrial users who care about trucking efficiency, value relative to core western nodes, and practical space that supports service, distribution, and trade operations.",
-  },
-  {
-    title: "Vaughan",
-    body: "Useful for groups that need a blend of customer accessibility, strong highway linkage, industrial functionality, and a higher-quality front-end presentation profile.",
-  },
-  {
-    title: "Richmond Hill",
-    body: "Compelling for north GTA occupiers weighing talent access, customer convenience, office scalability, and last-mile coverage with cleaner economics than denser core locations.",
-  },
-  {
-    title: "Logistics Corridors",
-    body: "The right corridor is rarely just about rent. It is about route density, dispatch time, supplier reach, first-stop performance, and how daily movement affects service quality.",
-  },
-];
-
-export const ASSET_CLASSES = [
-  {
-    title: "Industrial",
-    body: "For users whose business runs on loading, storage, power, throughput, dispatch, and operational control. Industrial space should be screened through flow, not just size.",
-  },
-  {
-    title: "Warehouse",
-    body: "For occupiers where inbound and outbound movement define performance. The right warehouse creates speed, cleaner staging, and fewer hidden operational penalties.",
-  },
-  {
-    title: "Office",
-    body: "For teams where talent, client confidence, collaboration, and workplace image matter. The right office improves experience, not just occupancy.",
-  },
-  {
-    title: "Retail",
-    body: "For brands that depend on visibility, access, co-tenancy, parking, and quality of attention. Retail success comes from fit with the customer decision journey.",
-  },
-  {
-    title: "Flex / Showroom",
-    body: "For businesses that need both presentation and utility. This format works when customer-facing polish and backend operations have to coexist without compromise.",
-  },
-  {
-    title: "Land / Development",
-    body: "For groups assessing future use, repositioning, entitlement potential, and longer-horizon upside where timing, access, and context shape the real value.",
-  },
-];
-
-export const SUBMARKET_SNAPSHOTS = [
-  {
-    name: "Toronto Core",
-    bestFor: "client-facing firms, leadership hubs, and transit-oriented office users",
-    strengths: ["Transit access", "Executive image", "Dense business ecosystem"],
-    watchouts: ["Higher occupancy cost", "Parking friction", "Longer suburban commutes"],
-  },
-  {
-    name: "Mississauga",
-    bestFor: "airport-linked users, regional distribution, and western GTA service operations",
-    strengths: ["Highway access", "Labour depth", "Logistics utility"],
-    watchouts: ["Congestion pressure", "Node-by-node rent variation", "Competitive industrial demand"],
-  },
-  {
-    name: "Vaughan",
-    bestFor: "flex industrial users, showroom formats, and operators needing strong 400-series access",
-    strengths: ["Customer accessibility", "Industrial utility", "Balanced image profile"],
-    watchouts: ["Peak-hour traffic", "Patchy parking conditions", "Mixed asset quality by pocket"],
-  },
-  {
-    name: "Brampton",
-    bestFor: "trade, trucking, and value-driven industrial occupiers",
-    strengths: ["Industrial depth", "Distribution logic", "Relative value"],
-    watchouts: ["Travel time volatility", "Asset consistency", "Operational bottlenecks on busy routes"],
-  },
-];
-
-export const TOOL_SECTIONS = TOOLS;
 
 export function getListingBySlug(slug) {
   return LISTINGS.find((item) => item.slug === slug);
