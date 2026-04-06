@@ -1,5 +1,15 @@
-import React from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
+import * as THREE from "three";
+import gsap from "gsap";
+import anime from "animejs";
+import { motion } from "framer-motion";
+import { Box, Button, Chip, Container, Stack } from "@mui/material";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "animate.css";
+import "hover.css/css/hover.css";
+import "magic.css/dist/magic.min.css";
+import "motion-ui/dist/motion-ui.min.css";
 
 const evidence = [
   {
@@ -27,7 +37,7 @@ const perspectiveCards = [
   },
   {
     title: "Institutional rhythm",
-    body: "The firm is built to feel credible with sophisticated investors, developers, landlords, and occupiers. The page should not read like a resume. It should read like a brokerage platform shaped by operators who understand how to present, advise, and close.",
+    body: "The firm is built to feel credible with sophisticated investors, developers, landlords, and occupiers. This page should not read like a resume. It should read like a brokerage platform shaped by operators who understand how to present, advise, and close.",
   },
   {
     title: "Diversity with execution",
@@ -72,68 +82,345 @@ const serviceRows = [
   },
 ];
 
-function InfoCard({ title, body, tone = "light" }) {
-  const toneClasses =
-    tone === "dark"
-      ? "border-white/10 bg-white/5 text-white"
-      : "border-black/8 bg-white text-[#161616] shadow-[0_10px_35px_rgba(0,0,0,0.05)]";
-
-  const bodyClasses = tone === "dark" ? "text-white/72" : "text-black/72";
-
+function InfoCard({ title, body, dark = false, delay = 0 }) {
   return (
-    <div
-      className={`rounded-[28px] border p-6 lg:p-7 ${toneClasses}`}
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.55, delay }}
+      className={[
+        "group rounded-[28px] border p-6 lg:p-7 transition-all duration-300",
+        dark
+          ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
+          : "border-black/8 bg-white text-[#161616] shadow-[0_12px_40px_rgba(0,0,0,0.05)] hover:-translate-y-1",
+        "hvr-float-shadow",
+        "transition-in slide-in-up duration-500",
+      ].join(" ")}
     >
       <h3 className="text-xl font-semibold tracking-[-0.03em]">{title}</h3>
-      <p className={`mt-4 text-base leading-8 ${bodyClasses}`}>{body}</p>
-    </div>
+      <p className={`mt-4 text-base leading-8 ${dark ? "text-white/72" : "text-black/72"}`}>{body}</p>
+    </motion.div>
   );
 }
 
 export default function AboutPage() {
+  const hero3DRef = useRef(null);
+  const sceneWrapRef = useRef(null);
+  const heroCopyRef = useRef(null);
+  const statsRef = useRef([]);
+  const borderRefs = useRef([]);
+
+  const chips = useMemo(
+    () => ["Industrial", "Retail", "Land", "Investment", "Owner-User", "GTA CRE"],
+    []
+  );
+
+  useEffect(() => {
+    if (!hero3DRef.current) return;
+
+    const mount = hero3DRef.current;
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color("#161616");
+
+    const camera = new THREE.PerspectiveCamera(
+      50,
+      mount.clientWidth / mount.clientHeight,
+      0.1,
+      1000
+    );
+    camera.position.set(0, 0.8, 5.2);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+    renderer.setSize(mount.clientWidth, mount.clientHeight);
+    mount.appendChild(renderer.domElement);
+
+    const ambient = new THREE.AmbientLight("#ffffff", 0.9);
+    scene.add(ambient);
+
+    const point = new THREE.PointLight("#ffffff", 1.2, 100);
+    point.position.set(5, 6, 6);
+    scene.add(point);
+
+    const group = new THREE.Group();
+    scene.add(group);
+
+    const geo = new THREE.BoxGeometry(2.8, 1.2, 1.6, 4, 2, 3);
+    const edges = new THREE.EdgesGeometry(geo);
+    const line = new THREE.LineSegments(
+      edges,
+      new THREE.LineBasicMaterial({ color: "#d6b98c" })
+    );
+    group.add(line);
+
+    const floorGeo = new THREE.PlaneGeometry(14, 14, 20, 20);
+    const floorMat = new THREE.MeshBasicMaterial({
+      color: "#262626",
+      wireframe: true,
+      transparent: true,
+      opacity: 0.25,
+    });
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = -1.25;
+    scene.add(floor);
+
+    const resize = () => {
+      if (!mount) return;
+      camera.aspect = mount.clientWidth / mount.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(mount.clientWidth, mount.clientHeight);
+    };
+
+    let frameId;
+    const tick = () => {
+      group.rotation.y += 0.0045;
+      floor.rotation.z += 0.0008;
+      renderer.render(scene, camera);
+      frameId = requestAnimationFrame(tick);
+    };
+
+    resize();
+    tick();
+    window.addEventListener("resize", resize);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      window.removeEventListener("resize", resize);
+      renderer.dispose();
+      geo.dispose();
+      edges.dispose();
+      floorGeo.dispose();
+      floorMat.dispose();
+      mount.removeChild(renderer.domElement);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (sceneWrapRef.current) {
+      gsap.fromTo(
+        sceneWrapRef.current,
+        { y: 30, opacity: 0, scale: 0.96 },
+        { y: 0, opacity: 1, scale: 1, duration: 1.1, ease: "power3.out" }
+      );
+    }
+
+    if (heroCopyRef.current) {
+      gsap.fromTo(
+        heroCopyRef.current.querySelectorAll(".gsap-stagger"),
+        { y: 24, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.75,
+          stagger: 0.1,
+          ease: "power3.out",
+          delay: 0.15,
+        }
+      );
+    }
+
+    const validStats = statsRef.current.filter(Boolean);
+    validStats.forEach((node, i) => {
+      const target = Number(node.dataset.value || 0);
+      const proxy = { value: 0 };
+      gsap.to(proxy, {
+        value: target,
+        duration: 1.6 + i * 0.2,
+        ease: "power2.out",
+        delay: 0.45,
+        onUpdate: () => {
+          node.textContent = `${Math.round(proxy.value)}${node.dataset.suffix || ""}`;
+        },
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!heroCopyRef.current) return;
+
+    anime({
+      targets: heroCopyRef.current.querySelectorAll(".anime-line"),
+      translateY: [22, 0],
+      opacity: [0, 1],
+      delay: anime.stagger(110, { start: 150 }),
+      duration: 800,
+      easing: "easeOutExpo",
+    });
+
+    if (borderRefs.current.length) {
+      anime({
+        targets: borderRefs.current.filter(Boolean),
+        boxShadow: [
+          "0 0 0 rgba(139,30,36,0)",
+          "0 0 0 1px rgba(139,30,36,0.15), 0 16px 50px rgba(0,0,0,0.08)",
+        ],
+        translateY: [10, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(90, { start: 320 }),
+        duration: 900,
+        easing: "easeOutCubic",
+      });
+    }
+  }, []);
+
   return (
     <main className="bg-[#f6f3ee] text-[#161616]">
-      <section className="border-b border-black/8 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
-          <div className="max-w-6xl">
-            <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
-              About KOLT Realty
-            </div>
-            <h1 className="mt-4 max-w-[12ch] text-5xl font-semibold leading-[0.9] tracking-[-0.06em] lg:text-7xl">
-              Driven, informed, and built to execute in motion.
-            </h1>
-            <p className="mt-6 max-w-4xl text-lg leading-8 text-black/72 lg:text-xl">
-              KOLT Realty is a GTA commercial real estate brokerage built for landlords,
-              tenants, investors, developers, and owner-users who expect sharper thinking,
-              stronger execution, and market fluency that goes beyond what is publicly posted online.
-            </p>
-            <p className="mt-4 max-w-4xl text-lg leading-8 text-black/72">
-              We pair entrepreneurial urgency with disciplined advisory thinking to help clients
-              move through industrial, retail, land, and investment decisions with more clarity,
-              better positioning, and stronger outcomes.
-            </p>
+      <section className="border-b border-black/8 bg-white overflow-hidden">
+        <Container maxWidth="xl" className="px-6 lg:px-10">
+          <div className="row align-items-center min-h-[720px] py-16 lg:py-24">
+            <div className="col-12 col-lg-7">
+              <div ref={heroCopyRef} className="max-w-4xl">
+                <div className="gsap-stagger anime-line text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
+                  About KOLT Realty
+                </div>
 
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link
-                to="/contact"
-                className="rounded-full bg-[#161616] px-6 py-3 text-sm font-semibold text-white"
+                <h1 className="gsap-stagger anime-line animate__animated animate__fadeInUp mt-4 max-w-[12ch] text-5xl font-semibold leading-[0.9] tracking-[-0.06em] lg:text-7xl">
+                  Driven, informed, and built to execute in motion.
+                </h1>
+
+                <p className="gsap-stagger anime-line mt-6 max-w-4xl text-lg leading-8 text-black/72 lg:text-xl">
+                  KOLT Realty is a GTA commercial real estate brokerage built for landlords,
+                  tenants, investors, developers, and owner-users who expect sharper thinking,
+                  stronger execution, and market fluency that goes beyond what is publicly posted online.
+                </p>
+
+                <p className="gsap-stagger anime-line mt-4 max-w-4xl text-lg leading-8 text-black/72">
+                  We pair entrepreneurial urgency with disciplined advisory thinking to help clients
+                  move through industrial, retail, land, and investment decisions with more clarity,
+                  better positioning, and stronger outcomes.
+                </p>
+
+                <Stack
+                  direction="row"
+                  useFlexGap
+                  flexWrap="wrap"
+                  spacing={1.2}
+                  className="gsap-stagger mt-7"
+                >
+                  {chips.map((chip) => (
+                    <Chip
+                      key={chip}
+                      label={chip}
+                      sx={{
+                        borderRadius: "999px",
+                        backgroundColor: "#f4eee6",
+                        color: "#161616",
+                        fontWeight: 600,
+                        border: "1px solid rgba(0,0,0,0.07)",
+                      }}
+                    />
+                  ))}
+                </Stack>
+
+                <div className="gsap-stagger mt-10 flex flex-wrap gap-3">
+                  <Button
+                    component={Link}
+                    to="/contact"
+                    variant="contained"
+                    className="hvr-grow magic"
+                    sx={{
+                      backgroundColor: "#161616",
+                      borderRadius: "999px",
+                      px: 3,
+                      py: 1.4,
+                      textTransform: "none",
+                      fontWeight: 700,
+                      boxShadow: "none",
+                      "&:hover": { backgroundColor: "#000" },
+                    }}
+                  >
+                    Contact KOLT Realty
+                  </Button>
+
+                  <Button
+                    component={Link}
+                    to="/services"
+                    variant="outlined"
+                    className="hvr-sweep-to-right"
+                    sx={{
+                      borderColor: "rgba(0,0,0,0.12)",
+                      color: "#161616",
+                      borderRadius: "999px",
+                      px: 3,
+                      py: 1.4,
+                      textTransform: "none",
+                      fontWeight: 700,
+                    }}
+                  >
+                    View Services
+                  </Button>
+                </div>
+
+                <div className="gsap-stagger mt-10 grid max-w-3xl grid-cols-3 gap-4">
+                  {[
+                    { label: "Pipeline", value: 2, suffix: "B+" },
+                    { label: "Core lenses", value: 2, suffix: "" },
+                    { label: "Priority markets", value: 6, suffix: "+" },
+                  ].map((stat, index) => (
+                    <div
+                      key={stat.label}
+                      className="rounded-[22px] border border-black/8 bg-[#faf7f2] p-4"
+                    >
+                      <div
+                        ref={(el) => (statsRef.current[index] = el)}
+                        data-value={stat.value}
+                        data-suffix={stat.suffix}
+                        className="text-2xl font-semibold tracking-[-0.04em]"
+                      >
+                        0
+                      </div>
+                      <div className="mt-1 text-xs font-semibold uppercase tracking-[0.18em] text-black/55">
+                        {stat.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="col-12 col-lg-5 mt-12 mt-lg-0">
+              <motion.div
+                ref={sceneWrapRef}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8 }}
+                className="relative"
               >
-                Contact KOLT Realty
-              </Link>
-              <Link
-                to="/services"
-                className="rounded-full border border-black/10 px-6 py-3 text-sm font-semibold text-[#161616]"
-              >
-                View Services
-              </Link>
+                <div className="magictime puffIn rounded-[32px] border border-black/8 bg-[#161616] p-3 shadow-[0_24px_80px_rgba(0,0,0,0.18)]">
+                  <div
+                    ref={hero3DRef}
+                    className="h-[420px] w-full rounded-[24px] overflow-hidden"
+                  />
+                </div>
+
+                <Box
+                  className="animate__animated animate__fadeInUp absolute bottom-5 left-5 rounded-[22px] border border-white/10 bg-white/10 px-4 py-3 backdrop-blur-md"
+                  sx={{ color: "#fff" }}
+                >
+                  <div className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-white/65">
+                    Boardroom + Site Lens
+                  </div>
+                  <div className="mt-2 max-w-[220px] text-sm leading-6 text-white/82">
+                    Strategic advisory above the fold. Operational fluency on the ground.
+                  </div>
+                </Box>
+              </motion.div>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
       <section className="border-b border-black/8 bg-[#f6f3ee]">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
-          <div className="max-w-3xl">
+        <Container maxWidth="xl" className="px-6 py-16 lg:px-10 lg:py-24">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="max-w-3xl"
+          >
             <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
               Positioning
             </div>
@@ -141,99 +428,138 @@ export default function AboutPage() {
               A commercial real estate platform built to advise and execute.
             </h2>
             <p className="mt-5 max-w-4xl text-lg leading-8 text-black/72">
-              KOLT Realty operates with a consultancy-first posture. It does not approach
-              commercial real estate as simple deal flow. It approaches it as a capital,
-              positioning, and execution problem that needs to be solved properly.
+              KOLT Realty approaches commercial real estate as a capital, positioning,
+              and execution problem to be solved properly. That means understanding the
+              capital stack, zoning bylaws, leasing risk, vacancy exposure, and the
+              operational realities behind each asset.
             </p>
-          </div>
+          </motion.div>
 
           <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {perspectiveCards.map((item) => (
-              <InfoCard key={item.title} title={item.title} body={item.body} />
+            {perspectiveCards.map((item, index) => (
+              <div key={item.title} ref={(el) => (borderRefs.current[index] = el)}>
+                <InfoCard title={item.title} body={item.body} delay={index * 0.05} />
+              </div>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       <section className="border-b border-black/8 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
-          <div className="max-w-3xl">
+        <Container maxWidth="xl" className="px-6 py-16 lg:px-10 lg:py-24">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="max-w-3xl"
+          >
             <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
               Market evidence
             </div>
             <h2 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.05em] lg:text-5xl">
               Credibility should read clearly on the page.
             </h2>
-          </div>
+          </motion.div>
 
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {evidence.map((item) => (
-              <InfoCard key={item.title} title={item.title} body={item.body} />
+            {evidence.map((item, index) => (
+              <InfoCard key={item.title} title={item.title} body={item.body} delay={index * 0.05} />
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       <section className="border-b border-black/8 bg-[#161616] text-white">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
-          <div className="max-w-3xl">
+        <Container maxWidth="xl" className="px-6 py-16 lg:px-10 lg:py-24">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="max-w-3xl"
+          >
             <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">
               Perspective
             </div>
             <h2 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.05em] lg:text-5xl">
               Credible in the boardroom and credible on-site.
             </h2>
-          </div>
+          </motion.div>
 
           <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {lensCards.map((item) => (
-              <InfoCard key={item.title} title={item.title} body={item.body} tone="dark" />
+            {lensCards.map((item, index) => (
+              <InfoCard
+                key={item.title}
+                title={item.title}
+                body={item.body}
+                dark
+                delay={index * 0.06}
+              />
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       <section className="border-b border-black/8 bg-[#efe8df]">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
-          <div className="max-w-3xl">
+        <Container maxWidth="xl" className="px-6 py-16 lg:px-10 lg:py-24">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="max-w-3xl"
+          >
             <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
               Mission and philosophy
             </div>
             <h2 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.05em] lg:text-5xl">
               Culture with execution.
             </h2>
-          </div>
+          </motion.div>
 
           <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {missionCards.map((item) => (
-              <InfoCard key={item.title} title={item.title} body={item.body} />
+            {missionCards.map((item, index) => (
+              <InfoCard key={item.title} title={item.title} body={item.body} delay={index * 0.05} />
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       <section className="border-b border-black/8 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
-          <div className="max-w-3xl">
+        <Container maxWidth="xl" className="px-6 py-16 lg:px-10 lg:py-24">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="max-w-3xl"
+          >
             <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
               What we do
             </div>
             <h2 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.05em] lg:text-5xl">
               Commercial strategy backed by execution.
             </h2>
-          </div>
+          </motion.div>
 
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {serviceRows.map((row) => (
-              <InfoCard key={row.title} title={row.title} body={row.body} />
+            {serviceRows.map((row, index) => (
+              <InfoCard key={row.title} title={row.title} body={row.body} delay={index * 0.05} />
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
       <section className="bg-[#161616] text-white">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
-          <div className="rounded-[32px] border border-white/10 bg-white/5 p-8 lg:p-10">
+        <Container maxWidth="xl" className="px-6 py-16 lg:px-10 lg:py-20">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98, y: 18 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="rounded-[32px] border border-white/10 bg-white/5 p-8 lg:p-10 transition-in slide-in-up duration-700"
+          >
             <div className="max-w-4xl">
               <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">
                 Closing statement
@@ -252,21 +578,45 @@ export default function AboutPage() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link
+              <Button
+                component={Link}
                 to="/contact"
-                className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black"
+                variant="contained"
+                className="hvr-grow"
+                sx={{
+                  backgroundColor: "#fff",
+                  color: "#000",
+                  borderRadius: "999px",
+                  px: 3,
+                  py: 1.4,
+                  textTransform: "none",
+                  fontWeight: 700,
+                  boxShadow: "none",
+                  "&:hover": { backgroundColor: "#f3f3f3" },
+                }}
               >
                 Contact KOLT Realty
-              </Link>
-              <Link
+              </Button>
+              <Button
+                component={Link}
                 to="/services"
-                className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white"
+                variant="outlined"
+                className="hvr-sweep-to-right"
+                sx={{
+                  borderColor: "rgba(255,255,255,0.15)",
+                  color: "#fff",
+                  borderRadius: "999px",
+                  px: 3,
+                  py: 1.4,
+                  textTransform: "none",
+                  fontWeight: 700,
+                }}
               >
                 View Services
-              </Link>
+              </Button>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </Container>
       </section>
     </main>
   );
