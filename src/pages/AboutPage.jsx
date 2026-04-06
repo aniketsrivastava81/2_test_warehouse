@@ -1,15 +1,10 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import * as THREE from "three";
 import gsap from "gsap";
-import anime from "animejs";
 import { motion } from "framer-motion";
-import { Box, Button, Chip, Container, Stack } from "@mui/material";
+import { Box, Button, Chip } from "@mui/material";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "animate.css";
-import "hover.css/css/hover.css";
-import "magic.css/dist/magic.min.css";
-import "motion-ui/dist/motion-ui.min.css";
 
 const evidence = [
   {
@@ -37,7 +32,7 @@ const perspectiveCards = [
   },
   {
     title: "Institutional rhythm",
-    body: "The firm is built to feel credible with sophisticated investors, developers, landlords, and occupiers. This page should not read like a resume. It should read like a brokerage platform shaped by operators who understand how to present, advise, and close.",
+    body: "The firm is built to feel credible with sophisticated investors, developers, landlords, and occupiers. The page should not read like a resume. It should read like a brokerage platform shaped by operators who understand how to present, advise, and close.",
   },
   {
     title: "Diversity with execution",
@@ -82,20 +77,25 @@ const serviceRows = [
   },
 ];
 
-function InfoCard({ title, body, dark = false, delay = 0 }) {
+const heroStats = [
+  { value: 2, suffix: "B+", label: "Pipeline signal" },
+  { value: 6, suffix: "+", label: "Priority corridors" },
+  { value: 2, suffix: "", label: "Core lenses" },
+];
+
+function Card({ title, body, dark = false, index = 0 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 28, scale: 0.96 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.55, delay }}
+      transition={{ duration: 0.55, delay: index * 0.06 }}
+      whileHover={{ y: -8, scale: 1.015 }}
       className={[
-        "group rounded-[28px] border p-6 lg:p-7 transition-all duration-300",
+        "rounded-[28px] border p-6 lg:p-7 transition-all duration-300",
         dark
-          ? "border-white/10 bg-white/5 text-white hover:bg-white/10"
-          : "border-black/8 bg-white text-[#161616] shadow-[0_12px_40px_rgba(0,0,0,0.05)] hover:-translate-y-1",
-        "hvr-float-shadow",
-        "transition-in slide-in-up duration-500",
+          ? "border-white/10 bg-white/10 text-white shadow-[0_16px_48px_rgba(0,0,0,0.24)]"
+          : "border-black/8 bg-white text-[#161616] shadow-[0_16px_48px_rgba(0,0,0,0.06)]",
       ].join(" ")}
     >
       <h3 className="text-xl font-semibold tracking-[-0.03em]">{title}</h3>
@@ -105,240 +105,206 @@ function InfoCard({ title, body, dark = false, delay = 0 }) {
 }
 
 export default function AboutPage() {
-  const hero3DRef = useRef(null);
-  const sceneWrapRef = useRef(null);
+  const heroCanvasRef = useRef(null);
+  const heroWrapRef = useRef(null);
   const heroCopyRef = useRef(null);
-  const statsRef = useRef([]);
-  const borderRefs = useRef([]);
-
-  const chips = useMemo(
-    () => ["Industrial", "Retail", "Land", "Investment", "Owner-User", "GTA CRE"],
-    []
-  );
+  const statRefs = useRef([]);
 
   useEffect(() => {
-    if (!hero3DRef.current) return;
+    const mount = heroCanvasRef.current;
+    if (!mount) return;
 
-    const mount = hero3DRef.current;
     const scene = new THREE.Scene();
     scene.background = new THREE.Color("#161616");
 
     const camera = new THREE.PerspectiveCamera(
-      50,
+      48,
       mount.clientWidth / mount.clientHeight,
       0.1,
-      1000
+      100
     );
-    camera.position.set(0, 0.8, 5.2);
+    camera.position.set(0, 1.2, 6);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.7));
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     mount.appendChild(renderer.domElement);
 
-    const ambient = new THREE.AmbientLight("#ffffff", 0.9);
-    scene.add(ambient);
-
-    const point = new THREE.PointLight("#ffffff", 1.2, 100);
-    point.position.set(5, 6, 6);
-    scene.add(point);
+    const ambient = new THREE.AmbientLight(0xffffff, 1.05);
+    const key = new THREE.PointLight(0xd6b98c, 5, 20);
+    key.position.set(4, 5, 4);
+    const rim = new THREE.PointLight(0x8b1e24, 2.5, 20);
+    rim.position.set(-4, 1, -3);
+    scene.add(ambient, key, rim);
 
     const group = new THREE.Group();
     scene.add(group);
 
-    const geo = new THREE.BoxGeometry(2.8, 1.2, 1.6, 4, 2, 3);
-    const edges = new THREE.EdgesGeometry(geo);
-    const line = new THREE.LineSegments(
-      edges,
-      new THREE.LineBasicMaterial({ color: "#d6b98c" })
+    const body = new THREE.Mesh(
+      new THREE.BoxGeometry(3.2, 1.15, 1.8),
+      new THREE.MeshStandardMaterial({
+        color: 0x1e1e1e,
+        metalness: 0.35,
+        roughness: 0.55,
+      })
     );
-    group.add(line);
+    group.add(body);
 
-    const floorGeo = new THREE.PlaneGeometry(14, 14, 20, 20);
-    const floorMat = new THREE.MeshBasicMaterial({
-      color: "#262626",
-      wireframe: true,
-      transparent: true,
-      opacity: 0.25,
-    });
-    const floor = new THREE.Mesh(floorGeo, floorMat);
+    const edges = new THREE.LineSegments(
+      new THREE.EdgesGeometry(new THREE.BoxGeometry(3.24, 1.19, 1.84)),
+      new THREE.LineBasicMaterial({ color: 0xd6b98c })
+    );
+    group.add(edges);
+
+    const slab = new THREE.Mesh(
+      new THREE.BoxGeometry(1.4, 0.28, 0.7),
+      new THREE.MeshStandardMaterial({
+        color: 0x8b1e24,
+        metalness: 0.2,
+        roughness: 0.6,
+      })
+    );
+    slab.position.set(0, 0.74, 0);
+    group.add(slab);
+
+    const floor = new THREE.Mesh(
+      new THREE.PlaneGeometry(16, 16, 24, 24),
+      new THREE.MeshBasicMaterial({
+        color: 0x3b3b3b,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.25,
+      })
+    );
     floor.rotation.x = -Math.PI / 2;
-    floor.position.y = -1.25;
+    floor.position.y = -1.15;
     scene.add(floor);
 
-    const resize = () => {
-      if (!mount) return;
+    let raf;
+    const animate = () => {
+      group.rotation.y += 0.007;
+      group.rotation.x = Math.sin(Date.now() * 0.00055) * 0.06;
+      floor.rotation.z += 0.0012;
+      renderer.render(scene, camera);
+      raf = requestAnimationFrame(animate);
+    };
+
+    const onResize = () => {
       camera.aspect = mount.clientWidth / mount.clientHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(mount.clientWidth, mount.clientHeight);
     };
 
-    let frameId;
-    const tick = () => {
-      group.rotation.y += 0.0045;
-      floor.rotation.z += 0.0008;
-      renderer.render(scene, camera);
-      frameId = requestAnimationFrame(tick);
-    };
-
-    resize();
-    tick();
-    window.addEventListener("resize", resize);
+    animate();
+    window.addEventListener("resize", onResize);
 
     return () => {
-      cancelAnimationFrame(frameId);
-      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
       renderer.dispose();
-      geo.dispose();
-      edges.dispose();
-      floorGeo.dispose();
-      floorMat.dispose();
       mount.removeChild(renderer.domElement);
     };
   }, []);
 
   useEffect(() => {
-    if (sceneWrapRef.current) {
+    const ctx = gsap.context(() => {
       gsap.fromTo(
-        sceneWrapRef.current,
-        { y: 30, opacity: 0, scale: 0.96 },
-        { y: 0, opacity: 1, scale: 1, duration: 1.1, ease: "power3.out" }
+        ".about-hero-reveal",
+        { y: 36, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, stagger: 0.12, ease: "power3.out" }
       );
-    }
 
-    if (heroCopyRef.current) {
       gsap.fromTo(
-        heroCopyRef.current.querySelectorAll(".gsap-stagger"),
-        { y: 24, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.75,
-          stagger: 0.1,
-          ease: "power3.out",
-          delay: 0.15,
-        }
+        heroWrapRef.current,
+        { scale: 0.92, opacity: 0, rotate: -2 },
+        { scale: 1, opacity: 1, rotate: 0, duration: 1.15, ease: "power3.out", delay: 0.15 }
       );
-    }
 
-    const validStats = statsRef.current.filter(Boolean);
-    validStats.forEach((node, i) => {
-      const target = Number(node.dataset.value || 0);
-      const proxy = { value: 0 };
-      gsap.to(proxy, {
-        value: target,
-        duration: 1.6 + i * 0.2,
-        ease: "power2.out",
-        delay: 0.45,
-        onUpdate: () => {
-          node.textContent = `${Math.round(proxy.value)}${node.dataset.suffix || ""}`;
-        },
+      statRefs.current.forEach((el, idx) => {
+        if (!el) return;
+        const target = Number(el.dataset.value || 0);
+        const proxy = { value: 0 };
+        gsap.to(proxy, {
+          value: target,
+          duration: 1.6,
+          delay: 0.35 + idx * 0.1,
+          ease: "power2.out",
+          onUpdate: () => {
+            el.textContent = `${Math.round(proxy.value)}${el.dataset.suffix || ""}`;
+          },
+        });
       });
-    });
-  }, []);
+    }, heroCopyRef);
 
-  useEffect(() => {
-    if (!heroCopyRef.current) return;
-
-    anime({
-      targets: heroCopyRef.current.querySelectorAll(".anime-line"),
-      translateY: [22, 0],
-      opacity: [0, 1],
-      delay: anime.stagger(110, { start: 150 }),
-      duration: 800,
-      easing: "easeOutExpo",
-    });
-
-    if (borderRefs.current.length) {
-      anime({
-        targets: borderRefs.current.filter(Boolean),
-        boxShadow: [
-          "0 0 0 rgba(139,30,36,0)",
-          "0 0 0 1px rgba(139,30,36,0.15), 0 16px 50px rgba(0,0,0,0.08)",
-        ],
-        translateY: [10, 0],
-        opacity: [0, 1],
-        delay: anime.stagger(90, { start: 320 }),
-        duration: 900,
-        easing: "easeOutCubic",
-      });
-    }
+    return () => ctx.revert();
   }, []);
 
   return (
     <main className="bg-[#f6f3ee] text-[#161616]">
-      <section className="border-b border-black/8 bg-white overflow-hidden">
-        <Container maxWidth="xl" className="px-6 lg:px-10">
-          <div className="row align-items-center min-h-[720px] py-16 lg:py-24">
+      <section className="overflow-hidden border-b border-black/8 bg-white">
+        <div className="container-fluid mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
+          <div className="row align-items-center g-5">
             <div className="col-12 col-lg-7">
-              <div ref={heroCopyRef} className="max-w-4xl">
-                <div className="gsap-stagger anime-line text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
+              <div ref={heroCopyRef} className="max-w-5xl">
+                <div className="about-hero-reveal text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
                   About KOLT Realty
                 </div>
 
-                <h1 className="gsap-stagger anime-line animate__animated animate__fadeInUp mt-4 max-w-[12ch] text-5xl font-semibold leading-[0.9] tracking-[-0.06em] lg:text-7xl">
+                <h1 className="about-hero-reveal mt-4 max-w-[11ch] text-5xl font-semibold leading-[0.9] tracking-[-0.06em] lg:text-7xl">
                   Driven, informed, and built to execute in motion.
                 </h1>
 
-                <p className="gsap-stagger anime-line mt-6 max-w-4xl text-lg leading-8 text-black/72 lg:text-xl">
+                <p className="about-hero-reveal mt-6 max-w-4xl text-lg leading-8 text-black/72 lg:text-xl">
                   KOLT Realty is a GTA commercial real estate brokerage built for landlords,
                   tenants, investors, developers, and owner-users who expect sharper thinking,
                   stronger execution, and market fluency that goes beyond what is publicly posted online.
                 </p>
 
-                <p className="gsap-stagger anime-line mt-4 max-w-4xl text-lg leading-8 text-black/72">
+                <p className="about-hero-reveal mt-4 max-w-4xl text-lg leading-8 text-black/72">
                   We pair entrepreneurial urgency with disciplined advisory thinking to help clients
                   move through industrial, retail, land, and investment decisions with more clarity,
                   better positioning, and stronger outcomes.
                 </p>
 
-                <Stack
-                  direction="row"
-                  useFlexGap
-                  flexWrap="wrap"
-                  spacing={1.2}
-                  className="gsap-stagger mt-7"
-                >
-                  {chips.map((chip) => (
+                <div className="about-hero-reveal mt-7 flex flex-wrap gap-2.5">
+                  {["Industrial", "Retail", "Land", "Investment", "Owner-User", "GTA CRE"].map((chip) => (
                     <Chip
                       key={chip}
                       label={chip}
                       sx={{
-                        borderRadius: "999px",
                         backgroundColor: "#f4eee6",
+                        border: "1px solid rgba(0,0,0,0.08)",
                         color: "#161616",
-                        fontWeight: 600,
-                        border: "1px solid rgba(0,0,0,0.07)",
+                        fontWeight: 700,
+                        borderRadius: "999px",
                       }}
                     />
                   ))}
-                </Stack>
+                </div>
 
-                <div className="gsap-stagger mt-10 flex flex-wrap gap-3">
+                <div className="about-hero-reveal mt-10 flex flex-wrap gap-3">
                   <Button
                     component={Link}
                     to="/contact"
                     variant="contained"
-                    className="hvr-grow magic"
                     sx={{
                       backgroundColor: "#161616",
+                      color: "#fff",
                       borderRadius: "999px",
                       px: 3,
                       py: 1.4,
                       textTransform: "none",
                       fontWeight: 700,
                       boxShadow: "none",
-                      "&:hover": { backgroundColor: "#000" },
+                      "&:hover": { backgroundColor: "#000", boxShadow: "none" },
                     }}
                   >
                     Contact KOLT Realty
                   </Button>
-
                   <Button
                     component={Link}
                     to="/services"
                     variant="outlined"
-                    className="hvr-sweep-to-right"
                     sx={{
                       borderColor: "rgba(0,0,0,0.12)",
                       color: "#161616",
@@ -353,74 +319,51 @@ export default function AboutPage() {
                   </Button>
                 </div>
 
-                <div className="gsap-stagger mt-10 grid max-w-3xl grid-cols-3 gap-4">
-                  {[
-                    { label: "Pipeline", value: 2, suffix: "B+" },
-                    { label: "Core lenses", value: 2, suffix: "" },
-                    { label: "Priority markets", value: 6, suffix: "+" },
-                  ].map((stat, index) => (
-                    <div
+                <div className="about-hero-reveal mt-10 grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3">
+                  {heroStats.map((stat, index) => (
+                    <Box
                       key={stat.label}
                       className="rounded-[22px] border border-black/8 bg-[#faf7f2] p-4"
                     >
                       <div
-                        ref={(el) => (statsRef.current[index] = el)}
+                        ref={(el) => (statRefs.current[index] = el)}
                         data-value={stat.value}
                         data-suffix={stat.suffix}
-                        className="text-2xl font-semibold tracking-[-0.04em]"
+                        className="text-3xl font-semibold tracking-[-0.05em]"
                       >
                         0
                       </div>
                       <div className="mt-1 text-xs font-semibold uppercase tracking-[0.18em] text-black/55">
                         {stat.label}
                       </div>
-                    </div>
+                    </Box>
                   ))}
                 </div>
               </div>
             </div>
 
-            <div className="col-12 col-lg-5 mt-12 mt-lg-0">
-              <motion.div
-                ref={sceneWrapRef}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8 }}
-                className="relative"
-              >
-                <div className="magictime puffIn rounded-[32px] border border-black/8 bg-[#161616] p-3 shadow-[0_24px_80px_rgba(0,0,0,0.18)]">
-                  <div
-                    ref={hero3DRef}
-                    className="h-[420px] w-full rounded-[24px] overflow-hidden"
-                  />
+            <div className="col-12 col-lg-5">
+              <div ref={heroWrapRef} className="relative">
+                <div className="rounded-[34px] border border-black/8 bg-[#111] p-3 shadow-[0_28px_90px_rgba(0,0,0,0.22)]">
+                  <div ref={heroCanvasRef} className="h-[420px] w-full overflow-hidden rounded-[26px]" />
                 </div>
-
-                <Box
-                  className="animate__animated animate__fadeInUp absolute bottom-5 left-5 rounded-[22px] border border-white/10 bg-white/10 px-4 py-3 backdrop-blur-md"
-                  sx={{ color: "#fff" }}
-                >
-                  <div className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-white/65">
+                <div className="absolute bottom-5 left-5 rounded-[22px] border border-white/10 bg-white/10 px-4 py-3 backdrop-blur-md">
+                  <div className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-white/60">
                     Boardroom + Site Lens
                   </div>
-                  <div className="mt-2 max-w-[220px] text-sm leading-6 text-white/82">
-                    Strategic advisory above the fold. Operational fluency on the ground.
+                  <div className="mt-2 max-w-[240px] text-sm leading-6 text-white/85">
+                    Strategy, pipeline logic, zoning fluency, loading practicality, and real field-read credibility.
                   </div>
-                </Box>
-              </motion.div>
+                </div>
+              </div>
             </div>
           </div>
-        </Container>
+        </div>
       </section>
 
       <section className="border-b border-black/8 bg-[#f6f3ee]">
-        <Container maxWidth="xl" className="px-6 py-16 lg:px-10 lg:py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55 }}
-            className="max-w-3xl"
-          >
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
+          <div className="max-w-3xl">
             <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
               Positioning
             </div>
@@ -430,135 +373,98 @@ export default function AboutPage() {
             <p className="mt-5 max-w-4xl text-lg leading-8 text-black/72">
               KOLT Realty approaches commercial real estate as a capital, positioning,
               and execution problem to be solved properly. That means understanding the
-              capital stack, zoning bylaws, leasing risk, vacancy exposure, and the
-              operational realities behind each asset.
+              capital stack, zoning bylaws, leasing risk, vacancy exposure, and the operational realities behind each asset.
             </p>
-          </motion.div>
+          </div>
 
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             {perspectiveCards.map((item, index) => (
-              <div key={item.title} ref={(el) => (borderRefs.current[index] = el)}>
-                <InfoCard title={item.title} body={item.body} delay={index * 0.05} />
-              </div>
+              <Card key={item.title} title={item.title} body={item.body} index={index} />
             ))}
           </div>
-        </Container>
+        </div>
       </section>
 
       <section className="border-b border-black/8 bg-white">
-        <Container maxWidth="xl" className="px-6 py-16 lg:px-10 lg:py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55 }}
-            className="max-w-3xl"
-          >
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
+          <div className="max-w-3xl">
             <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
               Market evidence
             </div>
             <h2 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.05em] lg:text-5xl">
               Credibility should read clearly on the page.
             </h2>
-          </motion.div>
-
+          </div>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {evidence.map((item, index) => (
-              <InfoCard key={item.title} title={item.title} body={item.body} delay={index * 0.05} />
+              <Card key={item.title} title={item.title} body={item.body} index={index} />
             ))}
           </div>
-        </Container>
+        </div>
       </section>
 
       <section className="border-b border-black/8 bg-[#161616] text-white">
-        <Container maxWidth="xl" className="px-6 py-16 lg:px-10 lg:py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55 }}
-            className="max-w-3xl"
-          >
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
+          <div className="max-w-3xl">
             <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">
               Perspective
             </div>
             <h2 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.05em] lg:text-5xl">
               Credible in the boardroom and credible on-site.
             </h2>
-          </motion.div>
-
+          </div>
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             {lensCards.map((item, index) => (
-              <InfoCard
-                key={item.title}
-                title={item.title}
-                body={item.body}
-                dark
-                delay={index * 0.06}
-              />
+              <Card key={item.title} title={item.title} body={item.body} dark index={index} />
             ))}
           </div>
-        </Container>
+        </div>
       </section>
 
       <section className="border-b border-black/8 bg-[#efe8df]">
-        <Container maxWidth="xl" className="px-6 py-16 lg:px-10 lg:py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55 }}
-            className="max-w-3xl"
-          >
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
+          <div className="max-w-3xl">
             <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
               Mission and philosophy
             </div>
             <h2 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.05em] lg:text-5xl">
               Culture with execution.
             </h2>
-          </motion.div>
-
+          </div>
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             {missionCards.map((item, index) => (
-              <InfoCard key={item.title} title={item.title} body={item.body} delay={index * 0.05} />
+              <Card key={item.title} title={item.title} body={item.body} index={index} />
             ))}
           </div>
-        </Container>
+        </div>
       </section>
 
       <section className="border-b border-black/8 bg-white">
-        <Container maxWidth="xl" className="px-6 py-16 lg:px-10 lg:py-24">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55 }}
-            className="max-w-3xl"
-          >
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-24">
+          <div className="max-w-3xl">
             <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-[#8b1e24]">
               What we do
             </div>
             <h2 className="mt-4 text-4xl font-semibold leading-[0.96] tracking-[-0.05em] lg:text-5xl">
               Commercial strategy backed by execution.
             </h2>
-          </motion.div>
-
+          </div>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {serviceRows.map((row, index) => (
-              <InfoCard key={row.title} title={row.title} body={row.body} delay={index * 0.05} />
+            {serviceRows.map((item, index) => (
+              <Card key={item.title} title={item.title} body={item.body} index={index} />
             ))}
           </div>
-        </Container>
+        </div>
       </section>
 
       <section className="bg-[#161616] text-white">
-        <Container maxWidth="xl" className="px-6 py-16 lg:px-10 lg:py-20">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
           <motion.div
-            initial={{ opacity: 0, scale: 0.98, y: 18 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 36, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6 }}
-            className="rounded-[32px] border border-white/10 bg-white/5 p-8 lg:p-10 transition-in slide-in-up duration-700"
+            className="rounded-[32px] border border-white/10 bg-white/10 p-8 shadow-[0_26px_80px_rgba(0,0,0,0.26)] lg:p-10"
           >
             <div className="max-w-4xl">
               <div className="text-[0.72rem] font-bold uppercase tracking-[0.24em] text-white/60">
@@ -576,13 +482,11 @@ export default function AboutPage() {
                 credible on-site, and credible where it matters most: in the quality of execution clients receive.
               </p>
             </div>
-
             <div className="mt-8 flex flex-wrap gap-3">
               <Button
                 component={Link}
                 to="/contact"
                 variant="contained"
-                className="hvr-grow"
                 sx={{
                   backgroundColor: "#fff",
                   color: "#000",
@@ -592,7 +496,7 @@ export default function AboutPage() {
                   textTransform: "none",
                   fontWeight: 700,
                   boxShadow: "none",
-                  "&:hover": { backgroundColor: "#f3f3f3" },
+                  "&:hover": { backgroundColor: "#f2f2f2", boxShadow: "none" },
                 }}
               >
                 Contact KOLT Realty
@@ -601,7 +505,6 @@ export default function AboutPage() {
                 component={Link}
                 to="/services"
                 variant="outlined"
-                className="hvr-sweep-to-right"
                 sx={{
                   borderColor: "rgba(255,255,255,0.15)",
                   color: "#fff",
@@ -616,7 +519,7 @@ export default function AboutPage() {
               </Button>
             </div>
           </motion.div>
-        </Container>
+        </div>
       </section>
     </main>
   );
